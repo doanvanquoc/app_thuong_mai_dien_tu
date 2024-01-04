@@ -1,4 +1,4 @@
-import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
+import 'package:app_thuong_mai_dien_tu/views/cart/cart_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,12 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'CKCPhoneStore',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: Container(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'CKCPhoneStore',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const CartView());
   }
 }
