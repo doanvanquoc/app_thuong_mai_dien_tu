@@ -16,6 +16,8 @@ class _CartViewState extends State<CartView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 2,
+        shadowColor: const Color(0x0C04060F),
         automaticallyImplyLeading: false,
         leading: Image.asset(
           'assets/images/vector.png',

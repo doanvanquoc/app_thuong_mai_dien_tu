@@ -37,7 +37,6 @@ class _CartWidgetState extends State<CartWidget> {
             color: Color(0x0C04060F),
             blurRadius: 60,
             offset: Offset(0, 4),
-            spreadRadius: 0,
           )
         ],
       ),
@@ -97,7 +96,7 @@ class _CartWidgetState extends State<CartWidget> {
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 10),
+                            horizontal: 15, vertical: 10),
                         decoration: ShapeDecoration(
                           color: const Color(0xFFF8F8F8),
                           shape: RoundedRectangleBorder(
@@ -208,7 +207,7 @@ class _CartWidgetState extends State<CartWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 24),
+              const SizedBox(height: 15),
               const Text(
                 'Xóa khỏi giỏ hàng?',
                 style: TextStyle(
@@ -217,14 +216,18 @@ class _CartWidgetState extends State<CartWidget> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 5),
+              const Divider(thickness: 0.5),
+              const SizedBox(height: 17),
               CartWidget(
                 image: widget.image,
                 name: widget.name,
                 price: widget.price,
                 isDel: false,
               ),
-              const SizedBox(height: 45),
+              const SizedBox(height: 17),
+              const Divider(thickness: 0.5),
+              const SizedBox(height: 17),
               Row(
                 children: [
                   MyButton(
@@ -234,7 +237,7 @@ class _CartWidgetState extends State<CartWidget> {
                       content: 'Hủy',
                       backgroundColor: const Color(0xffE6F8EF),
                       textColor: const Color(0xff01B763)),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 30),
                   MyButton(onTap: () {}, content: 'Xóa'),
                 ],
               )

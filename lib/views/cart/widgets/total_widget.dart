@@ -11,19 +11,25 @@ class TotalWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       clipBehavior: Clip.antiAlias,
       decoration: const ShapeDecoration(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            width: 1,
-            strokeAlign: BorderSide.strokeAlignOutside,
-            color: Color(0xFFF5F5F5),
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              width: 0.7,
+              strokeAlign: BorderSide.strokeAlignOutside,
+              color: Color.fromARGB(255, 229, 228, 228),
+            ),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(32),
+              topRight: Radius.circular(32),
+            ),
           ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(32),
-            topRight: Radius.circular(32),
-          ),
-        ),
-      ),
+          shadows: [
+            BoxShadow(
+              color: Color(0x0C04060F),
+              blurRadius: 60,
+              offset: Offset(0, -4),
+            )
+          ]),
       child: Row(
         children: [
           const Column(
