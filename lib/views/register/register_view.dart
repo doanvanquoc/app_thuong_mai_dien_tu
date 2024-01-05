@@ -5,14 +5,14 @@ import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_richText.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_textfield.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,13 +23,13 @@ class _LoginState extends State<Login> {
         child: Center(
           child: Column(
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 15),
               const LoginLogo(),
               const Text(
-                'Đăng nhập tài khoản',
+                'Tạo tài khoản',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
               const LoginTextFile(
                 name: 'Email',
                 iconLeft: Icon(Icons.email),
@@ -42,14 +42,20 @@ class _LoginState extends State<Login> {
                 iconRight: Icon(Icons.remove_red_eye_outlined),
                 lock: true,
               ),
+              const LoginTextFile(
+                name: 'Xác Nhận Mật khẩu',
+                iconLeft: Icon(Icons.lock),
+                iconRight: Icon(Icons.remove_red_eye_outlined),
+                lock: true,
+              ),
               const CheckLogin(),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: MyButton(onTap: () {}, content: 'Đăng Nhập'),
+                child: MyButton(onTap: () {}, content: 'Đăng Ký'),
               ),
-              const SizedBox(height: 50),
-              RichTextLog(question: 'Bạn chưa có tài khoản?',name: 'Đăng Ký',),
+              const SizedBox(height: 40),
+              RichTextLog(question: 'Bạn đã có tài khoản?',name: 'Đăng Nhập',),
             ],
           ),
         ),

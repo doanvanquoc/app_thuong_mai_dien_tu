@@ -18,7 +18,7 @@ class MyButton extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           content,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
     );
