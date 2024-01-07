@@ -1,9 +1,10 @@
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
-import 'package:app_thuong_mai_dien_tu/resources/widgets/search_box.dart';
-import 'package:app_thuong_mai_dien_tu/views/home/home_esp_product.dart';
-import 'package:app_thuong_mai_dien_tu/views/home/home_popular_product.dart';
-import 'package:app_thuong_mai_dien_tu/views/home/home_slider.dart';
-import 'package:app_thuong_mai_dien_tu/views/widget/home_appbar.dart';
+import 'package:app_thuong_mai_dien_tu/views/home/widget/home_appbar.dart';
+import 'package:app_thuong_mai_dien_tu/views/home/widget/home_esp_product.dart';
+import 'package:app_thuong_mai_dien_tu/views/home/widget/home_list_category.dart';
+import 'package:app_thuong_mai_dien_tu/views/home/widget/home_popular_product.dart';
+import 'package:app_thuong_mai_dien_tu/views/home/widget/home_slider.dart';
+import 'package:app_thuong_mai_dien_tu/views/home/widget/search_box.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

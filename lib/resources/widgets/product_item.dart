@@ -37,9 +37,9 @@ class ProductItem extends StatelessWidget {
                   color: AppColor.primaryColor,
                 ),
                 const Text('4.5'),
-                const SizedBox(width: 20),
+                const SizedBox(width: 10),
                 const Text('|'),
-                const SizedBox(width: 20),
+                const SizedBox(width: 10),
                 Container(
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
