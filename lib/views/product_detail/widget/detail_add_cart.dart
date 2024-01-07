@@ -18,7 +18,7 @@ class _AddCartDetailState extends State<AddCartDetail> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         height: 65,
-        color: Colors.white,
+        color: const Color.fromARGB(255, 255, 255, 255),
         width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

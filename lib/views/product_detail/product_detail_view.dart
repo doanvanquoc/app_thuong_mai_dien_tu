@@ -1,6 +1,6 @@
-import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/add_cart.dart';
-import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/info_product.dart';
-import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/slide_show.dart';
+import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/detail_add_cart.dart';
+import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/detail_info_product.dart';
+import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/detail_slide_show.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetail extends StatefulWidget {
