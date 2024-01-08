@@ -1,4 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
+import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_check.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_logo.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_richText.dart';
@@ -46,7 +47,7 @@ class _LoginState extends State<Login> {
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: MyButton(onTap: () {}, content: 'Đăng Nhập'),
+                child: MyButton(onTap: () {openDialog(context);}, content: 'Đăng Nhập'),
               ),
               const SizedBox(height: 50),
               RichTextLog(question: 'Bạn chưa có tài khoản?',name: 'Đăng Ký',),
