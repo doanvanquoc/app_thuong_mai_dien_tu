@@ -4,6 +4,7 @@ import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_check.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_logo.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_richText.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_textfield.dart';
+import 'package:app_thuong_mai_dien_tu/views/register/register_view.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
@@ -18,7 +19,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.arrow_back_sharp, size: 30),
+        // leading: const Icon(Icons.arrow_back_sharp, size: 30),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -47,10 +48,28 @@ class _LoginState extends State<Login> {
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: MyButton(onTap: () {openDialog(context);}, content: 'Đăng Nhập'),
+                child: MyButton(
+                  onTap: () {
+                    openDialog(
+                      context,
+                      'Đăng nhập thành công',
+                      'Tài khoản của bạn đã có thể sử dụng. Chúng tôi sẽ đưa bạn đến Trang chủ trong vài giây...',
+                    );
+                  },
+                  content: 'Đăng Nhập'
+                ),
               ),
               const SizedBox(height: 50),
-              RichTextLog(question: 'Bạn chưa có tài khoản?',name: 'Đăng Ký',),
+              RichTextLog(
+                question: 'Bạn chưa có tài khoản?',
+                name: 'Đăng Ký',
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Register()),
+                  );
+                },
+              ),
             ],
           ),
         ),

@@ -1,4 +1,6 @@
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
+import 'package:app_thuong_mai_dien_tu/views/login/login_view.dart';
+import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_check.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_logo.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_richText.dart';
@@ -17,7 +19,7 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.arrow_back_sharp, size: 30),
+        // leading: const Icon(Icons.arrow_back_sharp, size: 30),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -52,10 +54,28 @@ class _RegisterState extends State<Register> {
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: MyButton(onTap: () {}, content: 'Đăng Ký'),
+                child: MyButton(
+                  onTap: () {
+                    openDialog(
+                      context,
+                      'Tạo tài khoản thành công',
+                      'Tài khoản của bạn đã có thể sử dụng. Chúng tôi sẽ đưa bạn đến Trang chủ trong vài giây...',
+                    );
+                  },
+                  content: 'Đăng Ký'
+                ),
               ),
               const SizedBox(height: 40),
-              RichTextLog(question: 'Bạn đã có tài khoản?',name: 'Đăng Nhập',),
+              RichTextLog(
+                question: 'Bạn đã có tài khoản?',
+                name: 'Đăng Nhập',
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Login()),
+                  );
+                }
+              ),
             ],
           ),
         ),

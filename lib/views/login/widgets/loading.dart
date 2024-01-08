@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-Future openDialog(BuildContext context) {
+Future openDialog(BuildContext context, String title, String detail) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -14,21 +14,22 @@ Future openDialog(BuildContext context) {
             Lottie.asset(
               'assets/animations/headerIcon.json',
               width: 180,
-              height: 180,),
-            const Text(
-              'Tạo tài khoản thành công',
+              height: 180,
+            ),
+            Text(
+              title,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF212121),
                 fontSize: 24,
                 fontFamily: 'Sarabun',
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const Text(
-              'Tài khoản của bạn đã có thể sử dụng. Chúng tôi sẽ đưa bạn đến Trang chủ trong vài giây...',
+            Text(
+              detail,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF212121),
                 fontSize: 16,
                 fontFamily: 'Sarabun',
@@ -41,18 +42,6 @@ Future openDialog(BuildContext context) {
               width: 100,
               height: 100,
             ),
-            // Uncomment the lines below if you want to add a button
-            // CustomButton(
-            //   onTap: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (context) => HomeScreen(),
-            //       ),
-            //     );
-            //   },
-            //   text: "Back to Home",
-            // ),
           ],
         ),
       ),
