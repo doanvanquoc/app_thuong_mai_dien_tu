@@ -44,7 +44,7 @@ class _CartViewState extends State<CartView> {
           ? Stack(children: [
               ListView.builder(
                 itemCount: count,
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 95),
                 itemBuilder: (BuildContext context, int index) {
                   return const Padding(
                     padding: EdgeInsets.only(bottom: 24),
