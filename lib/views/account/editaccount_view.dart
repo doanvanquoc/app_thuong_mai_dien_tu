@@ -1,6 +1,7 @@
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
+import 'package:app_thuong_mai_dien_tu/views/register/widgets/datetime.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/widgets/gender.dart';
 import 'package:flutter/material.dart';
 
@@ -55,11 +56,9 @@ class _EditAccountState extends State<EditAccount> {
             iconRight: null,
             controller: nickName,
           ),
-          MyTextFile(
-            name: 'Ngày sinh', 
-            iconLeft: null, 
-            iconRight: const Icon(Icons.date_range_outlined),
-            controller: dateTime,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+            child: DateTimeBirthDay(controller: dateTime),
           ),
           MyTextFile(
             name: 'Email', 

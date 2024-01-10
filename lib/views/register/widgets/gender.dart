@@ -28,7 +28,7 @@ class _GenderState extends State<Gender> {
             child: DropdownButton<String>(
               value: dropdownValue,
               icon: const Icon(Icons.arrow_drop_down_rounded, size: 45),
-              underline: null, // Remove the underline
+              underline: null,
               isExpanded: true,
               style: const TextStyle(color: Colors.black, fontSize: 16),
               onChanged: (String? newValue) {
