@@ -47,15 +47,18 @@ class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           SlideShowProduct(img: img),
           InfoProductDetail(
             description: content,
+            rate: "4.9(4,749 đánh giá)",
+            sold: '3,284 đã bán',
             name: name,
             count: count,
-            IncrQuanlity: IncrQ,
-            DecrQuanlity: DecrQ,
+            incrQuanlity: IncrQ,
+            decrQuanlity: DecrQ,
           ),
           AddCartDetail(total: 38.0 * count),
           Positioned(

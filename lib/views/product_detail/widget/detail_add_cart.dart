@@ -48,8 +48,9 @@ class _AddCartDetailState extends State<AddCartDetail> {
                 decoration: BoxDecoration(
                     boxShadow: const [
                       BoxShadow(
-                        offset: Offset(4, 8),
-                        blurRadius: 24,
+                        offset: Offset(1, 2),
+                        blurRadius: 8,
+                        spreadRadius: 0,
                         color: Color(0xFF01B763),
                       ),
                     ],

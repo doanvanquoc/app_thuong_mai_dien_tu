@@ -17,7 +17,6 @@ class _SlideShowProductState extends State<SlideShowProduct> {
         urlImage,
         fit: BoxFit.cover,
       ));
-
   Widget buildIndicator() => AnimatedSmoothIndicator(
         effect: const ExpandingDotsEffect(
             activeDotColor: Color(0xFF01B763),
