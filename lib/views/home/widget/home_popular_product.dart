@@ -38,6 +38,7 @@ class HomePopularProduct extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(context).size.height / 1.4,
           child: GridView.builder(
+            shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 1 / 2.2,
@@ -51,3 +52,4 @@ class HomePopularProduct extends StatelessWidget {
     );
   }
 }
+

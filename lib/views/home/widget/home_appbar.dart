@@ -13,7 +13,7 @@ class HomeAppbar extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-      title: const Text('Chào buổi sáng sớm 👋'),
+      title: const Text('Welcome,'),
       subtitle: const Text(
         'Đoàn Văn Quốc',
         style: TextStyle(

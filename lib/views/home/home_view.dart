@@ -1,12 +1,9 @@
-import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_appbar.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_esp_product.dart';
-import 'package:app_thuong_mai_dien_tu/views/home/widget/home_list_category.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_popular_product.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_slider.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/search_box.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -56,31 +53,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (value) {
-          setState(() {
-            currentIndex = value;
-          });
-        },
-        type: BottomNavigationBarType.shifting,
-        fixedColor: AppColor.primaryColor,
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        unselectedLabelStyle: const TextStyle(color: Colors.grey),
-        items: const [
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.houseMedical), label: 'Trang chủ'),
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.bagShopping), label: 'Giỏ hàng'),
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.cartShopping), label: 'Đơn hàng'),
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.wallet), label: 'Ví của tôi'),
-          BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.user), label: 'Tài khoản'),
-        ],
       ),
     );
   }
