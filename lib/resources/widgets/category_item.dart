@@ -8,7 +8,7 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Chip(
-      labelStyle: TextStyle(color: isSelected ? Colors.white : Color(0xff01B763), fontSize: 16),
+      labelStyle: TextStyle(color: isSelected ? Colors.white : const Color(0xff01B763), fontSize: 16),
       label: Text(category),
       backgroundColor:
           isSelected ? const Color(0xff01B763) : Colors.transparent,

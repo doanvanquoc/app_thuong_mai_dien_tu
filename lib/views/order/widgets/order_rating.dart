@@ -67,14 +67,16 @@ class OrderRating extends StatelessWidget {
           const SizedBox(height: 12),
           Row(
             children: [
-              MyButton(
-                onTap: () => Navigator.pop(context),
-                content: 'Đóng',
-                backgroundColor: const Color(0xffe6f8ef),
-                textColor: AppColor.primaryColor,
+              Expanded(
+                child: MyButton(
+                  onTap: () => Navigator.pop(context),
+                  content: 'Đóng',
+                  backgroundColor: const Color(0xffe6f8ef),
+                  textColor: AppColor.primaryColor,
+                ),
               ),
               const SizedBox(width: 12),
-              MyButton(onTap: () {}, content: 'Gửi đánh giá'),
+              Expanded(child: MyButton(onTap: () {}, content: 'Gửi đánh giá')),
             ],
           )
         ],
