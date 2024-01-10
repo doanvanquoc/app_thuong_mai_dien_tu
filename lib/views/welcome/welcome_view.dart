@@ -1,4 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
+import 'package:app_thuong_mai_dien_tu/views/login/login_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/welcome/widgets/content.dart';
 import 'package:flutter/material.dart';
 
@@ -92,7 +93,16 @@ class _WelcomeState extends State<Welcome> {
                     content: 'Tiếp theo',
                   ),
                 if (i == 3)
-                  MyButton(onTap: () {}, content: 'Đăng nhập'),
+                  MyButton(
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Login()),
+                        (route) => route is Login,
+                      );
+                    }, 
+                    content: 'Đăng nhập'
+                  ),
               ],
             ),
           );

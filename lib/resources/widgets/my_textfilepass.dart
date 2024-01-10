@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 
-class LoginTextFile extends StatefulWidget {
-  const LoginTextFile({
+class MyTextPass extends StatefulWidget {
+  const MyTextPass({
     Key? key,
     required this.name,
     required this.iconLeft,
-    required this.iconRight,
-    required this.lock,
+    required this.controller,
   }) : super(key: key);
 
   final String name;
   final Icon? iconLeft;
-  final Icon? iconRight;
-  final bool lock;
+  final TextEditingController controller;
 
   @override
-  State<LoginTextFile> createState() => _LoginTextFileState();
+  State<MyTextPass> createState() => _MyTextPassState();
 }
 
-class _LoginTextFileState extends State<LoginTextFile> {
+class _MyTextPassState extends State<MyTextPass> {
   bool isIconLeftPressed = false;
   bool isIconRightPressed = false;
+  bool lock=true;
 
   late FocusNode _focusNode;
 
@@ -45,10 +44,11 @@ class _LoginTextFileState extends State<LoginTextFile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-      child: TextField(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      child: TextFormField(
+        controller: widget.controller,
         focusNode: _focusNode,
-        obscureText: widget.lock,
+        obscureText: lock,
         style: const TextStyle(color: Colors.black, fontSize: 16),
         decoration: InputDecoration(
           hintText: widget.name,
@@ -73,9 +73,25 @@ class _LoginTextFileState extends State<LoginTextFile> {
             widget.iconLeft?.icon,
             color: isIconLeftPressed ? Colors.green : Colors.black,
           ),
-          suffixIcon: Icon(
-            widget.iconRight?.icon,
-            color: isIconRightPressed ? Colors.green : Colors.black,
+          suffixIcon: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: () {
+                  lock = !lock;
+                  setState(() {});
+                },
+                icon: lock
+                    ? Icon(
+                        Icons.lock_outlined,
+                        color: isIconRightPressed ? Colors.green : Colors.black,
+                      )
+                    : Icon(
+                        Icons.lock_open_outlined,
+                        color: isIconRightPressed ? Colors.green : Colors.black,
+                      ),
+              ),
+            ],
           ),
         ),
       ),

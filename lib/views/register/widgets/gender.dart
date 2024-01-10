@@ -27,11 +27,8 @@ class _GenderState extends State<Gender> {
           Expanded(
             child: DropdownButton<String>(
               value: dropdownValue,
-              icon: const Icon(Icons.arrow_drop_down_rounded,size: 45,),
-              underline: Container(
-                height: 2,
-                color: Colors.white,
-              ),
+              icon: const Icon(Icons.arrow_drop_down_rounded, size: 45),
+              underline: null, // Remove the underline
               isExpanded: true,
               style: const TextStyle(color: Colors.black, fontSize: 16),
               onChanged: (String? newValue) {
@@ -46,7 +43,10 @@ class _GenderState extends State<Gender> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(value),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 35),
+                          child: Text(value),
+                        ),
                       ],
                     ),
                   );

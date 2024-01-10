@@ -41,10 +41,10 @@ class _CheckLoginState extends State<CheckLogin> {
               color: Colors.green,
               width: 1.0,
             ),
-            borderRadius: BorderRadius.circular(4.0), // Bo tròn góc của border
+            borderRadius: BorderRadius.circular(4.0),
           ),
         ),
-        const SizedBox(width: 5.0), // Khoảng cách giữa checkbox và văn bản
+        const SizedBox(width: 5.0),
         const Text(
           'Ghi nhớ đăng nhập',
           style: TextStyle(

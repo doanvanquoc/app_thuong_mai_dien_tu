@@ -1,10 +1,12 @@
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
+import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
+import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfilepass.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/login_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_check.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_logo.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_richText.dart';
-import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_textfield.dart';
+import 'package:app_thuong_mai_dien_tu/views/register/accountInfomation_view.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -15,11 +17,15 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final TextEditingController userName = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final TextEditingController rePassword=TextEditingController();
+  String noti='';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // leading: const Icon(Icons.arrow_back_sharp, size: 30),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -32,35 +38,63 @@ class _RegisterState extends State<Register> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
               ),
               const SizedBox(height: 30),
-              const LoginTextFile(
+              MyTextFile(
                 name: 'Email',
-                iconLeft: Icon(Icons.email),
+                iconLeft: const Icon(Icons.email_outlined),
                 iconRight: null,
-                lock: false,
+                controller: userName,
               ),
-              const LoginTextFile(
+              MyTextPass(
                 name: 'Mật khẩu',
-                iconLeft: Icon(Icons.lock),
-                iconRight: Icon(Icons.remove_red_eye_outlined),
-                lock: true,
+                iconLeft: const Icon(Icons.password_outlined),
+                controller: password,
               ),
-              const LoginTextFile(
+              MyTextPass(
                 name: 'Xác Nhận Mật khẩu',
-                iconLeft: Icon(Icons.lock),
-                iconRight: Icon(Icons.remove_red_eye_outlined),
-                lock: true,
+                iconLeft: const Icon(Icons.password_outlined),
+                controller: rePassword,
               ),
-              const CheckLogin(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 15),
+                child: Text(noti,style: const TextStyle(fontSize: 16,color: Colors.red),textAlign: TextAlign.center,),
+              ),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: MyButton(
                   onTap: () {
-                    openDialog(
-                      context,
-                      'Tạo tài khoản thành công',
-                      'Tài khoản của bạn đã có thể sử dụng. Chúng tôi sẽ đưa bạn đến Trang chủ trong vài giây...',
+                    //Định dạng email
+                    RegExp emailRegExp = RegExp(
+                      r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
                     );
+
+                    //Định dạng mật khẩu
+                    RegExp passwordRegExp = RegExp(
+                      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:"<>?~`]).{8,}$',
+                    );
+
+                    if (userName.text.isEmpty || password.text.isEmpty || rePassword.text.isEmpty) {
+                      noti = 'Cần nhập đầy đủ thông tin!';
+                    } else if (!emailRegExp.hasMatch(userName.text)) {
+                      noti = 'Email không hợp lệ!';
+                    } else if (!passwordRegExp.hasMatch(password.text)) {
+                      noti = 'Mật khẩu ít nhất 8 ký tự, có ít nhất 1 ký tự đặc biệt, 1 chữ hoa và 1 chữ thường!';
+                    } else if (password.text != rePassword.text) {
+                      noti = 'Mật khẩu và xác nhận mật khẩu không khớp!';
+                    } else {
+                      noti = '';
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AccountInformation()),
+                      );
+                    }
+
+                    setState(() {});
+
+                    // Future.delayed(const Duration(seconds: 2), () {
+                      
+                    // });
+                    
                   },
                   content: 'Đăng Ký'
                 ),
@@ -70,9 +104,10 @@ class _RegisterState extends State<Register> {
                 question: 'Bạn đã có tài khoản?',
                 name: 'Đăng Nhập',
                 onTap: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Login()),
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Login()),
+                    (route) => route is Login,
                   );
                 }
               ),
