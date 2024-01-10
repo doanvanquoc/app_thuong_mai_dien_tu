@@ -42,41 +42,39 @@ class MyButton extends StatelessWidget {
     //     ),
     //   ),
     // );
-    return Expanded(
-      child: Container(
-        height: 58,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x3F01B763),
-              blurRadius: 24,
-              offset: Offset(4, 8),
-              spreadRadius: 0,
-            ),
-          ],
-        ),
-        child: ElevatedButton(
-          onPressed: onTap,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: backgroundColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100),
-            ),
-            padding: EdgeInsets.zero,
-            elevation: 6,
+    return Container(
+      height: 58,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x3F01B763),
+            blurRadius: 24,
+            offset: Offset(4, 8),
+            spreadRadius: 0,
           ),
-          child: Container(
-            alignment: Alignment.center,
-            height: 58,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-            child: Text(
-              content,
-              style: TextStyle(
-                color: textColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
+        ],
+      ),
+      child: ElevatedButton(
+        onPressed: onTap,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100),
+          ),
+          padding: EdgeInsets.zero,
+          elevation: 6,
+        ),
+        child: Container(
+          alignment: Alignment.center,
+          height: 58,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+          child: Text(
+            content,
+            style: TextStyle(
+              color: textColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),

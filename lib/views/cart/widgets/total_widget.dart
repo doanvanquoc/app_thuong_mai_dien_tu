@@ -1,9 +1,12 @@
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/checkout_view.dart';
 import 'package:flutter/material.dart';
 
 class TotalWidget extends StatelessWidget {
-  const TotalWidget({super.key});
+  const TotalWidget({super.key, required this.products});
+
+  final List<Product> products;
 
   @override
   Widget build(BuildContext context) {
@@ -57,14 +60,16 @@ class TotalWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(width: 32),
-          MyButton(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const CheckoutView()),
-                );
-              },
-              content: 'Thanh toán'),
+          Expanded(
+            child: MyButton(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CheckoutView(products: products)),
+                  );
+                },
+                content: 'Thanh toán'),
+          ),
         ],
       ),
     );

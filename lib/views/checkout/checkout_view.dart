@@ -1,12 +1,18 @@
+import 'dart:math';
+
 import 'package:app_thuong_mai_dien_tu/models/address.dart';
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/address_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/address_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/comfirm_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/product_widget.dart';
+import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutView extends StatefulWidget {
-  const CheckoutView({super.key});
+  const CheckoutView({super.key, required this.products});
+
+  final List<Product> products;
 
   @override
   State<CheckoutView> createState() => _CheckoutViewState();
@@ -24,9 +30,35 @@ class _CheckoutViewState extends State<CheckoutView> {
       street: '652/37 Cộng Hòa, P13, Tân Bình',
       isDefault: false,
     ),
+    Address(
+      name: 'Trọ',
+      street: '231/93/5 Dương Bá Trạc, P1, Quận 8',
+      isDefault: false,
+    ),
+    Address(
+      name: 'Một Buổi Sáng',
+      street: '27/4 Cộng Hòa, P4, Tân Bình',
+      isDefault: false,
+    ),
   ];
-
   Address? selectedAddress;
+
+  String formatDate(DateTime dateTime) {
+    return '${dateTime.day}/${dateTime.month}/${dateTime.year} | ${dateTime.hour}:${dateTime.minute}:${dateTime.second} ${dateTime.hour >= 12 ? 'PM' : 'AM'}';
+  }
+
+  String generateOrderCode() {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    Random random = Random();
+
+    String letter = String.fromCharCodes(Iterable.generate(
+        2, (_) => letters.codeUnitAt(random.nextInt(letters.length))));
+
+    String number =
+        Iterable.generate(10, (_) => random.nextInt(10).toString()).join('');
+
+    return letter + number;
+  }
 
   @override
   void initState() {
@@ -67,6 +99,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               if (selectedAddress != null)
                 AddressItem(
                   name: selectedAddress!.name,
+                  isDefault: selectedAddress!.isDefault!,
                   street: selectedAddress!.street,
                   isIcon: true,
                   isRadioButton: false,
@@ -86,16 +119,18 @@ class _CheckoutViewState extends State<CheckoutView> {
               ),
               const SizedBox(height: 5),
               ListView.builder(
-                itemCount: 10,
+                itemCount: widget.products.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
-                  return const Padding(
-                    padding: EdgeInsets.only(bottom: 24),
+                  final product = widget.products[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 24),
                     child: ProductWidget(
-                      image: 'assets/images/image.png',
-                      name: 'Samsung Galaxy S23 Ultra 8G/128GB',
-                      price: '31.900.000đ',
+                      image: product.image,
+                      name: product.name,
+                      price: product.price,
+                      qty: product.quantity,
                     ),
                   );
                 },
@@ -184,7 +219,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                           Text(
                             'Tổng',
                             style: TextStyle(
-                              color: Color(0xFF616161),
+                              color: Color(0xFF34C582),
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
@@ -194,7 +229,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                             '31.950.000đ',
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                              color: Color(0xFF424242),
+                              color: Color(0xFF34C582),
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -209,7 +244,20 @@ class _CheckoutViewState extends State<CheckoutView> {
       ),
       bottomNavigationBar: ComfirmWidget(
         content: 'Đặt hàng',
-        onTap: () {},
+        onTap: () {
+          DateTime now = DateTime.now();
+          String formattedDate = formatDate(now);
+
+          String eCode = generateOrderCode();
+          openDialog(
+            context,
+            'Đặt hàng thành công!',
+            'Đơn hàng của bạn sẽ sớm được vận chuyển',
+            widget.products,
+            formattedDate,
+            eCode,
+          );
+        },
       ),
     );
   }

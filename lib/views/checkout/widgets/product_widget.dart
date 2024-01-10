@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
 class ProductWidget extends StatefulWidget {
-  const ProductWidget({
+  ProductWidget({
     super.key,
     required this.image,
     required this.name,
     required this.price,
+    required this.qty,
   });
 
   final String image;
   final String name;
   final String price;
+  int qty;
 
   @override
   State<ProductWidget> createState() => _ProductWidgetState();
 }
 
 class _ProductWidgetState extends State<ProductWidget> {
-  int qty = 0;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -101,7 +101,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                           ),
                         ),
                         child: Text(
-                          qty.toString(),
+                          widget.qty.toString(),
                           style: const TextStyle(
                             color: Color(0xFF01B763),
                             fontSize: 16,

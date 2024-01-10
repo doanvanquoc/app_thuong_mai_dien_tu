@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/views/cart/widgets/cart_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/cart/widgets/total_widget.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,37 @@ class CartView extends StatefulWidget {
 }
 
 class _CartViewState extends State<CartView> {
-  int count = 10;
+  List<Product> cartProducts = [
+    Product(
+      image: 'assets/images/image.png',
+      name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+      price: '31.900.000đ',
+      quantity: 1,
+    ),
+    Product(
+      image: 'assets/images/image.png',
+      name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+      price: '31.900.000đ',
+      quantity: 6,
+    ),
+    Product(
+      image: 'assets/images/image.png',
+      name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+      price: '31.900.000đ',
+      quantity: 3,
+    ),
+    Product(
+      image: 'assets/images/image.png',
+      name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+      price: '31.900.000đ',
+      quantity: 9,
+    ),
+  ];
+  void updateProductQuantity(int index, int newQuantity) {
+    setState(() {
+      cartProducts[index].quantity = newQuantity;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,27 +71,31 @@ class _CartViewState extends State<CartView> {
               ))
         ],
       ),
-      body: count != 0
+      body: cartProducts.isNotEmpty
           ? Stack(children: [
               ListView.builder(
-                itemCount: count,
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 95),
+                itemCount: cartProducts.length,
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 85),
                 itemBuilder: (BuildContext context, int index) {
-                  return const Padding(
-                    padding: EdgeInsets.only(bottom: 24),
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 24),
                     child: CartWidget(
-                      image: 'assets/images/image.png',
-                      name: 'Samsung Galaxy S23 Ultra 8G/128GB',
-                      price: '31.900.000đ',
+                      image: cartProducts[index].image,
+                      name: cartProducts[index].name,
+                      price: cartProducts[index].price,
+                      qty: cartProducts[index].quantity,
+                      onQuantityChanged: (newQuantity) {
+                        updateProductQuantity(index, newQuantity);
+                      },
                     ),
                   );
                 },
               ),
-              const Positioned(
+              Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: TotalWidget(),
+                child: TotalWidget(products: cartProducts),
               )
             ])
           : Center(

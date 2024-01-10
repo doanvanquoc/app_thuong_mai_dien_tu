@@ -2,17 +2,21 @@ import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 
 class CartWidget extends StatefulWidget {
-  const CartWidget({
+  CartWidget({
     super.key,
     required this.image,
     required this.name,
     required this.price,
+    required this.qty,
+    required this.onQuantityChanged,
     this.isDel = true,
   });
 
   final String image;
   final String name;
   final String price;
+  int qty;
+  final Function(int) onQuantityChanged;
   final bool isDel;
 
   @override
@@ -20,7 +24,12 @@ class CartWidget extends StatefulWidget {
 }
 
 class _CartWidgetState extends State<CartWidget> {
-  int qty = 0;
+  void updateQuantity(int newQuantity) {
+    setState(() {
+      widget.qty = newQuantity;
+    });
+    widget.onQuantityChanged(newQuantity);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,11 +123,16 @@ class _CartWidgetState extends State<CartWidget> {
                               child: IconButton(
                                 padding: EdgeInsets.zero,
                                 iconSize: 16,
-                                onPressed: () {
-                                  setState(() {
-                                    if (qty > 0) qty--;
-                                  });
-                                },
+                                onPressed: widget.isDel
+                                    ? () {
+                                        if (widget.qty > 0) {
+                                          updateQuantity(--widget.qty);
+                                          if (widget.qty == 0) {
+                                            showDeleteConfirmation(context);
+                                          }
+                                        }
+                                      }
+                                    : null,
                                 icon: Transform.translate(
                                   offset: const Offset(0, -4.5),
                                   child: const Icon(
@@ -130,7 +144,7 @@ class _CartWidgetState extends State<CartWidget> {
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              qty.toString(),
+                              widget.qty.toString(),
                               style: const TextStyle(
                                 color: Color(0xFF01B763),
                                 fontSize: 16,
@@ -146,11 +160,11 @@ class _CartWidgetState extends State<CartWidget> {
                                 iconSize: 16,
                                 padding: EdgeInsets.zero,
                                 constraints: const BoxConstraints(),
-                                onPressed: () {
-                                  setState(() {
-                                    qty++;
-                                  });
-                                },
+                                onPressed: widget.isDel
+                                    ? () {
+                                        updateQuantity(++widget.qty);
+                                      }
+                                    : null,
                                 icon: const Icon(
                                   Icons.add,
                                   color: Color(0xff109C5B),
@@ -223,6 +237,8 @@ class _CartWidgetState extends State<CartWidget> {
                 image: widget.image,
                 name: widget.name,
                 price: widget.price,
+                qty: widget.qty,
+                onQuantityChanged: widget.onQuantityChanged,
                 isDel: false,
               ),
               const SizedBox(height: 17),
@@ -230,15 +246,21 @@ class _CartWidgetState extends State<CartWidget> {
               const SizedBox(height: 17),
               Row(
                 children: [
-                  MyButton(
+                  Expanded(
+                    child: MyButton(
                       onTap: () {
+                        if (widget.qty == 0) {
+                          updateQuantity(++widget.qty);
+                        }
                         Navigator.pop(context);
                       },
                       content: 'Hủy',
                       backgroundColor: const Color(0xffE6F8EF),
-                      textColor: const Color(0xff01B763)),
+                      textColor: const Color(0xff01B763),
+                    ),
+                  ),
                   const SizedBox(width: 30),
-                  MyButton(onTap: () {}, content: 'Xóa'),
+                  Expanded(child: MyButton(onTap: () {}, content: 'Xóa')),
                 ],
               )
             ],

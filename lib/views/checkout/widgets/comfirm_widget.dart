@@ -41,18 +41,20 @@ class ComfirmWidget extends StatelessWidget {
           ]),
       child: Row(
         children: [
-          MyButton(
-            onTap: () {
-              if (onTap != null) {
-                onTap!();
-              } else if (destinationScreen != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => destinationScreen!),
-                );
-              }
-            },
-            content: content,
+          Expanded(
+            child: MyButton(
+              onTap: () {
+                if (onTap != null) {
+                  onTap!();
+                } else if (destinationScreen != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => destinationScreen!),
+                  );
+                }
+              },
+              content: content,
+            ),
           ),
         ],
       ),

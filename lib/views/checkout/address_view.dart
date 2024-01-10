@@ -1,4 +1,6 @@
 import 'package:app_thuong_mai_dien_tu/models/address.dart';
+import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
+import 'package:app_thuong_mai_dien_tu/views/address/add_address.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/address_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/comfirm_widget.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +32,8 @@ class _AddressViewState extends State<AddressView> {
       isDefault: false,
     ),
     Address(
-      name: 'Công ty',
-      street: '652/37 Cộng Hòa, P13, Tân Bình',
+      name: 'Một Buổi Sáng',
+      street: '27/4 Cộng Hòa, P4, Tân Bình',
       isDefault: false,
     ),
   ];
@@ -80,6 +82,7 @@ class _AddressViewState extends State<AddressView> {
                 padding: const EdgeInsets.only(bottom: 24),
                 child: AddressItem(
                   name: address.name,
+                  isDefault: address.isDefault!,
                   street: address.street,
                   isIcon: false,
                   isRadioButton: true,
@@ -96,6 +99,23 @@ class _AddressViewState extends State<AddressView> {
           ),
         ),
       ),
+      floatingActionButton: SizedBox(
+        height: 60,
+        width: 60,
+        child: MyButton(
+          content: '+',
+          backgroundColor: const Color(0xffE6F8EF),
+          textColor: const Color(0xff01B763),
+          onTap: () {
+            Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            AddAddressView(onAddAddress: addNewAddress)))
+                .then((value) => {setState(() {})});
+          },
+        ),
+      ),
       bottomNavigationBar: ComfirmWidget(
         content: 'Xác nhận',
         onTap: () {
@@ -105,5 +125,12 @@ class _AddressViewState extends State<AddressView> {
         },
       ),
     );
+  }
+
+  void addNewAddress(String name, String street) {
+    setState(() {
+      addresses.add(Address(name: name, street: street, isDefault: false));
+      selectedAddressIndex = addresses.length - 1;
+    });
   }
 }

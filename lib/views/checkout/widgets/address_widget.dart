@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AddressItem extends StatelessWidget {
-  AddressItem({
+  const AddressItem({
     super.key,
     required this.name,
     required this.street,
@@ -9,21 +9,22 @@ class AddressItem extends StatelessWidget {
     required this.isRadioButton,
     this.isSelected = true,
     this.onSelected,
+    this.isDefault = false,
   });
 
   final String name;
   final String street;
   final bool isIcon;
   final bool isRadioButton;
-  bool isSelected;
-  late VoidCallback? onSelected;
+  final bool isSelected;
+  final VoidCallback? onSelected;
+  final bool isDefault;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          width: 380,
           height: 92,
           padding: const EdgeInsets.all(20),
           decoration: ShapeDecoration(
@@ -84,13 +85,38 @@ class AddressItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 3),
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        color: Color(0xFF212121),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          name,
+                          style: const TextStyle(
+                            color: Color(0xFF212121),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        if (isDefault)
+                          Container(
+                            width: 67,
+                            height: 25,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 6),
+                            decoration: ShapeDecoration(
+                              color: const Color(0x1401B763),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(6)),
+                            ),
+                            child: const Text(
+                              'Mặc định',
+                              style: TextStyle(
+                                color: Color(0xFF01B763),
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                     Flexible(
                       child: Text(
