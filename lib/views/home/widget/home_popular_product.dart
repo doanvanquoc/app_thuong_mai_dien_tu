@@ -4,8 +4,9 @@ import 'package:app_thuong_mai_dien_tu/views/home/widget/home_list_category.dart
 import 'package:flutter/material.dart';
 
 class HomePopularProduct extends StatelessWidget {
-  const HomePopularProduct({super.key, required this.products});
+  const HomePopularProduct({super.key, required this.products, required this.categories});
   final List<String> products;
+  final List<String> categories;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,7 +34,7 @@ class HomePopularProduct extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
-        const HomeListCategory(),
+        HomeListCategory(categories: categories),
         const SizedBox(height: 10),
         SizedBox(
           height: MediaQuery.of(context).size.height / 1.4,
@@ -52,4 +53,3 @@ class HomePopularProduct extends StatelessWidget {
     );
   }
 }
-

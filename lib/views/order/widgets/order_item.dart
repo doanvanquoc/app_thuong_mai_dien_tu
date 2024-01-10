@@ -1,19 +1,24 @@
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
-import 'package:app_thuong_mai_dien_tu/views/order/widgets/order_rating.dart';
 import 'package:flutter/material.dart';
 
 class OrderITem extends StatelessWidget {
-  const OrderITem({super.key, required this.status, this.isShow = true, this.onTap});
+  const OrderITem(
+      {super.key,
+      required this.status,
+      this.isShow = true,
+      this.onTap,
+      this.action = 'Theo dõi'});
   final Function()? onTap;
   final String status;
   final bool isShow;
+  final String action;
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
+        color: Colors.white54,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -73,7 +78,7 @@ class OrderITem extends StatelessWidget {
                         ? GestureDetector(
                             onTap: onTap,
                             child: Chip(
-                              label: const Text('Theo dõi'),
+                              label: Text(action),
                               backgroundColor: AppColor.primaryColor,
                               labelStyle: const TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -84,7 +89,7 @@ class OrderITem extends StatelessWidget {
                                     const BorderSide(color: Colors.transparent),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              padding: const EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(0),
                             ),
                           )
                         : const SizedBox.shrink()
@@ -97,5 +102,4 @@ class OrderITem extends StatelessWidget {
       ),
     );
   }
-
-  }
+}

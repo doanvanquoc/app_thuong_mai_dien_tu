@@ -29,6 +29,14 @@ class _HomePageState extends State<HomePage> {
     'https://cdn.hoanghamobile.com/i/preview/Uploads/2022/09/08/2222.png',
     'https://cdn.hoanghamobile.com/i/productlist/dsp/Uploads/2023/03/08/14-yellow.png'
   ];
+
+  List<String> categories = [
+    'Apple',
+    'Samsung',
+    'Xiaomi',
+    'Huawei',
+    'Nokia'
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(height: 19),
                 HomeEspProduct(products: products),
                 const SizedBox(height: 19),
-                HomePopularProduct(products: products)
+                HomePopularProduct(products: products, categories: categories,)
               ],
             ),
           ),

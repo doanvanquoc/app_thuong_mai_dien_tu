@@ -50,6 +50,7 @@ class OrderRating extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           TextField(
+            cursorColor: AppColor.primaryColor,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),

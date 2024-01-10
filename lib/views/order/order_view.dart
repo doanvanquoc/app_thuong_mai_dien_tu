@@ -74,6 +74,7 @@ class OrderPage extends StatelessWidget {
                 itemCount: 5,
                 itemBuilder: (context, index) => OrderITem(
                   status: 'Hoàn thành',
+                  action: 'Đánh giá',
                   onTap: () => showRating(context),
                 ),
               ),
