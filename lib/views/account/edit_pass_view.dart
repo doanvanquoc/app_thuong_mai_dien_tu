@@ -1,5 +1,4 @@
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
-import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfilepass.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
 import 'package:flutter/material.dart';
