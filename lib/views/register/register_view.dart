@@ -2,8 +2,6 @@ import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfilepass.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/login_view.dart';
-import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
-import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_check.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_logo.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_richText.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/accountInfomation_view.dart';
