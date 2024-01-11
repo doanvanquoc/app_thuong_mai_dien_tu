@@ -1,9 +1,12 @@
+import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/detail_change.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class AddCartDetail extends StatefulWidget {
-  AddCartDetail({super.key, required this.total});
-  double total;
+  const AddCartDetail({
+    super.key,
+  });
+
   @override
   State<AddCartDetail> createState() => _AddCartDetailState();
 }
@@ -23,25 +26,34 @@ class _AddCartDetailState extends State<AddCartDetail> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
+            const SizedBox(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Tổng cộng',
                     style: TextStyle(fontSize: 12),
                   ),
                   Text(
-                    '${widget.total}đ',
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
+                    '35.000.000d',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                showModalBottomSheet(
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadiusDirectional.vertical(
+                            top: Radius.circular(40))),
+                    context: context,
+                    builder: (_) {
+                      return const DetailChange();
+                    });
+              },
               child: Container(
                 height: 58,
                 width: MediaQuery.of(context).size.width / 2,

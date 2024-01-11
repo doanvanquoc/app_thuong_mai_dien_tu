@@ -9,17 +9,13 @@ class InfoProductDetail extends StatefulWidget {
     required this.name,
     required this.rate,
     required this.sold,
-    required this.count,
-    required this.incrQuanlity,
-    required this.decrQuanlity,
+
   });
   final String name;
   final String description;
   final String rate;
   final String sold;
-  int count;
-  Function incrQuanlity;
-  Function decrQuanlity;
+
 
   @override
   State<InfoProductDetail> createState() => _InfoProductDetailState();
@@ -119,55 +115,6 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                 textAlign: TextAlign.justify,
               ),
               const SizedBox(height: 12),
-              Row(
-                children: [
-                  const Text(
-                    "Số lượng",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Container(
-                    width: 139,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: const Color.fromARGB(255, 248, 248, 248),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              widget.decrQuanlity();
-                            },
-                            icon: const Icon(
-                              Icons.remove,
-                              color: Color(0xFF01B763),
-                            )),
-                        Text(
-                          '${widget.count} ',
-                          style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF01B763)),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            widget.incrQuanlity();
-                          },
-                          icon: const Icon(
-                            Icons.add,
-                            color: Color(0xFF01B763),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
               const Divider(),
             ],
           ),

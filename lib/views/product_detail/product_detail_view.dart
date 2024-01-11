@@ -24,22 +24,6 @@ class _ProductDetailState extends State<ProductDetail> {
   int count = 1;
   int total = 0;
 
-  void IncrQ() {
-    setState(() {
-      count++;
-    });
-  }
-
-  void DecrQ() {
-    setState(() {
-      if (count <= 1) {
-        count = 1;
-      } else {
-        count -= 1;
-      }
-    });
-  }
-
   String name = "Iphone 15 Pro Max 8G/ 128GB - VN ";
   String content =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
@@ -56,11 +40,8 @@ class _ProductDetailState extends State<ProductDetail> {
             rate: "4.9(4,749 đánh giá)",
             sold: '3,284 đã bán',
             name: name,
-            count: count,
-            incrQuanlity: IncrQ,
-            decrQuanlity: DecrQ,
           ),
-          AddCartDetail(total: 38.0 * count),
+          const AddCartDetail(),
           Positioned(
               top: 50,
               left: 26,
