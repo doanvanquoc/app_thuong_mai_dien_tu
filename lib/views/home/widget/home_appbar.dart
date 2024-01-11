@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/views/notification/notification_view.dart';
 import 'package:flutter/material.dart';
 
 class HomeAppbar extends StatelessWidget {
@@ -23,7 +24,10 @@ class HomeAppbar extends StatelessWidget {
       ),
       trailing: IconButton(
         icon: const Icon(Icons.notifications_none),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => const NotificationPage()));
+        },
         iconSize: 30,
       ),
     );

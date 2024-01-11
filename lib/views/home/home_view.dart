@@ -1,5 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_appbar.dart';
-import 'package:app_thuong_mai_dien_tu/views/home/widget/home_esp_product.dart';
+import 'package:app_thuong_mai_dien_tu/views/home/widget/home_new_product.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_popular_product.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_slider.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/search_box.dart';
@@ -30,13 +30,7 @@ class _HomePageState extends State<HomePage> {
     'https://cdn.hoanghamobile.com/i/productlist/dsp/Uploads/2023/03/08/14-yellow.png'
   ];
 
-  List<String> categories = [
-    'Apple',
-    'Samsung',
-    'Xiaomi',
-    'Huawei',
-    'Nokia'
-  ];
+  List<String> categories = ['Apple', 'Samsung', 'Xiaomi', 'Huawei', 'Nokia'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,9 +48,12 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(height: 24),
                 HomeSlider(banners: banners),
                 const SizedBox(height: 19),
-                HomeEspProduct(products: products),
+                HomeNewProduct(products: products, categories: categories,),
                 const SizedBox(height: 19),
-                HomePopularProduct(products: products, categories: categories,)
+                HomePopularProduct(
+                  products: products,
+                  categories: categories,
+                )
               ],
             ),
           ),

@@ -1,32 +1,46 @@
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
+import 'package:app_thuong_mai_dien_tu/views/product/product_special_view.dart';
 import 'package:flutter/material.dart';
 
-class HomeEspProduct extends StatelessWidget {
-  const HomeEspProduct({super.key, required this.products});
+class HomeNewProduct extends StatelessWidget {
+  const HomeNewProduct(
+      {super.key, required this.products, required this.categories});
   final List<String> products;
+  final List<String> categories;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Row(
+        Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Sản phẩm đặc biệt',
+            const Text(
+              'Sản phẩm mới nhất',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
             ),
-            Text(
-              'Tất cả',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: AppColor.primaryColor,
+            GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ProductSpecial(
+                      nameTab: 'Sản phẩm mới nhất',
+                      lstCategory: categories,
+                      lstProduct: const []),
+                ),
+              ),
+              child: const Text(
+                'Tất cả',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColor.primaryColor,
+                ),
               ),
             ),
           ],
