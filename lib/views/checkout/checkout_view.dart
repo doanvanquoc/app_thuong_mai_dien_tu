@@ -6,7 +6,7 @@ import 'package:app_thuong_mai_dien_tu/views/checkout/address_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/address_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/comfirm_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/product_widget.dart';
-import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
+import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutView extends StatefulWidget {
