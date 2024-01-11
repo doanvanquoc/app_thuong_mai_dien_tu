@@ -1,7 +1,7 @@
 import 'package:app_thuong_mai_dien_tu/views/product_detail/product_detail_view.dart';
+import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_filter.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_history.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_not_fond_view.dart';
-import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_filter.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
@@ -100,11 +100,14 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+        ),
         body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Column(
             children: [
-              const SizedBox(height: 60),
               TextField(
                 focusNode: focusNode,
                 onTap: () {
@@ -186,14 +189,14 @@ class _SearchPageState extends State<SearchPage> {
                             text: "Kết quả tìm kiếm",
                             style: const TextStyle(
                                 color: Colors.black,
-                                fontSize: 20,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold),
                             children: [
                               TextSpan(
-                                text: '"$reslutSearchTextController"',
+                                text: ' "$reslutSearchTextController"',
                                 style: const TextStyle(
                                     color: Color(0xFF01B763),
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               )
                             ]),
@@ -229,10 +232,9 @@ class _SearchPageState extends State<SearchPage> {
                   child: GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 2,
-                              childAspectRatio: 1 / 2.2,
-                              mainAxisSpacing: 2),
+                        crossAxisCount: 2,
+                        childAspectRatio: 1 / 2.2,
+                      ),
                       itemCount: 10,
                       itemBuilder: (_, index) {
                         return GestureDetector(
@@ -242,8 +244,7 @@ class _SearchPageState extends State<SearchPage> {
                                 MaterialPageRoute(
                                     builder: (_) => const ProductDetail()));
                           },
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 5),
+                          child: SizedBox(
                             width: MediaQuery.of(context).size.width / 2,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -301,6 +302,7 @@ class _SearchPageState extends State<SearchPage> {
                                     color: Color(0xFF01B763),
                                     fontWeight: FontWeight.bold,
                                   ),
+                                  textAlign: TextAlign.center,
                                 )
                               ],
                             ),
