@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class InfomationAccount extends StatefulWidget {
   InfomationAccount({super.key,required this.name,required this.phone});
   String name;

@@ -24,7 +24,7 @@ class LoginLogo extends StatelessWidget {
             'CKCPhoneStore',
             style: TextStyle(
               color: Color(0xFF212121),
-              fontSize: 40,
+              fontSize: 30,
               fontFamily: 'Sarabun',
               fontWeight: FontWeight.w700,
             ),
