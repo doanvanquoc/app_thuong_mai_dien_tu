@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfilepass.dart';
@@ -10,8 +11,6 @@ import 'package:flutter/material.dart';
 class Login extends StatefulWidget {
   const Login({super.key});
 
-  
-
   @override
   State<Login> createState() => _LoginState();
 }
@@ -19,11 +18,13 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController userName = TextEditingController();
   final TextEditingController password = TextEditingController();
-  String notifications='';
+  String notifications = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -34,7 +35,7 @@ class _LoginState extends State<Login> {
               const LoginLogo(),
               const Text(
                 'Đăng nhập tài khoản',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
               const SizedBox(height: 40),
               MyTextFile(
@@ -48,34 +49,46 @@ class _LoginState extends State<Login> {
                 iconLeft: const Icon(Icons.password_outlined),
                 controller: password,
               ),
-              Text(notifications,style: const TextStyle(color: Colors.red,fontSize: 16),),
+              Text(
+                notifications,
+                style: const TextStyle(color: Colors.red, fontSize: 16),
+              ),
               // const CheckLogin(),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: MyButton(
-                  onTap: () {
-                    if(userName.text.isEmpty||password.text.isEmpty){
-                      notifications='Cần nhập đầy đủ thông tin!';
-                    }
-                    else{
-                      notifications='';
-                      if(userName.text!='username@gmail.com'||password.text!='123456'){
-                        notifications='Tên đăng nhập hoặc mật khẩu sai!';
+                    onTap: () {
+                      if (userName.text.isEmpty || password.text.isEmpty) {
+                        notifications = 'Cần nhập đầy đủ thông tin!';
+                      } else {
+                        notifications = '';
+                        if (userName.text != 'username@gmail.com' ||
+                            password.text != '123456') {
+                          notifications = 'Tên đăng nhập hoặc mật khẩu sai!';
+                        } else {
+                          notifications = '';
+
+                          openDialog(
+                            context,
+                            'Đăng nhập thành công',
+                            'Chúng tôi sẽ đưa bạn đến Trang chủ trong vài giây...',
+                          );
+                          // Navigator.pop(context);
+                          Future.delayed(
+                              const Duration(seconds: 2),
+                              () => {
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => const MyNavBar()),
+                                        (route) => false)
+                                  });
+                        }
                       }
-                      else{
-                        notifications='';
-                        openDialog(
-                          context,
-                          'Đăng nhập thành công',
-                          'Chúng tôi sẽ đưa bạn đến Trang chủ trong vài giây...',
-                        );
-                      }
-                    }
-                    setState(() {});
-                  },
-                  content: 'Đăng Nhập'
-                ),
+                      setState(() {});
+                    },
+                    content: 'Đăng Nhập'),
               ),
               const SizedBox(height: 50),
               RichTextLog(
@@ -96,5 +109,3 @@ class _LoginState extends State<Login> {
     );
   }
 }
-
-

@@ -35,15 +35,16 @@ class _WelcomeState extends State<Welcome> {
                 Image(
                   image: AssetImage(contents[i].image),
                   fit: BoxFit.cover,
-                  height: 400,
+                  height: 300,
                 ),
-                const SizedBox(height: 50,),
-
+                const SizedBox(
+                  height: 50,
+                ),
                 Text(
                   contents[i].title,
                   style: const TextStyle(
                     color: Color(0xFF212121),
-                    fontSize: 40,
+                    fontSize: 30,
                     fontFamily: 'Sarabun',
                     fontWeight: FontWeight.w700,
                   ),
@@ -94,15 +95,15 @@ class _WelcomeState extends State<Welcome> {
                   ),
                 if (i == 3)
                   MyButton(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Login()),
-                        (route) => route is Login,
-                      );
-                    }, 
-                    content: 'Đăng nhập'
-                  ),
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Login()),
+                          (route) => route is Login,
+                        );
+                      },
+                      content: 'Đăng nhập'),
               ],
             ),
           );
