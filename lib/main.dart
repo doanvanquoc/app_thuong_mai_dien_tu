@@ -1,6 +1,7 @@
 import 'package:app_thuong_mai_dien_tu/views/account/acccount_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/accountInfomation_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/welcome/splash_view.dart';
+import 'package:app_thuong_mai_dien_tu/views/welcome/welcome_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  const Account()
+      home:  const AccountInformation()
       // Container(),
     );
   }
