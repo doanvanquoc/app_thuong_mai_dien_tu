@@ -19,7 +19,7 @@ class _RateOptionState extends State<RateOption> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 38,
+      height: 44,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

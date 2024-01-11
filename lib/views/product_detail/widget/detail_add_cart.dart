@@ -20,7 +20,7 @@ class _AddCartDetailState extends State<AddCartDetail> {
       left: 0,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24),
-        height: 65,
+        height: 80,
         color: const Color.fromARGB(255, 255, 255, 255),
         width: double.infinity,
         child: Row(
@@ -80,7 +80,7 @@ class _AddCartDetailState extends State<AddCartDetail> {
                     Text(
                       'Thêm vào giỏ hàng',
                       style: TextStyle(fontSize: 16, color: Colors.white),
-                    )
+                    ),
                   ],
                 ),
               ),

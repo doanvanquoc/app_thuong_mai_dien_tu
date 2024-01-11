@@ -21,7 +21,7 @@ class _FilterOptionState extends State<FilterOption> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 84,
+      height: 80,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -29,7 +29,7 @@ class _FilterOptionState extends State<FilterOption> {
             widget.nameOption,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 10),
           Expanded(
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,

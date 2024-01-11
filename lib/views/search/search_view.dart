@@ -247,7 +247,7 @@ class _SearchPageState extends State<SearchPage> {
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width / 2,
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Align(
                                   alignment: Alignment.center,
@@ -260,15 +260,20 @@ class _SearchPageState extends State<SearchPage> {
                                   ),
                                 ),
                                 const SizedBox(height: 15),
-                                const Text(
-                                  'Iphone 15 Pro Max 8G/ 128GB - VN',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                  child: Text(
+                                    'Iphone 15 Pro Max 8G/ 128GB - VN',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                                 Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 12),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       const Icon(
                                         Icons.star_border,
