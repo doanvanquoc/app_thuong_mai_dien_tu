@@ -21,6 +21,8 @@ class EInvoiceView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         title: const Text(
           'Hóa đơn điện tử',
           style: TextStyle(
@@ -161,8 +163,7 @@ class EInvoiceView extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Container(
-                height: 162,
-                padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+                padding: const EdgeInsets.all(12),
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(

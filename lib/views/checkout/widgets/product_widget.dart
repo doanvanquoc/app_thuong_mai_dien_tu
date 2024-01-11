@@ -22,8 +22,7 @@ class _ProductWidgetState extends State<ProductWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 165,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
@@ -65,7 +64,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                     overflow: TextOverflow.visible,
                     style: const TextStyle(
                       color: Color(0xFF212121),
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -77,7 +76,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                     widget.price,
                     style: const TextStyle(
                       color: Color(0xFF01B763),
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.w700,
                       height: 0.07,
                     ),

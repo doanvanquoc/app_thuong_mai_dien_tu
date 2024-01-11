@@ -5,8 +5,8 @@ import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/address_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/address_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/comfirm_widget.dart';
-import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/product_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/loading.dart';
+import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/product_widget.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutView extends StatefulWidget {
@@ -70,6 +70,8 @@ class _CheckoutViewState extends State<CheckoutView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         title: const Text(
           'Đặt hàng',
           style: TextStyle(
@@ -136,8 +138,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                 },
               ),
               Container(
-                height: 193,
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(12),
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(

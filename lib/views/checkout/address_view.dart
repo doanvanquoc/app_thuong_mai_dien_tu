@@ -60,6 +60,8 @@ class _AddressViewState extends State<AddressView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         title: const Text(
           'Địa chỉ giao hàng',
           style: TextStyle(

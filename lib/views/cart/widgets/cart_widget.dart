@@ -34,8 +34,7 @@ class _CartWidgetState extends State<CartWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 165,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(

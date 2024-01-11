@@ -47,9 +47,8 @@ class _CartViewState extends State<CartView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
-        shadowColor: const Color(0x0C04060F),
-        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         leading: Image.asset(
           'assets/images/vector.png',
           scale: 2,
@@ -75,7 +74,7 @@ class _CartViewState extends State<CartView> {
           ? Stack(children: [
               ListView.builder(
                 itemCount: cartProducts.length,
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 85),
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 85),
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 24),
