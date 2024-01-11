@@ -28,8 +28,9 @@ class _RatePageState extends State<RatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         title: const Text(
           "4.9(4,749 đánh giá)",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),

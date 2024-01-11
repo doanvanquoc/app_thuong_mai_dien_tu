@@ -32,17 +32,16 @@ class _ProductSpecialState extends State<ProductSpecial> {
         title: Text(widget.nameTab),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Column(
           children: [
             ProductOption(lst: widget.lstCategory, onTap: checkOption),
             Expanded(
               child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 2,
-                      childAspectRatio: 1 / 2.2,
-                      mainAxisSpacing: 2),
+                    crossAxisCount: 2,
+                    childAspectRatio: 1 / 2.2,
+                  ),
                   itemCount: 10,
                   itemBuilder: (_, index) {
                     return GestureDetector(
@@ -52,8 +51,7 @@ class _ProductSpecialState extends State<ProductSpecial> {
                             MaterialPageRoute(
                                 builder: (_) => const ProductDetail()));
                       },
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 5),
+                      child: SizedBox(
                         width: MediaQuery.of(context).size.width / 2,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,6 +107,7 @@ class _ProductSpecialState extends State<ProductSpecial> {
                                 color: Color(0xFF01B763),
                                 fontWeight: FontWeight.bold,
                               ),
+                              textAlign: TextAlign.center,
                             )
                           ],
                         ),

@@ -11,7 +11,7 @@ class _NotificationItemState extends State<NotificationItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 24),
+      margin: const EdgeInsets.only(bottom: 12),
       height: 100,
       width: double.infinity,
       decoration: BoxDecoration(
@@ -21,39 +21,46 @@ class _NotificationItemState extends State<NotificationItem> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          ClipOval(
-            child: Container(
-              height: 68,
-              width: 68,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color.fromARGB(255, 61, 225, 154),
-                    Color(0xFF01B763)
-                  ],
+          Expanded(
+            flex: 1,
+            child: ClipOval(
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color.fromARGB(255, 61, 225, 154),
+                      Color(0xFF01B763)
+                    ],
+                  ),
                 ),
-              ),
-              child: const Icon(
-                Icons.person,
-                color: Colors.white,
+                child: const Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
-          const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Thiết lập tài khoản thành công!",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                "Tài khoản của bạn đã được tạo!",
-                style: TextStyle(fontSize: 14),
-              ),
-            ],
+          const SizedBox(width: 10),
+          const Expanded(
+            flex: 5,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Thiết lập tài khoản thành công!",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "Tài khoản của bạn đã được tạo!",
+                  style: TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
           )
         ],
       ),
