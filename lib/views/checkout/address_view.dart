@@ -66,8 +66,6 @@ class _AddressViewState extends State<AddressView> {
           'Địa chỉ giao hàng',
           style: TextStyle(
             color: Color(0xFF212121),
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
           ),
         ),
       ),

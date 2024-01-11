@@ -15,7 +15,6 @@ class OrderPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text(
             'Đơn hàng',
-            style: TextStyle(fontWeight: FontWeight.bold),
           ),
           actions: [
             IconButton(

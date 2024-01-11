@@ -27,8 +27,6 @@ class EInvoiceView extends StatelessWidget {
           'Hóa đơn điện tử',
           style: TextStyle(
             color: Color(0xFF212121),
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
           ),
         ),
       ),
