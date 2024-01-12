@@ -5,8 +5,17 @@ import 'package:app_thuong_mai_dien_tu/views/order/order_tracking_view.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-Future openDialog(BuildContext context, String title, String detail,
-    List<Product> products, String formatDate, String eCode) {
+Future openDialog(
+  BuildContext context,
+  String title,
+  String detail,
+  List<Product> products,
+  String formatDate,
+  String eCode,
+  int ship,
+  int totalPrice,
+  int totalBill,
+) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -61,11 +70,14 @@ Future openDialog(BuildContext context, String title, String detail,
             MyButton(
               onTap: () {
                 Navigator.pop(context);
-                Navigator.of(context).push(MaterialPageRoute(
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => EInvoiceView(
                     products: products,
                     orderDateTime: formatDate,
                     eCode: eCode,
+                    ship: ship,
+                    totalPrice: totalPrice,
+                    totalBill: totalBill,
                   ),
                 ));
               },

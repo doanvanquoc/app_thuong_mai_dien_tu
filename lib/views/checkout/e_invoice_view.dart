@@ -11,11 +11,17 @@ class EInvoiceView extends StatelessWidget {
     required this.products,
     required this.orderDateTime,
     required this.eCode,
+    required this.ship,
+    required this.totalPrice,
+    required this.totalBill,
   });
 
   final List<Product> products;
   final String orderDateTime;
   final String eCode;
+  final int ship;
+  final int totalPrice;
+  final int totalBill;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +81,7 @@ class EInvoiceView extends StatelessWidget {
                     )
                   ],
                 ),
-                child: const Column(
+                child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +91,7 @@ class EInvoiceView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Giá',
                             style: TextStyle(
                               color: Color(0xFF616161),
@@ -93,11 +99,11 @@ class EInvoiceView extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '31.900.000đ',
+                            Product.formatPrice(totalPrice).toString(),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF424242),
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -105,13 +111,13 @@ class EInvoiceView extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Phí giao hàng',
                             style: TextStyle(
                               color: Color(0xFF616161),
@@ -119,11 +125,11 @@ class EInvoiceView extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '50.000đ',
+                            Product.formatPrice(ship).toString(),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF424242),
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -131,15 +137,15 @@ class EInvoiceView extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(height: 10),
-                      Divider(),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
+                      const Divider(),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Tổng cộng',
                             style: TextStyle(
                               color: Color(0xFF34C582),
@@ -147,11 +153,11 @@ class EInvoiceView extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '31.950.000đ',
+                            Product.formatPrice(totalBill).toString(),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF34C582),
                               fontSize: 16,
                               fontWeight: FontWeight.w700,

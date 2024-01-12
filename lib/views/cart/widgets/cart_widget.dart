@@ -11,6 +11,7 @@ class CartWidget extends StatefulWidget {
     required this.qty,
     required this.onQuantityChanged,
     this.isDel = true,
+    required this.onDelete,
   });
 
   final String image;
@@ -18,6 +19,7 @@ class CartWidget extends StatefulWidget {
   final String price;
   int qty;
   final Function(int) onQuantityChanged;
+  final Function onDelete;
   final bool isDel;
 
   @override
@@ -240,6 +242,7 @@ class _CartWidgetState extends State<CartWidget> {
                 qty: widget.qty,
                 onQuantityChanged: widget.onQuantityChanged,
                 isDel: false,
+                onDelete: widget.onDelete,
               ),
               const SizedBox(height: 17),
               const Divider(thickness: 0.5),
@@ -260,7 +263,14 @@ class _CartWidgetState extends State<CartWidget> {
                     ),
                   ),
                   const SizedBox(width: 30),
-                  Expanded(child: MyButton(onTap: () {}, content: 'Xóa')),
+                  Expanded(
+                    child: MyButton(
+                        onTap: () {
+                          widget.onDelete();
+                          Navigator.pop(context);
+                        },
+                        content: 'Xóa'),
+                  ),
                 ],
               )
             ],

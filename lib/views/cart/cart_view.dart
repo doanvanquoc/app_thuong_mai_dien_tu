@@ -15,31 +15,52 @@ class _CartViewState extends State<CartView> {
     Product(
       image: 'assets/images/image.png',
       name: 'Samsung Galaxy S23 Ultra 8G/128GB',
-      price: '31.900.000đ',
+      price: 31900000,
       quantity: 1,
     ),
     Product(
       image: 'assets/images/image.png',
       name: 'Samsung Galaxy S23 Ultra 8G/128GB',
-      price: '31.900.000đ',
+      price: 40000000,
       quantity: 6,
     ),
     Product(
       image: 'assets/images/image.png',
       name: 'Samsung Galaxy S23 Ultra 8G/128GB',
-      price: '31.900.000đ',
+      price: 51000000,
       quantity: 3,
     ),
     Product(
       image: 'assets/images/image.png',
       name: 'Samsung Galaxy S23 Ultra 8G/128GB',
-      price: '31.900.000đ',
+      price: 23000000,
       quantity: 9,
     ),
   ];
+
   void updateProductQuantity(int index, int newQuantity) {
     setState(() {
       cartProducts[index].quantity = newQuantity;
+    });
+  }
+
+  void removeProductFromCart(int index) {
+    setState(() {
+      cartProducts.removeAt(index);
+    });
+  }
+
+  int calculateTotalPrice() {
+    int total = 0;
+    for (Product product in cartProducts) {
+      total += product.price * product.quantity;
+    }
+    return total;
+  }
+
+    void clearCart() {
+    setState(() {
+      cartProducts.clear();
     });
   }
 
@@ -81,11 +102,12 @@ class _CartViewState extends State<CartView> {
                     child: CartWidget(
                       image: cartProducts[index].image,
                       name: cartProducts[index].name,
-                      price: cartProducts[index].price,
+                      price: Product.formatPrice(cartProducts[index].price),
                       qty: cartProducts[index].quantity,
                       onQuantityChanged: (newQuantity) {
                         updateProductQuantity(index, newQuantity);
                       },
+                      onDelete: () => removeProductFromCart(index),
                     ),
                   );
                 },
@@ -94,7 +116,10 @@ class _CartViewState extends State<CartView> {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: TotalWidget(products: cartProducts),
+                child: TotalWidget(
+                  products: cartProducts,
+                  totalPrice: calculateTotalPrice(),
+                ),
               )
             ])
           : Center(

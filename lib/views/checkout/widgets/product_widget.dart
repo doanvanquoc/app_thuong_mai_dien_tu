@@ -74,7 +74,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                 SizedBox(
                   width: double.infinity,
                   child: Text(
-                    widget.price,
+                    widget.price.toString(),
                     style: const TextStyle(
                       color: Color(0xFF01B763),
                       fontSize: 16,

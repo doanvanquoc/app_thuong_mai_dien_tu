@@ -10,9 +10,14 @@ import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/product_widget.dar
 import 'package:flutter/material.dart';
 
 class CheckoutView extends StatefulWidget {
-  const CheckoutView({super.key, required this.products});
+  const CheckoutView({
+    super.key,
+    required this.products,
+    required this.totalPrice,
+  });
 
   final List<Product> products;
+  final int totalPrice;
 
   @override
   State<CheckoutView> createState() => _CheckoutViewState();
@@ -60,6 +65,14 @@ class _CheckoutViewState extends State<CheckoutView> {
     return letter + number;
   }
 
+  void clearCart() {
+    setState(() {
+      widget.products.clear();
+    });
+  }
+
+  int ship = 123456;
+
   @override
   void initState() {
     super.initState();
@@ -68,6 +81,8 @@ class _CheckoutViewState extends State<CheckoutView> {
 
   @override
   Widget build(BuildContext context) {
+    int totalBill = widget.totalPrice + ship;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -131,7 +146,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                     child: ProductWidget(
                       image: product.image,
                       name: product.name,
-                      price: product.price,
+                      price: Product.formatPrice(product.price),
                       qty: product.quantity,
                     ),
                   );
@@ -153,7 +168,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                     )
                   ],
                 ),
-                child: const Column(
+                child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,7 +178,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Giá',
                             style: TextStyle(
                               color: Color(0xFF616161),
@@ -171,11 +186,11 @@ class _CheckoutViewState extends State<CheckoutView> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '31.900.000đ',
+                            Product.formatPrice(widget.totalPrice).toString(),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF424242),
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -183,13 +198,13 @@ class _CheckoutViewState extends State<CheckoutView> {
                           )
                         ],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Phí giao hàng',
                             style: TextStyle(
                               color: Color(0xFF616161),
@@ -197,11 +212,11 @@ class _CheckoutViewState extends State<CheckoutView> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '50.000đ',
+                            Product.formatPrice(ship),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF424242),
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -209,15 +224,15 @@ class _CheckoutViewState extends State<CheckoutView> {
                           )
                         ],
                       ),
-                      SizedBox(height: 20),
-                      Divider(),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
+                      const Divider(),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Tổng',
                             style: TextStyle(
                               color: Color(0xFF34C582),
@@ -225,11 +240,11 @@ class _CheckoutViewState extends State<CheckoutView> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '31.950.000đ',
+                            Product.formatPrice(totalBill).toString(),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF34C582),
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -257,6 +272,9 @@ class _CheckoutViewState extends State<CheckoutView> {
             widget.products,
             formattedDate,
             eCode,
+            widget.totalPrice,
+            ship,
+            totalBill,
           );
         },
       ),

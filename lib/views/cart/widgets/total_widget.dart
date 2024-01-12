@@ -4,9 +4,14 @@ import 'package:app_thuong_mai_dien_tu/views/checkout/checkout_view.dart';
 import 'package:flutter/material.dart';
 
 class TotalWidget extends StatelessWidget {
-  const TotalWidget({super.key, required this.products});
+  const TotalWidget({
+    super.key,
+    required this.products,
+    required this.totalPrice,
+  });
 
   final List<Product> products;
+  final int totalPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +40,10 @@ class TotalWidget extends StatelessWidget {
           ]),
       child: Row(
         children: [
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Tổng cộng',
                 style: TextStyle(
                   color: Color(0xFF757575),
@@ -46,10 +51,10 @@ class TotalWidget extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               Text(
-                '15.000.000đ',
-                style: TextStyle(
+                Product.formatPrice(totalPrice).toString(),
+                style: const TextStyle(
                   color: Color(0xFF212121),
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
@@ -64,7 +69,10 @@ class TotalWidget extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CheckoutView(products: products)),
+                        builder: (context) => CheckoutView(
+                              products: products,
+                              totalPrice: totalPrice,
+                            )),
                   );
                 },
                 content: 'Thanh toán'),
