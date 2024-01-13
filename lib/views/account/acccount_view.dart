@@ -11,14 +11,14 @@ import 'package:app_thuong_mai_dien_tu/views/register/widgets/avartar.dart';
 import 'package:flutter/material.dart';
 
 class Account extends StatefulWidget {
-  const Account({super.key});
-
+  const Account({super.key,required this.user});
+  final User? user;
   @override
   State<Account> createState() => _AccountState();
 }
 
 class _AccountState extends State<Account> {
-  late User user;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,11 +41,11 @@ class _AccountState extends State<Account> {
       ),
       body: ListView(
         children: [
-          Avatar(src: user.src),
+          Avatar(src: widget.user?.src??'assets/images/avartar.png'),
           const SizedBox(
             height: 10,
           ),
-          InfomationAccount(name: user.fullName, phone: user.phoneNumber),
+          InfomationAccount(name: widget.user?.fullName??'Username', phone: widget.user?.phoneNumber??'03699999999'),
           const SizedBox(
             height: 40,
           ),

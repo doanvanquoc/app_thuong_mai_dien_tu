@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
@@ -21,6 +22,7 @@ class _AccountInformationState extends State<AccountInformation> {
   TextEditingController dateTime = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
+  TextEditingController gender=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -84,9 +86,9 @@ class _AccountInformationState extends State<AccountInformation> {
                 iconRight: const Icon(Icons.phone_android),
                 controller: phoneNumber,
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-                child: Gender(),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0,right: 10,top: 10),
+                child: Gender(controller: gender),
               ),
               const SizedBox(
                 height: 30,

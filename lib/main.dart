@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/views/account/acccount_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/welcome/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

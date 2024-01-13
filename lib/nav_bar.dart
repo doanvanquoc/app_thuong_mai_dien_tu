@@ -21,7 +21,7 @@ class _MyNavBarState extends State<MyNavBar> {
       const HomePage(),
       const CartView(),
       const OrderPage(),
-      const Account(),
+      const Account(user: null,),
     ];
     super.initState();
   }

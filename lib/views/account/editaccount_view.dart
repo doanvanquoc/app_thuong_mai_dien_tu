@@ -18,6 +18,7 @@ class _EditAccountState extends State<EditAccount> {
   TextEditingController dateTime=TextEditingController();
   TextEditingController email=TextEditingController();
   TextEditingController phoneNumber =TextEditingController();
+  TextEditingController gender=TextEditingController();
 
 
   @override
@@ -72,9 +73,9 @@ class _EditAccountState extends State<EditAccount> {
             iconRight: const Icon(Icons.smartphone_outlined),
             controller: phoneNumber,
           ),
-          const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0,vertical: 8.0),
-                child: Gender(),
+          Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 8.0),
+                child: Gender(controller: gender),
               ),
 
               const SizedBox(height: 50,),

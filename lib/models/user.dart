@@ -6,5 +6,14 @@ class User{
   final DateTime birthDay;
   final String phoneNumber;
   final String src;
-  User(this.userId, this.passWord, this.fullName, this.email, this.birthDay, this.phoneNumber, this.src);
+
+  User(
+    this.userId, 
+    this.passWord, 
+    this.fullName, 
+    this.email, 
+    this.birthDay, 
+    this.phoneNumber, 
+    this.src
+  );
 }
