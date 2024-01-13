@@ -76,14 +76,14 @@ class _LoginState extends State<Login> {
                           );
                           // Navigator.pop(context);
                           Future.delayed(
-                              const Duration(seconds: 2),
-                              () => {
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => const MyNavBar()),
-                                        (route) => false)
-                                  });
+                            const Duration(seconds: 2),
+                            () => {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const MyNavBar()),
+                                  (route) => false)
+                                });
                         }
                       }
                       setState(() {});
