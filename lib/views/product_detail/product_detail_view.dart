@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/detail_add_cart.dart';
 import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/detail_info_product.dart';
 import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/detail_slide_show.dart';
@@ -11,6 +12,9 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
+  int count = 1;
+  int total = 0;
+
   List<String> img = [
     'assets/images/phone2.png',
     'assets/images/phone1.png',
@@ -20,14 +24,14 @@ class _ProductDetailState extends State<ProductDetail> {
     'assets/images/phone1.png',
     'assets/images/phone2.png',
   ];
-
-  int count = 1;
-  int total = 0;
-
-  String name = "Iphone 15 Pro Max 8G/ 128GB - VN ";
-  String content =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-
+  Product product = Product(
+    image: 'assets/images/image.png',
+    name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+    description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    price: '31.900.000đ',
+    quantity: 1,
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +40,9 @@ class _ProductDetailState extends State<ProductDetail> {
         children: [
           SlideShowProduct(img: img),
           InfoProductDetail(
-            description: content,
+            product: product,
             rate: "4.9(4,749 đánh giá)",
             sold: '3,284 đã bán',
-            name: name,
           ),
           const AddCartDetail(),
           Positioned(

@@ -1,21 +1,18 @@
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/views/rate/rate_view.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class InfoProductDetail extends StatefulWidget {
-  InfoProductDetail({
+  const InfoProductDetail({
     super.key,
-    required this.description,
-    required this.name,
+    required this.product,
     required this.rate,
     required this.sold,
-
   });
-  final String name;
-  final String description;
+  final Product product;
   final String rate;
   final String sold;
-
 
   @override
   State<InfoProductDetail> createState() => _InfoProductDetailState();
@@ -39,7 +36,7 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                 children: [
                   Expanded(
                     child: Text(
-                      widget.name,
+                      widget.product.name,
                       style: const TextStyle(
                           fontSize: 28, fontWeight: FontWeight.bold),
                     ),
@@ -94,26 +91,26 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                 ),
               ),
               Text(
-                widget.description,
+                widget.product.description,
                 style: const TextStyle(
                   fontSize: 14,
                 ),
                 textAlign: TextAlign.justify,
               ),
-              Text(
-                widget.description,
-                style: const TextStyle(
-                  fontSize: 14,
-                ),
-                textAlign: TextAlign.justify,
-              ),
-              Text(
-                widget.description,
-                style: const TextStyle(
-                  fontSize: 14,
-                ),
-                textAlign: TextAlign.justify,
-              ),
+              // Text(
+              //   widget.description,
+              //   style: const TextStyle(
+              //     fontSize: 14,
+              //   ),
+              //   textAlign: TextAlign.justify,
+              // ),
+              // Text(
+              //   widget.description,
+              //   style: const TextStyle(
+              //     fontSize: 14,
+              //   ),
+              //   textAlign: TextAlign.justify,
+              // ),
               const SizedBox(height: 12),
               const Divider(),
             ],

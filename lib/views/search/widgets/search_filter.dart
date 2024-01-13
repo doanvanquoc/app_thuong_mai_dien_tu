@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/models/category.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/rate/widgets/rate_option.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/filter_option.dart';
@@ -11,18 +12,25 @@ class SearchFilter extends StatefulWidget {
 }
 
 class _SearchFilterState extends State<SearchFilter> {
-  List<String> categorylst = [
-    'Apple',
-    'Iphone',
-    'Samsung',
-    'Xiaomi',
-    'Apple',
-    'Iphone',
-    'Samsung',
-    'Xiaomi'
+  List<Category> categorylst = [
+    Category("Apple", true),
+    Category("Iphone", true),
+    Category("Samsung", true),
+    Category("Xiaomi", true),
+    Category("Apple", true),
+    Category("Iphone", true),
+    Category("Samsung", true),
+    Category("Xiaomi", true),
   ];
-  List<String> sort = ['Phổ biến', 'Gần đây', 'Giá cao', 'Giá thấp'];
-  List<String> ratelst = ['Tất cả', '5', '4', '3', '2', '1'];
+  List ratelst = ['Tất cả', '5', '4', '3', '2', '1'];
+
+  List<Category> sort = [
+    Category("Phổ biến", true),
+    Category("Gần đây", true),
+    Category("Giá cao", true),
+    Category("Giá thấp", true),
+  ];
+
   RangeValues rangeValues = const RangeValues(10, 90);
   String checkCategory = "";
   void checkOption(value) {

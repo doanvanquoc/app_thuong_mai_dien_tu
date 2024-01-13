@@ -33,7 +33,11 @@ class _ProductOptionState extends State<ProductOption> {
                     onTap: () {
                       widget.onTap(widget.lst[index]);
                       setState(() {
-                        selectedIndex = index;
+                        if (selectedIndex == index) {
+                          selectedIndex = -1;
+                        } else {
+                          selectedIndex = index;
+                        }
                         print(index);
                       });
                     },

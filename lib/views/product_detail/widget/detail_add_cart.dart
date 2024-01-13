@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/views/cart/cart_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/detail_change.dart';
 import 'package:flutter/material.dart';
 
@@ -54,34 +55,40 @@ class _AddCartDetailState extends State<AddCartDetail> {
                       return const DetailChange();
                     });
               },
-              child: Container(
-                height: 58,
-                width: MediaQuery.of(context).size.width / 2,
-                decoration: BoxDecoration(
-                    boxShadow: const [
-                      BoxShadow(
-                        offset: Offset(1, 2),
-                        blurRadius: 8,
-                        spreadRadius: 0,
-                        color: Color(0xFF01B763),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const CartView()));
+                },
+                child: Container(
+                  height: 58,
+                  width: MediaQuery.of(context).size.width / 2,
+                  decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                          offset: Offset(1, 2),
+                          blurRadius: 8,
+                          spreadRadius: 0,
+                          color: Color(0xFF01B763),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(100),
+                      color: const Color(0xFF01B763)),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.shopping_bag_rounded,
+                        size: 22,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        'Thêm vào giỏ hàng',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ],
-                    borderRadius: BorderRadius.circular(100),
-                    color: const Color(0xFF01B763)),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.shopping_bag_rounded,
-                      size: 22,
-                      color: Colors.white,
-                    ),
-                    SizedBox(width: 8),
-                    Text(
-                      'Thêm vào giỏ hàng',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),

@@ -15,26 +15,34 @@ class _CartViewState extends State<CartView> {
     Product(
       image: 'assets/images/image.png',
       name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+      description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       price: '31.900.000đ',
       quantity: 1,
     ),
     Product(
       image: 'assets/images/image.png',
       name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+      description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       price: '31.900.000đ',
-      quantity: 6,
+      quantity: 1,
     ),
     Product(
       image: 'assets/images/image.png',
       name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+      description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       price: '31.900.000đ',
-      quantity: 3,
+      quantity: 1,
     ),
     Product(
       image: 'assets/images/image.png',
       name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+      description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       price: '31.900.000đ',
-      quantity: 9,
+      quantity: 1,
     ),
   ];
   void updateProductQuantity(int index, int newQuantity) {

@@ -1,4 +1,4 @@
-import 'package:app_thuong_mai_dien_tu/views/product_detail/product_detail_view.dart';
+import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_filter.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_history.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_not_fond_view.dart';
@@ -34,6 +34,15 @@ class _SearchPageState extends State<SearchPage> {
     'Iphone 13',
     'Iphone 11',
     'Samsung galaxy S23 Ultra'
+  ];
+
+  List<String> products = [
+    'https://cdn.hoanghamobile.com/i/preview/Uploads/2022/09/08/2222.png',
+    'https://cdn.hoanghamobile.com/i/productlist/dsp/Uploads/2023/03/08/14-yellow.png',
+    'https://cdn.hoanghamobile.com/i/preview/Uploads/2022/09/08/2222.png',
+    'https://cdn.hoanghamobile.com/i/productlist/dsp/Uploads/2023/03/08/14-yellow.png',
+    'https://cdn.hoanghamobile.com/i/preview/Uploads/2022/09/08/2222.png',
+    'https://cdn.hoanghamobile.com/i/productlist/dsp/Uploads/2023/03/08/14-yellow.png'
   ];
 
   // List historyLstNew = [];
@@ -235,84 +244,9 @@ class _SearchPageState extends State<SearchPage> {
                         crossAxisCount: 2,
                         childAspectRatio: 1 / 2.2,
                       ),
-                      itemCount: 10,
+                      itemCount: products.length,
                       itemBuilder: (_, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => const ProductDetail()));
-                          },
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width / 2,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: SizedBox(
-                                    height: 200,
-                                    child: Image.asset(
-                                      'assets/images/phone2.png',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 15),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                  child: Text(
-                                    'Iphone 15 Pro Max 8G/ 128GB - VN',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Icon(
-                                        Icons.star_border,
-                                        color: Color(0xFF01B763),
-                                      ),
-                                      const Text('4.5'),
-                                      const SizedBox(width: 10),
-                                      const Text('|'),
-                                      const SizedBox(width: 10),
-                                      Container(
-                                        padding: const EdgeInsets.all(6),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: const Color(0xFF01B763)),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: const Text(
-                                          '3000 đã bán',
-                                          style: TextStyle(
-                                              color: Color(0xFF01B763)),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                const Text(
-                                  '32.900.000đ',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Color(0xFF01B763),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                )
-                              ],
-                            ),
-                          ),
-                        );
+                        return ProductItem(product: products[index]);
                       }),
                 ),
               )

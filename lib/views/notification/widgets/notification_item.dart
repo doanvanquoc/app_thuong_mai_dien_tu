@@ -25,7 +25,7 @@ class _NotificationItemState extends State<NotificationItem> {
             flex: 1,
             child: ClipOval(
               child: Container(
-                height: 50,
+                height: 60,
                 width: 50,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(

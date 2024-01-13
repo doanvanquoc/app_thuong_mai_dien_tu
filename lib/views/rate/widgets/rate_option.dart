@@ -33,7 +33,11 @@ class _RateOptionState extends State<RateOption> {
                     onTap: () {
                       widget.onTap(widget.lst[index]);
                       setState(() {
-                        selectedIndex = index;
+                        if (selectedIndex == index) {
+                          selectedIndex = -1;
+                        } else {
+                          selectedIndex = index;
+                        }
                         print(index);
                       });
                     },

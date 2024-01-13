@@ -38,9 +38,13 @@ class _FilterOptionState extends State<FilterOption> {
                 itemBuilder: (_, index) {
                   return GestureDetector(
                     onTap: () {
-                      widget.onTap(widget.lst[index]);
+                      widget.onTap(widget.lst[index].name);
                       setState(() {
-                        selectedIndex = index;
+                        if (selectedIndex == index) {
+                          selectedIndex = -1;
+                        } else {
+                          selectedIndex = index;
+                        }
                       });
                     },
                     child: Container(
@@ -59,7 +63,7 @@ class _FilterOptionState extends State<FilterOption> {
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: Center(
                         child: Text(
-                          widget.lst[index],
+                          widget.lst[index].name,
                           style: TextStyle(
                             color: selectedIndex == index
                                 ? Colors.white
