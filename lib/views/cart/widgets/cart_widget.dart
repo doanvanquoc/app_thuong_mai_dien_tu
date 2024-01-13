@@ -195,6 +195,7 @@ class _CartWidgetState extends State<CartWidget> {
   void showDeleteConfirmation(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isDismissible: true,
       builder: (BuildContext context) {
         return Container(
           height: 425,
@@ -277,6 +278,10 @@ class _CartWidgetState extends State<CartWidget> {
           ),
         );
       },
-    );
+    ).then((value) {
+      if (widget.qty == 0) {
+        updateQuantity(++widget.qty);
+      }
+    });
   }
 }
