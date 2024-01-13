@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/views/account/edit_pass_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/account/editaccount_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/account/widgets/button_logout.dart';
@@ -17,6 +18,7 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
+  late User user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,11 +41,11 @@ class _AccountState extends State<Account> {
       ),
       body: ListView(
         children: [
-          Avatar(src: 'assets/images/logo.png'),
+          Avatar(src: user.src),
           const SizedBox(
             height: 10,
           ),
-          InfomationAccount(name: 'Trần Anh Quân', phone: '0399999999'),
+          InfomationAccount(name: user.fullName, phone: user.phoneNumber),
           const SizedBox(
             height: 40,
           ),
