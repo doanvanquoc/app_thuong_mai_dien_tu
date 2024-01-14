@@ -13,22 +13,19 @@ class SearchFilter extends StatefulWidget {
 
 class _SearchFilterState extends State<SearchFilter> {
   List<Company> categorylst = [
-    Company("Apple", true),
-    Company("Iphone", true),
-    Company("Samsung", true),
-    Company("Xiaomi", true),
-    Company("Apple", true),
-    Company("Iphone", true),
-    Company("Samsung", true),
-    Company("Xiaomi", true),
+    Company(1, "Apple"),
+    Company(2, "Iphone"),
+    Company(3, "Samsung"),
+    Company(4, "Xiaomi"),
+    Company(5, "Apple"),
   ];
   List ratelst = ['Tất cả', '5', '4', '3', '2', '1'];
 
   List<Company> sort = [
-    Company("Phổ biến", true),
-    Company("Gần đây", true),
-    Company("Giá cao", true),
-    Company("Giá thấp", true),
+    Company(1, "Phổ biến"),
+    Company(2, "Gần đây"),
+    Company(3, "Giá cao"),
+    Company(4, "Giá thấp"),
   ];
 
   RangeValues rangeValues = const RangeValues(10, 90);

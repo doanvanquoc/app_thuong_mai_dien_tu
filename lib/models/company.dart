@@ -1,5 +1,8 @@
 class Company {
-  String name;
-  bool state;
-  Company(this.name, this.state);
+  final int companyID;
+  final String companyName;
+  Company(
+    this.companyID,
+    this.companyName,
+  );
 }
