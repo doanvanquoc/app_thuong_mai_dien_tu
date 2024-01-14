@@ -23,19 +23,31 @@ class _ReviewPageState extends State<ReviewPage> {
 
   List<Review> reviews = [
     Review(
-      'Sắn sale được cái Iphone 15 giá chỉ có 10k mà thôi, Shop 5 sao!',
-      DateTime.now(),
-      '5',
+      reviewID: 1,
+      content:
+          'Sắn sale được cái Iphone 15 giá chỉ có 10k mà thôi, Shop 5 sao!',
+      dateRate: DateTime.now(),
+      ratingLevel: 5,
+      userID: 1,
+      productID: 1,
     ),
     Review(
-      'Sắn sale được cái Iphone 15 giá chỉ có 10k mà thôi, Shop 5 sao!',
-      DateTime.now(),
-      '5',
+      reviewID: 2,
+      content:
+          'Sắn sale được cái Iphone 15 giá chỉ có 10k mà thôi, Shop 5 sao!',
+      dateRate: DateTime.now(),
+      ratingLevel: 5,
+      userID: 1,
+      productID: 1,
     ),
     Review(
-      'Sắn sale được cái Iphone 15 giá chỉ có 10k mà thôi, Shop 5 sao!',
-      DateTime.now(),
-      '5',
+      reviewID: 3,
+      content:
+          'Sắn sale được cái Iphone 15 giá chỉ có 10k mà thôi, Shop 5 sao!',
+      dateRate: DateTime.now(),
+      ratingLevel: 5,
+      userID: 1,
+      productID: 1,
     ),
   ];
 
@@ -51,9 +63,9 @@ class _ReviewPageState extends State<ReviewPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
-        title: const Text(
-          "4.9(4,749 đánh giá)",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        title: Text(
+          "4.9 (${reviews.length})",
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
       body: Padding(
