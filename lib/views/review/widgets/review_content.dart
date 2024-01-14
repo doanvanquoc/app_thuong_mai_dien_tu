@@ -1,14 +1,15 @@
+import 'package:app_thuong_mai_dien_tu/models/review.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class RateContent extends StatefulWidget {
-  const RateContent({super.key});
-
+class ReviewContent extends StatefulWidget {
+  const ReviewContent({super.key, required this.review});
+  final Review review;
   @override
-  State<RateContent> createState() => _RateContentState();
+  State<ReviewContent> createState() => _ReviewContentState();
 }
 
-class _RateContentState extends State<RateContent> {
+class _ReviewContentState extends State<ReviewContent> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -66,9 +67,9 @@ class _RateContentState extends State<RateContent> {
           ],
         ),
         const SizedBox(height: 12),
-        const Text(
-          'Sắn sale được cái Iphone 15 giá chỉ có 10k mà thôi, Shop 5 sao!',
-          style: TextStyle(fontSize: 12),
+        Text(
+          widget.review.content,
+          style: const TextStyle(fontSize: 12),
         ),
         const SizedBox(height: 12),
         const Text("1 ngày trước")

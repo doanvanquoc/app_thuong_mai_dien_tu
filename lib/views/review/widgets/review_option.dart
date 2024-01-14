@@ -2,8 +2,8 @@ import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class RateOption extends StatefulWidget {
-  RateOption({
+class ReviewOption extends StatefulWidget {
+  ReviewOption({
     super.key,
     required this.lst,
     required this.onTap,
@@ -11,10 +11,10 @@ class RateOption extends StatefulWidget {
   final List lst;
   Function onTap;
   @override
-  State<RateOption> createState() => _RateOptionState();
+  State<ReviewOption> createState() => _ReviewOptionState();
 }
 
-class _RateOptionState extends State<RateOption> {
+class _ReviewOptionState extends State<ReviewOption> {
   int selectedIndex = -1;
 
   @override

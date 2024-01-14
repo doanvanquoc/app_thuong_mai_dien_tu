@@ -1,35 +1,34 @@
-import 'package:app_thuong_mai_dien_tu/models/category.dart';
+import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
-import 'package:app_thuong_mai_dien_tu/views/rate/widgets/rate_option.dart';
+import 'package:app_thuong_mai_dien_tu/views/review/widgets/review_option.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/filter_option.dart';
 import 'package:flutter/material.dart';
 
 class SearchFilter extends StatefulWidget {
   const SearchFilter({super.key});
-
   @override
   State<SearchFilter> createState() => _SearchFilterState();
 }
 
 class _SearchFilterState extends State<SearchFilter> {
-  List<Category> categorylst = [
-    Category("Apple", true),
-    Category("Iphone", true),
-    Category("Samsung", true),
-    Category("Xiaomi", true),
-    Category("Apple", true),
-    Category("Iphone", true),
-    Category("Samsung", true),
-    Category("Xiaomi", true),
+  List<Company> categorylst = [
+    Company("Apple", true),
+    Company("Iphone", true),
+    Company("Samsung", true),
+    Company("Xiaomi", true),
+    Company("Apple", true),
+    Company("Iphone", true),
+    Company("Samsung", true),
+    Company("Xiaomi", true),
   ];
   List ratelst = ['Tất cả', '5', '4', '3', '2', '1'];
 
-  List<Category> sort = [
-    Category("Phổ biến", true),
-    Category("Gần đây", true),
-    Category("Giá cao", true),
-    Category("Giá thấp", true),
+  List<Company> sort = [
+    Company("Phổ biến", true),
+    Company("Gần đây", true),
+    Company("Giá cao", true),
+    Company("Giá thấp", true),
   ];
 
   RangeValues rangeValues = const RangeValues(10, 90);
@@ -131,7 +130,7 @@ class _SearchFilterState extends State<SearchFilter> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   const SizedBox(height: 16),
-                  RateOption(
+                  ReviewOption(
                     lst: ratelst,
                     onTap: checkOption,
                   ),
