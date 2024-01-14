@@ -10,15 +10,15 @@ class ProductAPI {
 
   final dio = Dio();
 
-  Future<List<Product>> getNewsProduct() async {
+  Future<List<Product>> getLatestProduct() async {
     List<Product> products = [];
     try {
-      final res = await dio.get('${APIConfig.API_URL}/product/news');
+      final res = await dio.get('${APIConfig.API_URL}/product/latest');
       products =
           (res.data['data'] as List).map((e) => Product.fromJson(e)).toList();
       return products;
     } catch (e) {
-      rethrow;
+      log(e.toString());
       return [];
     }
   }
