@@ -49,8 +49,8 @@ class EInvoiceView extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: ProductOfInvoiceWidget(
-                      image: product.image,
-                      name: product.name,
+                      image: 'assets/images/iphone15_3.png',
+                      name: 'Iphone 14',
                       qty: '${product.quantity}',
                     ),
                   );

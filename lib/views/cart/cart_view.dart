@@ -12,35 +12,35 @@ class CartView extends StatefulWidget {
 
 class _CartViewState extends State<CartView> {
   List<Product> cartProducts = [
-    Product(
-      image: 'assets/images/image.png',
-      name: 'Samsung Galaxy S23 Ultra 8G/128GB',
-      price: '31.900.000đ',
-      quantity: 1,
-    ),
-    Product(
-      image: 'assets/images/image.png',
-      name: 'Samsung Galaxy S23 Ultra 8G/128GB',
-      price: '31.900.000đ',
-      quantity: 6,
-    ),
-    Product(
-      image: 'assets/images/image.png',
-      name: 'Samsung Galaxy S23 Ultra 8G/128GB',
-      price: '31.900.000đ',
-      quantity: 3,
-    ),
-    Product(
-      image: 'assets/images/image.png',
-      name: 'Samsung Galaxy S23 Ultra 8G/128GB',
-      price: '31.900.000đ',
-      quantity: 9,
-    ),
+    // Product(
+    //   image: 'assets/images/image.png',
+    //   name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+    //   price: '31.900.000đ',
+    //   quantity: 1,
+    // ),
+    // Product(
+    //   image: 'assets/images/image.png',
+    //   name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+    //   price: '31.900.000đ',
+    //   quantity: 6,
+    // ),
+    // Product(
+    //   image: 'assets/images/image.png',
+    //   name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+    //   price: '31.900.000đ',
+    //   quantity: 3,
+    // ),
+    // Product(
+    //   image: 'assets/images/image.png',
+    //   name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+    //   price: '31.900.000đ',
+    //   quantity: 9,
+    // ),
   ];
   void updateProductQuantity(int index, int newQuantity) {
-    setState(() {
-      cartProducts[index].quantity = newQuantity;
-    });
+    // setState(() {
+    //   cartProducts[index].quantity = newQuantity;
+    // });
   }
 
   @override
@@ -77,10 +77,10 @@ class _CartViewState extends State<CartView> {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 24),
                     child: CartWidget(
-                      image: cartProducts[index].image,
-                      name: cartProducts[index].name,
-                      price: cartProducts[index].price,
-                      qty: cartProducts[index].quantity,
+                      image: 'assets/images/iphone15_3.png',
+                      name: 'cartProducts[index].name',
+                      price: 'cartProducts[index].price',
+                      qty: 1,
                       onQuantityChanged: (newQuantity) {
                         updateProductQuantity(index, newQuantity);
                       },
