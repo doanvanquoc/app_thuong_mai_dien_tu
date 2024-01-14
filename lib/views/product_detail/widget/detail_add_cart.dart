@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/cart/cart_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/detail_change.dart';
 import 'package:flutter/material.dart';
@@ -69,11 +70,11 @@ class _AddCartDetailState extends State<AddCartDetail> {
                           offset: Offset(1, 2),
                           blurRadius: 8,
                           spreadRadius: 0,
-                          color: Color(0xFF01B763),
+                          color: AppColor.primaryColor,
                         ),
                       ],
                       borderRadius: BorderRadius.circular(100),
-                      color: const Color(0xFF01B763)),
+                      color: AppColor.primaryColor),
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

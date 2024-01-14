@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 
@@ -68,14 +69,14 @@ class _DetailChangeState extends State<DetailChange> {
                         },
                         icon: const Icon(
                           Icons.remove,
-                          color: Color(0xFF01B763),
+                          color: AppColor.primaryColor,
                         )),
                     Text(
                       '$count ',
                       style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF01B763)),
+                          color: AppColor.primaryColor),
                     ),
                     IconButton(
                       onPressed: () {
@@ -83,7 +84,7 @@ class _DetailChangeState extends State<DetailChange> {
                       },
                       icon: const Icon(
                         Icons.add,
-                        color: Color(0xFF01B763),
+                        color: AppColor.primaryColor,
                       ),
                     ),
                   ],

@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class RateContent extends StatefulWidget {
@@ -39,7 +40,7 @@ class _RateContentState extends State<RateContent> {
               margin: const EdgeInsets.only(right: 12),
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(width: 2, color: const Color(0xFF01B763)),
+                border: Border.all(width: 2, color: AppColor.primaryColor),
                 borderRadius: BorderRadius.circular(100),
               ),
               height: 32,
@@ -50,13 +51,13 @@ class _RateContentState extends State<RateContent> {
                   Icon(
                     Icons.star,
                     size: 20,
-                    color: Color(0xFF01B763),
+                    color: AppColor.primaryColor,
                   ),
                   Text(
                     '5',
                     style: TextStyle(
                       fontSize: 14,
-                      color: Color(0xFF01B763),
+                      color: AppColor.primaryColor,
                     ),
                   ),
                 ],

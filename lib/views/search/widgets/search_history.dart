@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -40,7 +41,7 @@ class _SearchHistoryState extends State<SearchHistory> {
               child: const Text(
                 "Xóa tất cả",
                 style: TextStyle(
-                  color: Color(0xFF01B763),
+                  color: AppColor.primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),

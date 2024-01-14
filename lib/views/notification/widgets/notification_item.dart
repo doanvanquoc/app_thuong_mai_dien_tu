@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class NotificationItem extends StatefulWidget {
@@ -33,7 +34,7 @@ class _NotificationItemState extends State<NotificationItem> {
                     end: Alignment.bottomRight,
                     colors: [
                       Color.fromARGB(255, 61, 225, 154),
-                      Color(0xFF01B763)
+                      AppColor.primaryColor,
                     ],
                   ),
                 ),

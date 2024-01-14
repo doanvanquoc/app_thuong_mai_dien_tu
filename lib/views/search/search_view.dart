@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_filter.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_history.dart';
@@ -181,7 +182,7 @@ class _SearchPageState extends State<SearchPage> {
                     },
                     icon: const Icon(
                       Icons.filter_frames_rounded,
-                      color: Color(0xFF01B763),
+                      color: AppColor.primaryColor,
                     ),
                   ),
                 ),
@@ -204,7 +205,7 @@ class _SearchPageState extends State<SearchPage> {
                               TextSpan(
                                 text: ' "$reslutSearchTextController"',
                                 style: const TextStyle(
-                                    color: Color(0xFF01B763),
+                                    color: AppColor.primaryColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               )
@@ -214,7 +215,7 @@ class _SearchPageState extends State<SearchPage> {
                     Text(
                       "${incrCount(reslutSearchTextController)} kết quả",
                       style: const TextStyle(
-                        color: Color(0xFF01B763),
+                        color: AppColor.primaryColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

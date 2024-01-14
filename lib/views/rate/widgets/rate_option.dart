@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -45,10 +46,10 @@ class _RateOptionState extends State<RateOption> {
                       margin: const EdgeInsets.only(right: 12),
                       decoration: BoxDecoration(
                         color: selectedIndex == index
-                            ? const Color(0xFF01B763)
+                            ? AppColor.primaryColor
                             : Colors.white,
-                        border: Border.all(
-                            width: 2, color: const Color(0xFF01B763)),
+                        border:
+                            Border.all(width: 2, color: AppColor.primaryColor),
                         borderRadius: BorderRadius.circular(100),
                       ),
                       height: 38,
@@ -61,14 +62,14 @@ class _RateOptionState extends State<RateOption> {
                               Icons.star,
                               color: selectedIndex == index
                                   ? Colors.white
-                                  : const Color(0xFF01B763),
+                                  : AppColor.primaryColor,
                             ),
                             Text(
                               widget.lst[index],
                               style: TextStyle(
                                 color: selectedIndex == index
                                     ? Colors.white
-                                    : const Color(0xFF01B763),
+                                    : AppColor.primaryColor,
                               ),
                             ),
                           ],

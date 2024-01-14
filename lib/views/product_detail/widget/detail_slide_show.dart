@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -19,7 +20,7 @@ class _SlideShowProductState extends State<SlideShowProduct> {
       ));
   Widget buildIndicator() => AnimatedSmoothIndicator(
         effect: const ExpandingDotsEffect(
-            activeDotColor: Color(0xFF01B763),
+            activeDotColor: AppColor.primaryColor,
             dotHeight: 10,
             dotWidth: 10,
             dotColor: Colors.grey),

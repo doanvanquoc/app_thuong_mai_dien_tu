@@ -1,6 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
 import 'package:app_thuong_mai_dien_tu/views/product/widgets/product_option.dart';
-import 'package:app_thuong_mai_dien_tu/views/product_detail/product_detail_view.dart';
 import 'package:flutter/material.dart';
 
 class ProductSpecial extends StatefulWidget {

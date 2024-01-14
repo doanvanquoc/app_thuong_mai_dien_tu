@@ -1,4 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/models/category.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/rate/widgets/rate_option.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/filter_option.dart';
@@ -92,7 +93,7 @@ class _SearchFilterState extends State<SearchFilter> {
                             children: [
                               RangeSlider(
                                 mouseCursor: MaterialStateMouseCursor.clickable,
-                                activeColor: const Color(0xFF01B763),
+                                activeColor: AppColor.primaryColor,
                                 min: 0,
                                 max: 100,
                                 values: rangeValues,
@@ -139,18 +140,24 @@ class _SearchFilterState extends State<SearchFilter> {
             ),
           ),
           const Divider(),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: MyButton(onTap: () {}, content: "Đặt lại"),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: MyButton(onTap: () {}, content: "Áp dụng"),
-              ),
-            ],
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: MyButton(
+                    onTap: () {},
+                    content: 'Đặt lại',
+                    backgroundColor: const Color(0xFFe4faf0),
+                    textColor: AppColor.primaryColor,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: MyButton(onTap: () {}, content: "Áp dụng"),
+                ),
+              ],
+            ),
           ),
         ],
       ),

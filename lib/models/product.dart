@@ -1,7 +1,7 @@
 class Product {
   final String image;
   final String name;
-  final description; //mô tả bên chi tiết
+  final String description; //mô tả bên chi tiết
   final String price;
   int quantity;
 

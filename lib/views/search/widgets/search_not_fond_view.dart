@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class SearchNotFound extends StatefulWidget {
   const SearchNotFound({super.key, required this.reslutSearchTextController});
@@ -21,58 +22,26 @@ class _SearchNotFoundState extends State<SearchNotFound> {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: const Column(
+        child: Column(
           children: [
-            // const SizedBox(height: 60),
-            // TextField(
-            //   onSubmitted: (value) {
-            //     setState(() {
-            //       reslutSearchTextController = value;
-            //     });
-            //   },
-            //   controller: searchTextController,
-            //   decoration: InputDecoration(
-            //     hintText: 'Tìm kiếm...',
-            //     hintStyle: const TextStyle(color: Colors.grey),
-            //     border: OutlineInputBorder(
-            //       borderRadius: BorderRadius.circular(16),
-            //       borderSide: BorderSide.none,
-            //     ),
-            //     fillColor: Colors.grey.shade200,
-            //     filled: true,
-            //     prefixIcon: IconButton(
-            //       onPressed: () {},
-            //       icon: const Icon(
-            //         Icons.search,
-            //         color: Colors.grey,
-            //       ),
-            //     ),
-            //     suffixIcon: IconButton(
-            //       onPressed: () {},
-            //       icon: const Icon(
-            //         Icons.filter_list_sharp,
-            //         color: Colors.amber,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-
             Expanded(
                 child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(height: 100),
-                  Icon(
-                    Icons.find_in_page,
-                    size: 200,
+                  const SizedBox(height: 50),
+                  Lottie.asset(
+                    'assets/animations/foundNotItem.json',
+                    // fit:  BoxFit.cover,
+                    width: 200,
+                    height: 200,
                   ),
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const Text(
                     "Không tìm thấy",
                     style: TextStyle(fontSize: 30),
                   ),
-                  SizedBox(height: 12),
-                  Text(
+                  const SizedBox(height: 12),
+                  const Text(
                     textAlign: TextAlign.center,
                     "Chúng tôi rất tiếc, từ khóa bạn tìm không thấy kết quả nào. Vui lòng kiểm tra lại hoặc tìm kiếm với từ khóa khác.",
                     style: TextStyle(fontSize: 18),
