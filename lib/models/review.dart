@@ -1,17 +1,25 @@
 class Review {
   int reviewID;
   String content;
-  DateTime dateRate;
-  double ratingLevel;
+  DateTime reviewDate;
+  double avgRating;
   int userID;
   int productID;
 
   Review({
     required this.reviewID,
     required this.content,
-    required this.dateRate,
-    required this.ratingLevel,
+    required this.reviewDate,
+    required this.avgRating,
     required this.userID,
     required this.productID,
   });
+
+  Review.fromJson(Map<String, dynamic> json)
+      : reviewID = json['reviewID'],
+        content = json['content'],
+        reviewDate = json['review_date'],
+        avgRating = json['avg_rating'],
+        userID = json['userID'],
+        productID = json['productID'];
 }

@@ -26,8 +26,8 @@ class _ReviewPageState extends State<ReviewPage> {
       reviewID: 1,
       content:
           'Sắn sale được cái Iphone 15 giá chỉ có 10k mà thôi, Shop 5 sao!',
-      dateRate: DateTime.now(),
-      ratingLevel: 5,
+      reviewDate: DateTime.now(),
+      avgRating: 5,
       userID: 1,
       productID: 1,
     ),
@@ -35,8 +35,8 @@ class _ReviewPageState extends State<ReviewPage> {
       reviewID: 2,
       content:
           'Sắn sale được cái Iphone 15 giá chỉ có 10k mà thôi, Shop 5 sao!',
-      dateRate: DateTime.now(),
-      ratingLevel: 5,
+      reviewDate: DateTime.now(),
+      avgRating: 5,
       userID: 1,
       productID: 1,
     ),
@@ -44,8 +44,8 @@ class _ReviewPageState extends State<ReviewPage> {
       reviewID: 3,
       content:
           'Sắn sale được cái Iphone 15 giá chỉ có 10k mà thôi, Shop 5 sao!',
-      dateRate: DateTime.now(),
-      ratingLevel: 5,
+      reviewDate: DateTime.now(),
+      avgRating: 5,
       userID: 1,
       productID: 1,
     ),
