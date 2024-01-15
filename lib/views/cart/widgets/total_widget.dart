@@ -53,7 +53,7 @@ class TotalWidget extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                Product.formatPrice(totalPrice).toString(),
+                Product.formatPrice(totalPrice.toString()).toString(),
                 style: const TextStyle(
                   color: Color(0xFF212121),
                   fontSize: 24,

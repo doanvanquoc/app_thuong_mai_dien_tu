@@ -12,36 +12,36 @@ class CartView extends StatefulWidget {
 
 class _CartViewState extends State<CartView> {
   List<Product> cartProducts = [
-    Product(
-      image: 'assets/images/image.png',
-      name: 'Samsung Galaxy S23 Ultra 8G/128GB',
-      price: 31900000,
-      quantity: 1,
-    ),
-    Product(
-      image: 'assets/images/image.png',
-      name: 'Samsung Galaxy S23 Ultra 8G/128GB',
-      price: 40000000,
-      quantity: 6,
-    ),
-    Product(
-      image: 'assets/images/image.png',
-      name: 'Samsung Galaxy S23 Ultra 8G/128GB',
-      price: 51000000,
-      quantity: 3,
-    ),
-    Product(
-      image: 'assets/images/image.png',
-      name: 'Samsung Galaxy S23 Ultra 8G/128GB',
-      price: 23000000,
-      quantity: 9,
-    ),
+    // Product(
+    //   image: 'assets/images/image.png',
+    //   name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+    //   price: 31900000,
+    //   quantity: 1,
+    // ),
+    // Product(
+    //   image: 'assets/images/image.png',
+    //   name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+    //   price: 40000000,
+    //   quantity: 6,
+    // ),
+    // Product(
+    //   image: 'assets/images/image.png',
+    //   name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+    //   price: 51000000,
+    //   quantity: 3,
+    // ),
+    // Product(
+    //   image: 'assets/images/image.png',
+    //   name: 'Samsung Galaxy S23 Ultra 8G/128GB',
+    //   price: 23000000,
+    //   quantity: 9,
+    // ),
   ];
 
   void updateProductQuantity(int index, int newQuantity) {
-    setState(() {
-      cartProducts[index].quantity = newQuantity;
-    });
+    // setState(() {
+    //   cartProducts[index].quantity = newQuantity;
+    // });
   }
 
   void removeProductFromCart(int index) {
@@ -52,13 +52,13 @@ class _CartViewState extends State<CartView> {
 
   int calculateTotalPrice() {
     int total = 0;
-    for (Product product in cartProducts) {
-      total += product.price * product.quantity;
-    }
+    // for (Product product in cartProducts) {
+    //   total += product.price * product.quantity;
+    // }
     return total;
   }
 
-    void clearCart() {
+  void clearCart() {
     setState(() {
       cartProducts.clear();
     });
@@ -78,8 +78,6 @@ class _CartViewState extends State<CartView> {
           'Giỏ hàng',
           style: TextStyle(
             color: Color(0xFF212121),
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
           ),
         ),
         actions: <Widget>[
@@ -100,10 +98,10 @@ class _CartViewState extends State<CartView> {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 24),
                     child: CartWidget(
-                      image: cartProducts[index].image,
-                      name: cartProducts[index].name,
-                      price: Product.formatPrice(cartProducts[index].price),
-                      qty: cartProducts[index].quantity,
+                      image: 'assets/images/iphone15_3.png',
+                      name: 'cartProducts[index].name',
+                      price: Product.formatPrice('cartProducts[index].price'),
+                      qty: 1,
                       onQuantityChanged: (newQuantity) {
                         updateProductQuantity(index, newQuantity);
                       },

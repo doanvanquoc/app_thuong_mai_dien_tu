@@ -33,8 +33,6 @@ class EInvoiceView extends StatelessWidget {
           'Hóa đơn điện tử',
           style: TextStyle(
             color: Color(0xFF212121),
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -57,8 +55,8 @@ class EInvoiceView extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: ProductOfInvoiceWidget(
-                      image: product.image,
-                      name: product.name,
+                      image: 'assets/images/iphone15_3.png',
+                      name: 'Iphone 14',
                       qty: '${product.quantity}',
                     ),
                   );
@@ -101,7 +99,7 @@ class EInvoiceView extends StatelessWidget {
                           ),
                           const Expanded(child: SizedBox()),
                           Text(
-                            Product.formatPrice(totalPrice).toString(),
+                            Product.formatPrice(totalPrice.toString()).toString(),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: Color(0xFF424242),
@@ -127,7 +125,7 @@ class EInvoiceView extends StatelessWidget {
                           ),
                           const Expanded(child: SizedBox()),
                           Text(
-                            Product.formatPrice(ship).toString(),
+                            Product.formatPrice(ship.toString()).toString(),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: Color(0xFF424242),
@@ -155,7 +153,7 @@ class EInvoiceView extends StatelessWidget {
                           ),
                           const Expanded(child: SizedBox()),
                           Text(
-                            Product.formatPrice(totalBill).toString(),
+                            Product.formatPrice(totalBill.toString()).toString(),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: Color(0xFF34C582),

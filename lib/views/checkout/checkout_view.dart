@@ -91,8 +91,6 @@ class _CheckoutViewState extends State<CheckoutView> {
           'Đặt hàng',
           style: TextStyle(
             color: Color(0xFF212121),
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -144,10 +142,10 @@ class _CheckoutViewState extends State<CheckoutView> {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 24),
                     child: ProductWidget(
-                      image: product.image,
-                      name: product.name,
-                      price: Product.formatPrice(product.price),
-                      qty: product.quantity,
+                      image: 'assets/images/iphone15_3.png',
+                      name: 'product.name',
+                      price:' Product.formatPrice(product.price',
+                      qty : product.quantity,
                     ),
                   );
                 },
@@ -188,7 +186,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                           ),
                           const Expanded(child: SizedBox()),
                           Text(
-                            Product.formatPrice(widget.totalPrice).toString(),
+                            Product.formatPrice(widget.totalPrice.toString()).toString(),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: Color(0xFF424242),
@@ -214,7 +212,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                           ),
                           const Expanded(child: SizedBox()),
                           Text(
-                            Product.formatPrice(ship),
+                            Product.formatPrice(ship.toString()),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: Color(0xFF424242),
@@ -242,7 +240,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                           ),
                           const Expanded(child: SizedBox()),
                           Text(
-                            Product.formatPrice(totalBill).toString(),
+                            Product.formatPrice(totalBill.toString()).toString(),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: Color(0xFF34C582),

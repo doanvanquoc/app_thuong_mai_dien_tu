@@ -26,9 +26,7 @@ class _AccountState extends State<Account> {
           'Tài khoản',
           style: TextStyle(
             color: Color(0xFF212121),
-            fontSize: 28,
             fontFamily: 'Sarabun',
-            fontWeight: FontWeight.w700,
             height: 0.05,
           ),
         ),
