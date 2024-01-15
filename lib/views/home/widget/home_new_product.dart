@@ -49,7 +49,7 @@ class HomeNewProduct extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: 350,
+          height: 270,
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,

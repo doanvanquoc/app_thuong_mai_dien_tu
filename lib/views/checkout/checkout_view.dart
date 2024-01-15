@@ -129,7 +129,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                     child: ProductWidget(
                       image: 'assets/images/iphone15_3.png',
                       name: 'product.name',
-                      price:' product.price',
+                      price: ' product.price',
                       qty: product.quantity,
                     ),
                   );

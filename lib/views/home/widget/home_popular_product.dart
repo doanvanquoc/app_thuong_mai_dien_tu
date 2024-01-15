@@ -50,21 +50,21 @@ class HomePopularProduct extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
-        HomeListCategory(companies: companies),
-        const SizedBox(height: 10),
-        SizedBox(
-          height: MediaQuery.of(context).size.height / 1.4,
-          child: GridView.builder(
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 1 / 2.2,
-            ),
-            itemCount: products.length,
-            itemBuilder: (context, index) =>
-                ProductItem(product: products[index]),
-          ),
-        ),
+        HomeListCategory(companies: companies, products: products),
+        // const SizedBox(height: 10),
+        // SizedBox(
+        //   height: MediaQuery.of(context).size.height / 1.4,
+        //   child: GridView.builder(
+        //     shrinkWrap: true,
+        //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        //       crossAxisCount: 2,
+        //       childAspectRatio: 1 / 2,
+        //     ),
+        //     itemCount: products.length,
+        //     itemBuilder: (context, index) =>
+        //         ProductItem(product: products[index]),
+        //   ),
+        // ),
       ],
     );
   }

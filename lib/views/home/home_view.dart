@@ -1,7 +1,7 @@
-import 'package:app_thuong_mai_dien_tu/data_sources/repo/company_api.dart';
-import 'package:app_thuong_mai_dien_tu/data_sources/repo/product_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/company_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/home_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_appbar.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_new_product.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_popular_product.dart';
@@ -17,21 +17,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final productAPI = ProductAPI.instance;
-  final companyAPI = CompanyAPI.instance;
+  final homePresenter = HomePresenter.instance;
+  final companyPresenter = CompanyPresenter.instance;
+  final allCompany = Company(companyID: 0, companyName: 'Tất cả');
   List<Product> products = [];
   List<Company> companies = [];
   @override
   void initState() {
-    productAPI.getLatestProduct().then((value) {
+    homePresenter.getLatestProduct().then((value) {
       setState(() {
         products = value;
       });
     });
 
-    companyAPI.getAllCompany().then((value) {
+    companyPresenter.getAllCompany().then((value) {
       setState(() {
         companies = value;
+        companies.insert(0, allCompany);
       });
     });
     super.initState();
