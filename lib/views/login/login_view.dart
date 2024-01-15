@@ -82,7 +82,7 @@ class _LoginState extends State<Login> {
                         });
                       } else if (result.containsKey('message') &&
                           result['message'] == 'OK') {
-                        // Check for a success message or other indication of a successful login
+                        // ignore: use_build_context_synchronously
                         openDialog(
                           context,
                           'Đăng nhập thành công',
