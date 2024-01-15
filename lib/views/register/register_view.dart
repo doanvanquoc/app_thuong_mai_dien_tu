@@ -46,12 +46,12 @@ class _RegisterState extends State<Register> {
               ),
               MyTextPass(
                 name: 'Mật khẩu',
-                iconLeft: const Icon(Icons.password_outlined),
+                iconLeft: const Icon(Icons.lock_outlined),
                 controller: password,
               ),
               MyTextPass(
                 name: 'Xác Nhận Mật khẩu',
-                iconLeft: const Icon(Icons.password_outlined),
+                iconLeft: const Icon(Icons.lock_outlined),
                 controller: rePassword,
               ),
               Padding(

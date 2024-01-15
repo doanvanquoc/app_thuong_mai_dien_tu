@@ -103,14 +103,16 @@ class _AccountInformationState extends State<AccountInformation> {
                         'Tài khoản của bạn đã có thể sử dụng. Chúng tôi sẽ đưa bạn đến Trang chủ trong vài giây...',
                       );
                       Future.delayed(
-                          const Duration(seconds: 2),
-                          () => {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => const MyNavBar()),
-                                    (route) => false)
-                              });
+                        const Duration(seconds: 2),
+                        () => {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const MyNavBar()
+                            ),
+                            (route) => false)
+                        }
+                      );
                     },
                     content: 'Tiếp tục'),
               )

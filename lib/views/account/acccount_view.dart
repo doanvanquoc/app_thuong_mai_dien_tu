@@ -41,11 +41,11 @@ class _AccountState extends State<Account> {
       ),
       body: ListView(
         children: [
-          Avatar(src: widget.user?.src??'assets/images/avartar.png'),
+          Avatar(src: widget.user?.avatar??'assets/images/avartar.png'),
           const SizedBox(
             height: 10,
           ),
-          InfomationAccount(name: widget.user?.fullName??'Username', phone: widget.user?.phoneNumber??'03699999999'),
+          InfomationAccount(name: widget.user?.fullname??'Username', phone: widget.user?.phoneNumber??'03699999999'),
           const SizedBox(
             height: 40,
           ),

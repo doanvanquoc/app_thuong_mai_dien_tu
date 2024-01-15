@@ -1,19 +1,25 @@
-class User{
-  final String userId;
-  final String passWord;
-  final String fullName;
+class User {
+  final int userID;
   final String email;
-  final DateTime birthDay;
+  final String fullname;
+  final String birthday;
   final String phoneNumber;
-  final String src;
+  final String avatar;
 
-  User(
-    this.userId, 
-    this.passWord, 
-    this.fullName, 
-    this.email, 
-    this.birthDay, 
-    this.phoneNumber, 
-    this.src
-  );
+  User({
+    required this.userID,
+    required this.email,
+    required this.fullname,
+    required this.birthday,
+    required this.phoneNumber,
+    required this.avatar,
+  });
+
+  User.fromJson(Map<String, dynamic> json)
+      : userID = json['userID'],
+        email = json['email'],
+        fullname = json['fullname'],
+        birthday = json['birthday'],
+        phoneNumber = json['phone_number'],
+        avatar = json['avatar'];
 }
