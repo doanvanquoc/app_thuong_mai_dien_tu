@@ -8,6 +8,7 @@ class UserAPI {
   static final UserAPI instance = UserAPI._internal();
   UserAPI._internal();
 
+  // Lấy thông tin user theo userId
   Future<Map<String, dynamic>> getUserById(int userId) async {
     try {
       final response = await _dio.get('${APIConfig.API_URL}/user/$userId');
@@ -24,6 +25,7 @@ class UserAPI {
     }
   }
 
+  // Phương thức đăng nhập bằng email và pass trả về token và mess
   Future<Map<String, dynamic>> loginUser(String email, String password) async {
     try {
       final response = await _dio.post(
@@ -53,41 +55,111 @@ class UserAPI {
     }
   }
 
- Future<Map<String, dynamic>> registerUser(
-  String email, String password, String fullname,
-  DateTime birthday, String phoneNumber, String sex, String avatar
-) async {
-  try {
-    final formattedBirthday = birthday.toLocal().toIso8601String().split('T')[0];
-    final response = await _dio.post(
-      '${APIConfig.API_URL}/auth/register',
-      data: {
-        'email': email,
-        'password': password,
-        'fullname': fullname,
-        'birthday': formattedBirthday,
-        'phone_number': phoneNumber,
-        'avatar': avatar,
-        'sex': sex,
-      },
-    );
+  //Phương thức đăng ký trả về code, mess và token
+  Future<Map<String, dynamic>> registerUser(
+    String email,
+    String password,
+    String fullname,
+    DateTime birthday,
+    String phoneNumber,
+    String sex,
+    String avatar,
+  ) async {
+    try {
+      final formattedBirthday =
+          birthday.toLocal().toIso8601String().split('T')[0];
+      final response = await _dio.post(
+        '${APIConfig.API_URL}/auth/register',
+        data: {
+          'email': email,
+          'password': password,
+          'fullname': fullname,
+          'birthday': formattedBirthday,
+          'phone_number': phoneNumber,
+          'avatar': avatar,
+          'sex': sex,
+        },
+      );
 
-    log(response.data.toString());
-
-    if (response.data != null && response.data is Map<String, dynamic>) {
-      // Kiểm tra xem thuộc tính 'message' có tồn tại không
-      if (response.data.containsKey('message') && response.data['message'] == 'OK') {
-        log('Đăng ký thành công! ${response.data}');
-        return response.data;
+      if (response.data != null && response.data is Map<String, dynamic>) {
+        if (response.data.containsKey('message') &&
+            response.data['message'] == 'OK') {
+          log('Đăng ký thành công! ${response.data}');
+          return response.data;
+        } else {
+          return {'error': 'Email đã tồn tại!'};
+        }
       } else {
-        return {'error': 'Email đã tồn tại!'};
+        return {'error': 'Lỗi không xác định từ server'};
       }
-    } else {
-      return {'error': 'Lỗi không xác định từ server'};
+    } catch (e) {
+      log('Lỗi kết nối: $e');
+      return {'error': 'Lỗi kết nối'};
     }
-  } catch (e) {
-    log('Lỗi kết nối: $e');
-    return {'error': 'Lỗi kết nối'};
   }
-}
+
+  //Phương thức check email đã tông tại trong csdl chưa?
+  Future<Map<String, dynamic>> checkEmail(String email) async {
+    try {
+      final response = await _dio.post(
+        '${APIConfig.API_URL}/auth/check',
+        data: {'email': email},
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = response.data;
+
+        if (responseData != null && responseData.containsKey('code')) {
+          if (responseData['code'] == 1) {
+            log('Email chưa tồn tại');
+            return responseData;
+          } else {
+            log('Email đã tồn tại');
+            return responseData;
+          }
+        } else {
+          return {'error': 'Lỗi không xác định từ server'};
+        }
+      } else {
+        log('Lỗi kiểm tra email: ${response.statusCode}');
+        return {'error': 'Lỗi kiểm tra email'};
+      }
+    } catch (e) {
+      log('Lỗi kết nối: $e');
+      return {'error': 'Lỗi kết nối'};
+    }
+  }
+
+  // Phương thức kiểm tra tính hợp lệ của token
+  Future<Map<String, dynamic>> verifyToken(String token) async {
+    try {
+      final response = await _dio.post(
+        '${APIConfig.API_URL}/auth/verify',
+        data: {'token': token},
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = response.data;
+
+        if (responseData != null && responseData.containsKey('code')) {
+          if (responseData['code'] == 1) {
+            // Token hợp lệ, trả về dữ liệu người dùng
+            log('Token hợp lệ');
+            return responseData;
+          } else {
+            log('Token không hợp lệ');
+            return responseData;
+          }
+        } else {
+          return {'error': 'Lỗi không xác định từ server'};
+        }
+      } else {
+        log('Lỗi kiểm tra token: ${response.statusCode}');
+        return {'error': 'Lỗi kiểm tra token'};
+      }
+    } catch (e) {
+      log('Lỗi kết nối: $e');
+      return {'error': 'Lỗi kết nối'};
+    }
+  }
 }

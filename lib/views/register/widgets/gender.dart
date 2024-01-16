@@ -68,14 +68,14 @@ class _GenderState extends State<Gender> {
                         },
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 15),
                         child: MyButton(
-                          onTap: () {
-                            _updateGender();
-                            Navigator.pop(context);
-                          },
-                          content: 'Xác nhận'
-                        ),
+                            onTap: () {
+                              _updateGender();
+                              Navigator.pop(context);
+                            },
+                            content: 'Xác nhận'),
                       ),
                     ],
                   );

@@ -9,16 +9,17 @@ import 'package:app_thuong_mai_dien_tu/views/login/login_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/notification/notification_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/widgets/avartar.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Account extends StatefulWidget {
-  const Account({super.key,required this.user});
+  const Account({Key? key, required this.user}) : super(key: key);
   final User user;
+
   @override
   State<Account> createState() => _AccountState();
 }
 
 class _AccountState extends State<Account> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,11 +42,18 @@ class _AccountState extends State<Account> {
       ),
       body: ListView(
         children: [
-          Avatar(src:widget.user.avatar==''?'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg':widget.user.avatar),
+          Avatar(
+              src: widget.user.avatar == ''
+                  ? 'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg'
+                  : widget.user.avatar),
           const SizedBox(
             height: 10,
           ),
-          InfomationAccount(name: widget.user.fullname==''?'Username':widget.user.fullname, phone: widget.user.phoneNumber??''),
+          InfomationAccount(
+              name: widget.user.fullname == ''
+                  ? 'Username'
+                  : widget.user.fullname,
+              phone: widget.user.phoneNumber ?? ''),
           const SizedBox(
             height: 40,
           ),
@@ -63,7 +71,8 @@ class _AccountState extends State<Account> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => EditAccount(user: widget.user,)),
+                MaterialPageRoute(
+                    builder: (context) => EditAccount(user: widget.user)),
               );
             },
           ),
@@ -151,79 +160,90 @@ class _AccountState extends State<Account> {
       ),
     );
   }
-}
 
-Future _displayBottomSheet(BuildContext context) {
-  return showModalBottomSheet(
+  Future _displayBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      ),
       builder: (context) => SizedBox(
-            height: 220,
-            // width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  'Đăng xuất',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFFF75555),
-                    fontSize: 28,
-                    fontFamily: 'Sarabun',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  'Bạn có chắc chắn muốn đăng xuất?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFF424242),
-                    fontSize: 22,
-                    fontFamily: 'Sarabun',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                  child: Row(
-                    children: [
-                      ButtonLogOut(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          content: 'Đóng',
-                          colorr: const Color(0xFFE6F8EF),
-                          colorContent: const Color(0xff109C5B)),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      ButtonLogOut(
-                          onTap: () {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Login()),
-                              (route) => route is Login,
-                            );
-                          },
-                          content: 'Đăng xuất',
-                          colorr: const Color(0xff109C5B),
-                          colorContent: const Color(0xFFE6F8EF))
-                    ],
-                  ),
-                )
-              ],
+        height: 220,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 20,
             ),
-          ));
+            const Text(
+              'Đăng xuất',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xFFF75555),
+                fontSize: 28,
+                fontFamily: 'Sarabun',
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text(
+              'Bạn có chắc chắn muốn đăng xuất?',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xFF424242),
+                fontSize: 22,
+                fontFamily: 'Sarabun',
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              child: Row(
+                children: [
+                  ButtonLogOut(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    content: 'Đóng',
+                    colorr: const Color(0xFFE6F8EF),
+                    colorContent: const Color(0xff109C5B),
+                  ),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  ButtonLogOut(
+                    onTap: () async {
+                      await logout();
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Login(),
+                        ),
+                        (route) => route is Login,
+                      );
+                    },
+                    content: 'Đăng xuất',
+                    colorr: const Color(0xff109C5B),
+                    colorContent: const Color(0xFFE6F8EF),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('auth_token');
+    prefs.setBool('is_logged_out', true);
+  }
 }

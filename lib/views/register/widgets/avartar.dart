@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class Avatar extends StatefulWidget {
-  Avatar({super.key,required this.src});
+  Avatar({super.key, required this.src});
   String src;
   @override
   State<Avatar> createState() => _AvatarState();
@@ -24,7 +24,7 @@ class _AvatarState extends State<Avatar> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: Image(
-                    image: NetworkImage(widget.src), 
+                    image: NetworkImage(widget.src),
                   ),
                 ),
               ),
@@ -49,7 +49,7 @@ class _AvatarState extends State<Avatar> {
                 right: 0,
                 child: Container(
                   width: 40,
-                  height:40,
+                  height: 40,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
                     color: Colors.green,

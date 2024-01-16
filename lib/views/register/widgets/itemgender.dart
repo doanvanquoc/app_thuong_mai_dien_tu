@@ -33,7 +33,8 @@ class _ItemGenderState extends State<ItemGender> {
                     });
                   },
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                       color: selectedIndex == 0
                           ? const Color(0xFF01B763)
@@ -73,7 +74,8 @@ class _ItemGenderState extends State<ItemGender> {
                     });
                   },
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                       color: selectedIndex == 1
                           ? const Color(0xFF01B763)

@@ -10,6 +10,7 @@ import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_logo.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_richText.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/register_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -17,7 +18,8 @@ class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 
-  Future<Map<String, dynamic>> loginUser(String userName, String password) async {
+  Future<Map<String, dynamic>> loginUser(
+      String userName, String password) async {
     return await UserAPI.instance.loginUser(userName, password);
   }
 }
@@ -45,6 +47,12 @@ class _LoginState extends State<Login> {
         });
       } else if (result.containsKey('message') && result['message'] == 'OK') {
         final token = result['token'];
+
+        //Lưu token vào local
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('auth_token', token);
+        prefs.setBool('is_logged_out', false);
+
         Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
         final user = User.fromJson(decodedToken['user']);
         // ignore: use_build_context_synchronously
@@ -111,7 +119,7 @@ class _LoginState extends State<Login> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: MyButton(
-                  onTap:loginUser,
+                  onTap: loginUser,
                   content: 'Đăng Nhập',
                 ),
               ),

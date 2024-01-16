@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfilepass.dart';
@@ -8,24 +9,79 @@ import 'package:app_thuong_mai_dien_tu/views/register/accountInfomation_view.dar
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
-  const Register({super.key});
+  const Register({Key? key}) : super(key: key);
 
   @override
-  State<Register> createState() => _RegisterState();
+  // ignore: library_private_types_in_public_api
+  _RegisterState createState() => _RegisterState();
 }
 
 class _RegisterState extends State<Register> {
   final TextEditingController userName = TextEditingController();
   final TextEditingController password = TextEditingController();
-  final TextEditingController rePassword=TextEditingController();
-  String noti='';
+  final TextEditingController rePassword = TextEditingController();
+  String noti = '';
+
+  Future<void> registerUser() async {
+    RegExp emailRegExp = RegExp(
+      r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
+    );
+
+    RegExp passwordRegExp = RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:"<>?~`]).{8,}$',
+    );
+
+    if (userName.text.isEmpty ||
+        password.text.isEmpty ||
+        rePassword.text.isEmpty) {
+      noti = 'Cần nhập đầy đủ thông tin!';
+    } else if (!emailRegExp.hasMatch(userName.text)) {
+      noti = 'Email không hợp lệ!';
+    } else if (!passwordRegExp.hasMatch(password.text)) {
+      noti =
+          'Mật khẩu ít nhất 8 ký tự, có ít nhất 1 ký tự đặc biệt, 1 chữ hoa và 1 chữ thường!';
+    } else if (password.text != rePassword.text) {
+      noti = 'Mật khẩu và xác nhận mật khẩu không khớp!';
+    } else {
+      final UserAPI userApi = UserAPI.instance;
+
+      try {
+        final result = await userApi.checkEmail(userName.text);
+        if (result.containsKey('error')) {
+          setState(() {
+            noti = result['error'];
+          });
+        } else if (result.containsKey('code') && result['code'] == 1) {
+          noti = '';
+          // ignore: use_build_context_synchronously
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AccountInformation(
+                email: userName.text,
+                passWord: password.text,
+              ),
+            ),
+          );
+        } else {
+          setState(() {
+            noti = 'Email đã tồn tại!';
+          });
+        }
+      } catch (e) {
+        setState(() {
+          noti = 'Lỗi kết nối';
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -55,55 +111,33 @@ class _RegisterState extends State<Register> {
                 controller: rePassword,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 15),
-                child: Text(noti,style: const TextStyle(fontSize: 16,color: Colors.red),textAlign: TextAlign.center,),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                child: Text(
+                  noti,
+                  style: const TextStyle(fontSize: 16, color: Colors.red),
+                  textAlign: TextAlign.center,
+                ),
               ),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: MyButton(
-                  onTap: () {
-                    //Định dạng email
-                    RegExp emailRegExp = RegExp(
-                      r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
-                    );
-
-                    //Định dạng mật khẩu
-                    RegExp passwordRegExp = RegExp(
-                      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:"<>?~`]).{8,}$',
-                    );
-
-                    if (userName.text.isEmpty || password.text.isEmpty || rePassword.text.isEmpty) {
-                      noti = 'Cần nhập đầy đủ thông tin!';
-                    } else if (!emailRegExp.hasMatch(userName.text)) {
-                      noti = 'Email không hợp lệ!';
-                    } else if (!passwordRegExp.hasMatch(password.text)) {
-                      noti = 'Mật khẩu ít nhất 8 ký tự, có ít nhất 1 ký tự đặc biệt, 1 chữ hoa và 1 chữ thường!';
-                    } else if (password.text != rePassword.text) {
-                      noti = 'Mật khẩu và xác nhận mật khẩu không khớp!';
-                    } else {
-                      noti = '';
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AccountInformation(email: userName.text,passWord: password.text,)),
-                      );
-                    }
-                    setState(() {});
-                  },
-                  content: 'Đăng Ký'
+                  onTap: registerUser,
+                  content: 'Đăng Ký',
                 ),
               ),
               const SizedBox(height: 40),
               RichTextLog(
                 question: 'Bạn đã có tài khoản?',
                 name: 'Đăng Nhập',
-                onTap: (){
+                onTap: () {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => const Login()),
                     (route) => route is Login,
                   );
-                }
+                },
               ),
             ],
           ),
