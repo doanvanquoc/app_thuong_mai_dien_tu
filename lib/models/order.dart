@@ -12,6 +12,6 @@ class Order {
   Order.fromJson(Map<String, dynamic> json)
       : orderID = json['orderID'],
         totalPrice = json['totalPrice'],
-        orderDate = json['orderDate'],
+        orderDate = DateTime.parse(json['orderDate']),
         userID = json['userID'];
 }
