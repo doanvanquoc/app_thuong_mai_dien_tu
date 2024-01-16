@@ -7,6 +7,7 @@ import 'package:app_thuong_mai_dien_tu/views/register/widgets/gender.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+// ignore: must_be_immutable
 class EditAccount extends StatefulWidget {
   EditAccount({super.key,required this.user});
   User user;
@@ -83,7 +84,6 @@ class _EditAccountState extends State<EditAccount> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: MyButton(
               onTap: (){
-                print(widget.user.sex);
                 openDialog(
                   context,
                   'Chỉnh sửa thông tin thành công!',

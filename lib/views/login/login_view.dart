@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
@@ -49,7 +47,6 @@ class _LoginState extends State<Login> {
         final token = result['token'];
         Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
         final user = User.fromJson(decodedToken['user']);
-        print('line 52: ${user.avatar}');
         // ignore: use_build_context_synchronously
         openDialog(
           context,
