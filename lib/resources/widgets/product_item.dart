@@ -1,15 +1,16 @@
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/product_detail/product_detail_view.dart';
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({super.key, required this.product});
-  final String product;
+  final Product product;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-          context, MaterialPageRoute(builder: (_) => const ProductDetail())),
+      onTap: () => Navigator.push(context,
+          MaterialPageRoute(builder: (_) => ProductDetail(product: product))),
       child: Container(
         margin: const EdgeInsets.only(right: 5),
         width: MediaQuery.of(context).size.width / 2,
@@ -21,15 +22,15 @@ class ProductItem extends StatelessWidget {
               child: SizedBox(
                 height: 200,
                 child: Image.network(
-                  product,
+                  product.images[0].imagePath,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
             const SizedBox(height: 15),
-            const Text(
-              'Iphone 15 Pro Max 8G/ 128GB - VN',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Text(
+              product.productName,
+              style: const TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             Padding(
@@ -58,9 +59,9 @@ class ProductItem extends StatelessWidget {
                 ],
               ),
             ),
-            const Text(
-              '32.900.000đ',
-              style: TextStyle(
+            Text(
+              product.price.toString(),
+              style: const TextStyle(
                 fontSize: 20,
                 color: AppColor.primaryColor,
                 fontWeight: FontWeight.bold,

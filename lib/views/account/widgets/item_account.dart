@@ -41,7 +41,7 @@ class _ItemAccountState extends State<ItemAccount> {
                 widget.title,
                 style: TextStyle(
                   color: widget.colorr,
-                  fontSize: 20,
+                  fontSize: 16,
                   fontFamily: 'Sarabun',
                   fontWeight: FontWeight.w500,
                   height: 0.08,

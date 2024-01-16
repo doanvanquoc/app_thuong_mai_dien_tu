@@ -1,3 +1,9 @@
+import 'package:app_thuong_mai_dien_tu/data_sources/repo/company_api.dart';
+import 'package:app_thuong_mai_dien_tu/data_sources/repo/product_api.dart';
+import 'package:app_thuong_mai_dien_tu/models/company.dart';
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/company_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/product_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_filter.dart';
@@ -14,7 +20,6 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   TextEditingController searchTextController = TextEditingController();
   String reslutSearchTextController = "";
-  String contenHistory = "";
   bool onSearch = false;
   bool checkNotDataPage = false;
   bool checkDataPage = false;
@@ -23,13 +28,36 @@ class _SearchPageState extends State<SearchPage> {
   final FocusNode focusNode = FocusNode();
 
   int count = 0;
-  // List<String> query = [];
+
+//lấy data
+  final productPresenter = ProductPresenter.instance;
+  final companyPresenter = CompanyPresenter.instance;
+  List<Product> products = [];
+  List<Company> companies = [];
+  @override
+  void initState() {
+    productPresenter.getAllProduct().then((value) {
+      setState(() {
+        products = value;
+      });
+    });
+
+    companyPresenter.getAllCompany().then((value) {
+      setState(() {
+        companies = value;
+      });
+    });
+    historyLstReversed.addAll(historyLst.reversed);
+    super.initState();
+  }
+
   List historyLstMain = [
     'Iphone 15',
     'Iphone 13',
     'Iphone 11',
     'Samsung galaxy S23 Ultra'
   ];
+
   List historyLst = [
     'Iphone 15',
     'Iphone 13',
@@ -37,38 +65,18 @@ class _SearchPageState extends State<SearchPage> {
     'Samsung galaxy S23 Ultra'
   ];
 
-  List<String> products = [
-    'https://cdn.hoanghamobile.com/i/preview/Uploads/2022/09/08/2222.png',
-    'https://cdn.hoanghamobile.com/i/productlist/dsp/Uploads/2023/03/08/14-yellow.png',
-    'https://cdn.hoanghamobile.com/i/preview/Uploads/2022/09/08/2222.png',
-    'https://cdn.hoanghamobile.com/i/productlist/dsp/Uploads/2023/03/08/14-yellow.png',
-    'https://cdn.hoanghamobile.com/i/preview/Uploads/2022/09/08/2222.png',
-    'https://cdn.hoanghamobile.com/i/productlist/dsp/Uploads/2023/03/08/14-yellow.png'
-  ];
-
-  // List historyLstNew = [];
-  // void loadHistoryNew() {
-  //   historyLstNew.add(historyLst.reversed.toString());
-  // }
   List historyLstReversed = [];
 
-  bool checkData(value) {
-    for (var item in historyLstMain) {
-      if (item.toString().contains(value.toString())) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   void checkDataSame(value) {
+    if (value.isEmpty) {
+      return;
+    }
     for (var item in historyLstMain) {
       if (item.toString() == value) {
         historyLst.remove(value);
         historyLstReversed.clear();
         historyLst.add(value);
         historyLstReversed.addAll(historyLst.reversed);
-
         return;
       }
     }
@@ -77,34 +85,99 @@ class _SearchPageState extends State<SearchPage> {
     historyLstReversed.addAll(historyLst.reversed);
   }
 
-  int incrCount(value) {
-    for (var item in historyLst) {
-      if (item.toString().contains(value.toString())) {
-        count++;
-      }
-    }
-    return count;
-  }
-
   void onTapHistory(value) {
     setState(() {
       searchTextController.text = value;
     });
   }
 
+//ẩn hiện
   void checkSearch(
-      checkNotDataPage, checkHistory, checkDataPage, checkResultSearch) {
+      {required checkNotDataPage,
+      required checkHistory,
+      required checkDataPage,
+      required checkResultSearch}) {
     this.checkNotDataPage = checkNotDataPage;
     this.checkHistory = checkHistory;
     this.checkDataPage = checkDataPage;
     this.checkResultSearch = checkResultSearch;
   }
 
-  @override
-  void initState() {
-    super.initState();
-    historyLstReversed.addAll(historyLst.reversed);
+  List<dynamic> productSearch(
+      String value, List<dynamic> lstData, List<dynamic> lstSearch) {
+    lstSearch.clear();
+    for (var element in lstData) {
+      if (element.productName.toUpperCase().contains(value.toUpperCase())) {
+        lstSearch.add(element);
+      }
+    }
+    return lstSearch;
   }
+
+  //Danh sach theo từ khóa tìm kiếm
+  List<Product> productsSearch = [];
+
+  //Kiểm tra có trùng data ko
+  bool checkData(value) {
+    for (var item in products) {
+      if (item.productName
+          .toString()
+          .toUpperCase()
+          .contains(value.toString().toUpperCase())) {
+        productSearch(value, products, productsSearch);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  String checkCategory = "";
+
+  int id = -1;
+  Future<void> checkOption(value) async {
+    print(value);
+    CompanyAPI.instance.getCompanyId(value).then((valueId) {
+      setState(() {
+        id = valueId;
+      });
+    });
+  }
+
+  int priceFrom = 0;
+  int priceTo = 0;
+
+  void priceFromTo(from, to) {
+    //lay khoang gia
+    setState(() {
+      priceFrom = from;
+      priceTo = to;
+    });
+  }
+
+  void applyOption() {
+    //them vao gio hang
+    setState(() {
+      searchsCompanies(id, products, productsSearch);
+      checkSearch(
+          checkNotDataPage: false,
+          checkHistory: false,
+          checkDataPage: true,
+          checkResultSearch: true);
+      Navigator.pop(context);
+    });
+  }
+
+  List<dynamic> searchsCompanies(
+      int value, List<Product> lstData, List<dynamic> lstSearch) {
+    lstSearch.clear();
+    for (var element in lstData) {
+      if (element.company.companyID == value &&
+          (element.price >= 10000000 && element.price <= 20000000)) {
+        lstSearch.add(element);
+      }
+    }
+    return lstSearch;
+  } //demo
 
   @override
   Widget build(BuildContext context) {
@@ -122,17 +195,38 @@ class _SearchPageState extends State<SearchPage> {
                 focusNode: focusNode,
                 onTap: () {
                   setState(() {
-                    checkSearch(false, true, false, false);
+                    productsSearch = [];
+                    checkSearch(
+                        checkNotDataPage: false,
+                        checkHistory: true,
+                        checkDataPage: false,
+                        checkResultSearch: false);
                   });
                 },
                 onSubmitted: (value) {
                   setState(() {
-                    print(value);
+                    if (value.isEmpty) {
+                      checkSearch(
+                          checkNotDataPage: true,
+                          checkHistory: false,
+                          checkDataPage: false,
+                          checkResultSearch: true);
+                      return;
+                    }
+
                     reslutSearchTextController = value;
                     if (checkData(value)) {
-                      checkSearch(false, false, true, true);
+                      checkSearch(
+                          checkNotDataPage: false,
+                          checkHistory: false,
+                          checkDataPage: true,
+                          checkResultSearch: true);
                     } else {
-                      checkSearch(true, false, false, true);
+                      checkSearch(
+                          checkNotDataPage: true,
+                          checkHistory: false,
+                          checkDataPage: false,
+                          checkResultSearch: true);
                     }
                     checkDataSame(value);
                   });
@@ -155,11 +249,21 @@ class _SearchPageState extends State<SearchPage> {
                       setState(() {
                         reslutSearchTextController = searchTextController.text;
                         if (checkData(searchTextController.text)) {
-                          checkSearch(false, false, true, true);
+                          checkSearch(
+                              checkNotDataPage: false,
+                              checkHistory: false,
+                              checkDataPage: true,
+                              checkResultSearch: true);
                         } else {
-                          checkSearch(true, false, false, true);
+                          checkSearch(
+                              checkNotDataPage: true,
+                              checkHistory: false,
+                              checkDataPage: false,
+                              checkResultSearch: true);
                         }
-                        historyLst.add(reslutSearchTextController);
+                        // historyLst.add(reslutSearchTextController);
+                        checkDataSame(reslutSearchTextController);
+
                         focusNode.unfocus();
                       });
                     },
@@ -177,7 +281,11 @@ class _SearchPageState extends State<SearchPage> {
                                   top: Radius.circular(40))),
                           context: context,
                           builder: (_) {
-                            return const SearchFilter();
+                            return SearchFilter(
+                              checkOptioin: checkOption,
+                              applyOption: applyOption,
+                              priceFT: priceFromTo,
+                            );
                           });
                     },
                     icon: const Icon(
@@ -213,7 +321,7 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     ),
                     Text(
-                      "${incrCount(reslutSearchTextController)} kết quả",
+                      "${productsSearch.length} kết quả",
                       style: const TextStyle(
                         color: AppColor.primaryColor,
                         fontWeight: FontWeight.bold,
@@ -245,9 +353,9 @@ class _SearchPageState extends State<SearchPage> {
                         crossAxisCount: 2,
                         childAspectRatio: 1 / 2.2,
                       ),
-                      itemCount: products.length,
+                      itemCount: productsSearch.length,
                       itemBuilder: (_, index) {
-                        return ProductItem(product: products[index]);
+                        return ProductItem(product: productsSearch[index]);
                       }),
                 ),
               )

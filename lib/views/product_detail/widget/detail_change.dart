@@ -92,7 +92,11 @@ class _DetailChangeState extends State<DetailChange> {
               ),
             ],
           ),
-          MyButton(onTap: () {}, content: "Xác nhận thêm vào giỏ hàng")
+          MyButton(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              content: "Xác nhận thêm vào giỏ hàng")
         ],
       ),
     );

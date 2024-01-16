@@ -11,37 +11,39 @@ class EditPass extends StatefulWidget {
 }
 
 class _EditPassState extends State<EditPass> {
-  TextEditingController oldPassWord =TextEditingController();
-  TextEditingController newPassWord=TextEditingController();
-  TextEditingController confirmNewPassWord=TextEditingController();
+  TextEditingController oldPassWord = TextEditingController();
+  TextEditingController newPassWord = TextEditingController();
+  TextEditingController confirmNewPassWord = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
-            Navigator.pop(context);
-          }, 
-          icon: const Icon(Icons.arrow_back,size: 30,)
-        ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              size: 30,
+            )),
         title: const Text(
           'Tạo mật khẩu mới',
           style: TextStyle(
             color: Color(0xFF212121),
-            fontSize: 28,
             fontFamily: 'Sarabun',
-            fontWeight: FontWeight.w700,
             height: 0.05,
           ),
         ),
       ),
       body: ListView(
-        children:  [
+        children: [
           Image.asset('assets/images/editpass.png'),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 25,horizontal: 15),
+            padding: EdgeInsets.symmetric(vertical: 25, horizontal: 15),
             child: Text(
               'Nhập mật khẩu',
               style: TextStyle(
@@ -54,37 +56,35 @@ class _EditPassState extends State<EditPass> {
               ),
             ),
           ),
-
           MyTextPass(
-            name: 'Nhập mật khẩu hiện tại', 
-            iconLeft: const Icon(Icons.lock_outline), 
+            name: 'Nhập mật khẩu hiện tại',
+            iconLeft: const Icon(Icons.lock_outline),
             controller: oldPassWord,
           ),
           MyTextPass(
-            name: 'Mật khẩu mới', 
+            name: 'Mật khẩu mới',
             iconLeft: const Icon(Icons.lock_outline),
             controller: newPassWord,
           ),
           MyTextPass(
-            name: 'Xác nhận mật khẩu mới', 
+            name: 'Xác nhận mật khẩu mới',
             iconLeft: const Icon(Icons.lock_outline),
             controller: confirmNewPassWord,
           ),
-
-          const SizedBox(height: 50,),
-              
+          const SizedBox(
+            height: 50,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: MyButton(
-              onTap: (){
-                openDialog(
-                  context,
-                  'Đổi mật khẩu thành công!',
-                  'Mật khẩu đã được thay đổi thành công',
-                );
-              }, 
-              content: 'Tiếp tục'
-            ),
+                onTap: () {
+                  openDialog(
+                    context,
+                    'Đổi mật khẩu thành công!',
+                    'Mật khẩu đã được thay đổi thành công',
+                  );
+                },
+                content: 'Tiếp tục'),
           )
         ],
       ),

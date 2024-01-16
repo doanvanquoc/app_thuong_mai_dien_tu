@@ -11,7 +11,6 @@ class OrderTrackingPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Hành trình đơn hàng',
-          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(

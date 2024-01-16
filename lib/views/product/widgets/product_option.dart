@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -5,10 +6,10 @@ import 'package:flutter/material.dart';
 class ProductOption extends StatefulWidget {
   ProductOption({
     super.key,
-    required this.lst,
+    required this.lstCompany,
     required this.onTap,
   });
-  final List lst;
+  final List<Company> lstCompany;
   Function onTap;
   @override
   State<ProductOption> createState() => _ProductOptionState();
@@ -28,18 +29,17 @@ class _ProductOptionState extends State<ProductOption> {
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                itemCount: widget.lst.length,
+                itemCount: widget.lstCompany.length,
                 itemBuilder: (_, index) {
                   return GestureDetector(
                     onTap: () {
-                      widget.onTap(widget.lst[index]);
+                      widget.onTap(widget.lstCompany[index].companyName);
                       setState(() {
                         if (selectedIndex == index) {
                           selectedIndex = -1;
                         } else {
                           selectedIndex = index;
                         }
-                        print(index);
                       });
                     },
                     child: Container(
@@ -56,7 +56,7 @@ class _ProductOptionState extends State<ProductOption> {
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: Center(
                         child: Text(
-                          widget.lst[index],
+                          widget.lstCompany[index].companyName,
                           style: TextStyle(
                             color: selectedIndex == index
                                 ? Colors.white

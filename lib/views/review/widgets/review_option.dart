@@ -39,7 +39,6 @@ class _ReviewOptionState extends State<ReviewOption> {
                         } else {
                           selectedIndex = index;
                         }
-                        print(index);
                       });
                     },
                     child: Container(

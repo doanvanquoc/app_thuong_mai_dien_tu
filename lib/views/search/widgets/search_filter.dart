@@ -1,4 +1,6 @@
+import 'package:app_thuong_mai_dien_tu/data_sources/repo/company_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/company_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/review/widgets/review_option.dart';
@@ -6,35 +8,38 @@ import 'package:app_thuong_mai_dien_tu/views/search/widgets/filter_option.dart';
 import 'package:flutter/material.dart';
 
 class SearchFilter extends StatefulWidget {
-  const SearchFilter({super.key});
+  SearchFilter(
+      {super.key,
+      required this.checkOptioin,
+      required this.applyOption,
+      required this.priceFT});
+  Function checkOptioin;
+  Function applyOption;
+  Function priceFT;
   @override
   State<SearchFilter> createState() => _SearchFilterState();
 }
 
 class _SearchFilterState extends State<SearchFilter> {
-  List<Company> categorylst = [
-    Company(1, "Apple"),
-    Company(2, "Iphone"),
-    Company(3, "Samsung"),
-    Company(4, "Xiaomi"),
-    Company(5, "Apple"),
-  ];
-  List ratelst = ['Tất cả', '5', '4', '3', '2', '1'];
+  final companyPresenter = CompanyPresenter.instance;
+  List<Company> companies = [];
+  @override
+  void initState() {
+    companyPresenter.getAllCompany().then((value) {
+      setState(() {
+        companies = value;
+      });
+    });
+    super.initState();
+  }
 
   List<Company> sort = [
-    Company(1, "Phổ biến"),
-    Company(2, "Gần đây"),
-    Company(3, "Giá cao"),
-    Company(4, "Giá thấp"),
+    Company(companyID: 1, companyName: 'Mới nhất'),
+    Company(companyID: 2, companyName: 'Gần nhất'),
+    Company(companyID: 1, companyName: 'Mua nhiều nhất'),
   ];
 
-  RangeValues rangeValues = const RangeValues(10, 90);
-  String checkCategory = "";
-  void checkOption(value) {
-    setState(() {
-      checkCategory = value;
-    });
-  }
+  RangeValues rangeValues = const RangeValues(10, 21);
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +72,9 @@ class _SearchFilterState extends State<SearchFilter> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   FilterOption(
-                    lst: categorylst,
+                    lst: companies,
                     nameOption: "Phân loại",
-                    onTap: checkOption,
+                    onTap: widget.checkOptioin,
                   ),
                   SizedBox(
                     height: 151,
@@ -95,7 +100,8 @@ class _SearchFilterState extends State<SearchFilter> {
                                 onChanged: (value) {
                                   setState(() {
                                     rangeValues = value;
-                                    print(rangeValues);
+                                    widget.priceFT(rangeValues.start.toInt(),
+                                        rangeValues.end.toInt());
                                   });
                                 },
                                 divisions: 100,
@@ -118,7 +124,7 @@ class _SearchFilterState extends State<SearchFilter> {
                   FilterOption(
                     lst: sort,
                     nameOption: "Sắp xếp theo",
-                    onTap: checkOption,
+                    onTap: widget.checkOptioin,
                   ),
                   const SizedBox(height: 16),
                   const Text(
@@ -127,8 +133,8 @@ class _SearchFilterState extends State<SearchFilter> {
                   ),
                   const SizedBox(height: 16),
                   ReviewOption(
-                    lst: ratelst,
-                    onTap: checkOption,
+                    lst: const [],
+                    onTap: widget.checkOptioin,
                   ),
                 ],
               ),
@@ -152,7 +158,11 @@ class _SearchFilterState extends State<SearchFilter> {
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: MyButton(onTap: () {}, content: "Áp dụng"),
+                child: MyButton(
+                    onTap: () {
+                      widget.applyOption();
+                    },
+                    content: "Áp dụng"),
               ),
             ],
           ),

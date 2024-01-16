@@ -1,3 +1,5 @@
+import 'package:app_thuong_mai_dien_tu/models/company.dart';
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
 import 'package:app_thuong_mai_dien_tu/views/product/product_special_view.dart';
@@ -5,9 +7,9 @@ import 'package:flutter/material.dart';
 
 class HomeNewProduct extends StatelessWidget {
   const HomeNewProduct(
-      {super.key, required this.products, required this.categories});
-  final List<String> products;
-  final List<String> categories;
+      {super.key, required this.products, required this.companies});
+  final List<Product> products;
+  final List<Company> companies;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,8 +32,8 @@ class HomeNewProduct extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (_) => ProductSpecial(
                       nameTab: 'Sản phẩm mới nhất',
-                      lstCategory: categories,
-                      lstProduct: const []),
+                      lstCategory: companies,
+                      lstProduct: products),
                 ),
               ),
               child: const Text(
@@ -52,8 +54,9 @@ class HomeNewProduct extends StatelessWidget {
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemCount: products.length,
-            itemBuilder: (context, index) =>
-                ProductItem(product: products[index]),
+            itemBuilder: (context, index) {
+              return ProductItem(product: products[index]);
+            },
           ),
         ),
       ],

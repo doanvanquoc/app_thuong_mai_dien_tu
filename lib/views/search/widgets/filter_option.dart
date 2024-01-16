@@ -1,3 +1,5 @@
+import 'package:app_thuong_mai_dien_tu/models/company.dart';
+import 'package:app_thuong_mai_dien_tu/models/review.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -9,9 +11,10 @@ class FilterOption extends StatefulWidget {
     required this.nameOption,
     required this.onTap,
   });
-  final List lst;
+  final List<Company> lst;
   final String nameOption;
   Function onTap;
+
   @override
   State<FilterOption> createState() => _FilterOptionState();
 }
@@ -39,7 +42,7 @@ class _FilterOptionState extends State<FilterOption> {
                 itemBuilder: (_, index) {
                   return GestureDetector(
                     onTap: () {
-                      widget.onTap(widget.lst[index].name);
+                      widget.onTap(widget.lst[index].companyName);
                       setState(() {
                         if (selectedIndex == index) {
                           selectedIndex = -1;
@@ -64,7 +67,7 @@ class _FilterOptionState extends State<FilterOption> {
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: Center(
                         child: Text(
-                          widget.lst[index].name,
+                          widget.lst[index].companyName,
                           style: TextStyle(
                             color: selectedIndex == index
                                 ? Colors.white

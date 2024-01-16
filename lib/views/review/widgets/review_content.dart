@@ -10,6 +10,18 @@ class ReviewContent extends StatefulWidget {
 }
 
 class _ReviewContentState extends State<ReviewContent> {
+  String converDate(String dateString) {
+    DateTime dateTime = DateTime.parse(dateString);
+    // Lấy ngày hiện tại
+    DateTime currentDate = DateTime.now();
+    if (dateTime.year != currentDate.year) return dateString;
+    if (dateTime.month != currentDate.month) return dateString;
+    if (dateTime.day == currentDate.day) return "Hôm nay";
+    if (currentDate.day - 1 == dateTime.day) return "1 Ngày trước";
+    if (currentDate.day - 2 == dateTime.day) return "2 Ngày trước";
+    return dateString;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,17 +58,17 @@ class _ReviewContentState extends State<ReviewContent> {
               ),
               height: 32,
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.star,
                     size: 20,
                     color: AppColor.primaryColor,
                   ),
                   Text(
-                    '5',
-                    style: TextStyle(
+                    '${widget.review.rating}',
+                    style: const TextStyle(
                       fontSize: 14,
                       color: AppColor.primaryColor,
                     ),
@@ -72,7 +84,7 @@ class _ReviewContentState extends State<ReviewContent> {
           style: const TextStyle(fontSize: 12),
         ),
         const SizedBox(height: 12),
-        const Text("1 ngày trước")
+        Text(converDate(widget.review.reviewDate))
       ],
     );
   }

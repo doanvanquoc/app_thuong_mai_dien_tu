@@ -27,9 +27,10 @@ class _WelcomeState extends State<Welcome> {
         },
         itemBuilder: (_, i) {
           return Padding(
-            padding: const EdgeInsets.all(25.0),
+            padding: const EdgeInsets.all(12),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
                 Image(

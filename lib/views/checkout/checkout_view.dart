@@ -76,8 +76,6 @@ class _CheckoutViewState extends State<CheckoutView> {
           'Đặt hàng',
           style: TextStyle(
             color: Color(0xFF212121),
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -129,9 +127,9 @@ class _CheckoutViewState extends State<CheckoutView> {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 24),
                     child: ProductWidget(
-                      image: product.image,
-                      name: product.name,
-                      price: product.price,
+                      image: 'assets/images/iphone15_3.png',
+                      name: 'product.name',
+                      price:' product.price',
                       qty: product.quantity,
                     ),
                   );

@@ -34,9 +34,13 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const SizedBox(height: 100,),
+          const SizedBox(
+            height: 100,
+          ),
           Image.asset('assets/images/logo.png', width: 250, height: 250),
-          const SizedBox(height: 50,),
+          const SizedBox(
+            height: 50,
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Lottie.asset(
