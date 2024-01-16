@@ -24,7 +24,7 @@ class _AvatarState extends State<Avatar> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: Image(
-                    image: AssetImage(widget.src), // Đổi đường dẫn hình ảnh tại đây
+                    image: NetworkImage(widget.src), 
                   ),
                 ),
               ),

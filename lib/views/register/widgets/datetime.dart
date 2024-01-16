@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DateTimeBirthDay extends StatefulWidget {
-  const DateTimeBirthDay({Key? key, required this.controller}) : super(key: key);
-
+  const DateTimeBirthDay({Key? key, required this.controller,required this.date}) : super(key: key);
+  final String date;
   final TextEditingController controller;
 
   @override
@@ -87,7 +87,7 @@ class _DateTimeBirthDayState extends State<DateTimeBirthDay> {
             child: Text(
               widget.controller.text.isNotEmpty
                   ? widget.controller.text
-                  : 'Ngày sinh',
+                  : widget.date,
               style: TextStyle(
                 color: widget.controller.text.isNotEmpty
                     ? Colors.black

@@ -1,13 +1,15 @@
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/widgets/datetime.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/widgets/gender.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class EditAccount extends StatefulWidget {
-  const EditAccount({super.key});
-
+  EditAccount({super.key,required this.user});
+  User user;
   @override
   State<EditAccount> createState() => _EditAccountState();
 }
@@ -46,53 +48,51 @@ class _EditAccountState extends State<EditAccount> {
         children:  [
           const SizedBox(height: 20,),
           MyTextFile(
-            name: 'Họ và tên', 
+            name: widget.user.fullname==''?'Họ và tên':widget.user.fullname, 
             iconLeft: null, 
             iconRight: null, 
             controller: name,
           ),
-          MyTextFile(
-            name: 'Biệt danh', 
-            iconLeft: null, 
-            iconRight: null,
-            controller: nickName,
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-            child: DateTimeBirthDay(controller: dateTime),
+            child: DateTimeBirthDay(
+              controller: dateTime,
+              date: widget.user.birthday == ''? 'Ngày sinh': DateFormat('dd/MM/yyyy').format(DateTime.parse(widget.user.birthday)).toString(),
+            )
           ),
           MyTextFile(
-            name: 'Email', 
+            name: widget.user.email==''?'Email':widget.user.email, 
             iconLeft: null, 
             iconRight: const Icon(Icons.email_outlined), 
             controller: email,
           ),
           MyTextFile(
-            name: 'Số điện thoại', 
+            name: widget.user.phoneNumber==''?'Số điện thoại':widget.user.phoneNumber, 
             iconLeft: null, 
             iconRight: const Icon(Icons.smartphone_outlined),
             controller: phoneNumber,
           ),
           Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 8.0),
-                child: Gender(controller: gender),
-              ),
-
-              const SizedBox(height: 50,),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 8.0),
+            child: Gender(controller: gender,selectedGender: widget.user.sex==''?'Giới tính':widget.user.sex),
+          ),
+      
+          const SizedBox(height: 50,),
               
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: MyButton(
-                  onTap: (){
-                    openDialog(
-                      context,
-                      'Chỉnh sửa thông tin thành công!',
-                      'Thông tin đã được thay đổi thành công!',
-                    );
-                  }, 
-                  content: 'Cập nhật'
-                ),
-              )
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: MyButton(
+              onTap: (){
+                print(widget.user.sex);
+                openDialog(
+                  context,
+                  'Chỉnh sửa thông tin thành công!',
+                  'Thông tin đã được thay đổi thành công!',
+                );
+              }, 
+              content: 'Cập nhật'
+            ),
+          )
         ],
       ),
     );

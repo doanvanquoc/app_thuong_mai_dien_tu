@@ -85,16 +85,10 @@ class _RegisterState extends State<Register> {
                       noti = '';
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const AccountInformation()),
+                        MaterialPageRoute(builder: (context) => AccountInformation(email: userName.text,passWord: password.text,)),
                       );
                     }
-
                     setState(() {});
-
-                    // Future.delayed(const Duration(seconds: 2), () {
-                      
-                    // });
-                    
                   },
                   content: 'Đăng Ký'
                 ),

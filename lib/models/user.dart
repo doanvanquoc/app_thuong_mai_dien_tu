@@ -5,6 +5,7 @@ class User {
   final String birthday;
   final String phoneNumber;
   final String avatar;
+  final String sex;
 
   User({
     required this.userID,
@@ -13,13 +14,15 @@ class User {
     required this.birthday,
     required this.phoneNumber,
     required this.avatar,
+    required this.sex
   });
 
   User.fromJson(Map<String, dynamic> json)
-      : userID = json['userID'],
-        email = json['email'],
-        fullname = json['fullname'],
-        birthday = json['birthday'],
-        phoneNumber = json['phone_number'],
-        avatar = json['avatar'];
+    :userID = json['userID'],
+    email = json['email'],
+    fullname = json['fullname'],
+    birthday = json['birthday'].toString(),
+    phoneNumber = json['phone_number'].toString(),
+    avatar = json['avatar'],
+    sex=json['sex'];
 }

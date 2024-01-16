@@ -3,9 +3,10 @@ import 'package:app_thuong_mai_dien_tu/views/register/widgets/itemgender.dart';
 import 'package:flutter/material.dart';
 
 class Gender extends StatefulWidget {
-  const Gender({super.key, required this.controller});
+  Gender({super.key, required this.controller, required this.selectedGender});
 
   final TextEditingController controller;
+  String selectedGender;
 
   @override
   State<Gender> createState() => _GenderState();
@@ -13,7 +14,6 @@ class Gender extends StatefulWidget {
 
 class _GenderState extends State<Gender> {
   int stateButton = -1;
-  String selectedGender = '';
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _GenderState extends State<Gender> {
             child: Text(
               widget.controller.text.isNotEmpty
                   ? widget.controller.text
-                  : 'Giới tính',
+                  : widget.selectedGender,
               style: TextStyle(
                 color: widget.controller.text.isNotEmpty
                     ? Colors.black
@@ -63,18 +63,19 @@ class _GenderState extends State<Gender> {
                       ItemGender(
                         onTap: (selectedGender) {
                           setState(() {
-                            this.selectedGender = selectedGender;
+                            widget.selectedGender = selectedGender;
                           });
                         },
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                         child: MyButton(
-                            onTap: () {
-                              _updateGender();
-                              Navigator.pop(context);
-                            },
-                            content: 'Xác nhận'),
+                          onTap: () {
+                            _updateGender();
+                            Navigator.pop(context);
+                          },
+                          content: 'Xác nhận'
+                        ),
                       ),
                     ],
                   );
@@ -92,9 +93,9 @@ class _GenderState extends State<Gender> {
   }
 
   void _updateGender() {
-    if (selectedGender.isNotEmpty) {
+    if (widget.selectedGender.isNotEmpty) {
       setState(() {
-        widget.controller.text = selectedGender;
+        widget.controller.text = widget.selectedGender;
       });
     }
   }

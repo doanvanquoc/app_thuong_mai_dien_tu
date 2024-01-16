@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key,required this.user});
-  final User? user;
+  final User user;
   @override
   State<Account> createState() => _AccountState();
 }
@@ -41,11 +41,11 @@ class _AccountState extends State<Account> {
       ),
       body: ListView(
         children: [
-          Avatar(src: widget.user?.avatar??'assets/images/avartar.png'),
+          Avatar(src:widget.user.avatar==''?'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg':widget.user.avatar),
           const SizedBox(
             height: 10,
           ),
-          InfomationAccount(name: widget.user?.fullname??'Username', phone: widget.user?.phoneNumber??'03699999999'),
+          InfomationAccount(name: widget.user.fullname==''?'Username':widget.user.fullname, phone: widget.user.phoneNumber??''),
           const SizedBox(
             height: 40,
           ),
@@ -63,7 +63,7 @@ class _AccountState extends State<Account> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const EditAccount()),
+                MaterialPageRoute(builder: (context) => EditAccount(user: widget.user,)),
               );
             },
           ),
