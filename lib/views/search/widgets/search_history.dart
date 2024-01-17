@@ -1,5 +1,7 @@
+import 'package:app_thuong_mai_dien_tu/models/history_search.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 // ignore: must_be_immutable
 class SearchHistory extends StatefulWidget {
@@ -7,9 +9,14 @@ class SearchHistory extends StatefulWidget {
     super.key,
     required this.historyLst,
     required this.onTapHistory,
+    required this.deletedAll,
+    required this.deletedItem,
   });
   List historyLst;
   Function onTapHistory;
+  Function deletedAll;
+
+  Function deletedItem;
 
   @override
   State<SearchHistory> createState() => _SearchHistoryState();
@@ -34,9 +41,7 @@ class _SearchHistoryState extends State<SearchHistory> {
             ),
             InkWell(
               onTap: () {
-                setState(() {
-                  widget.historyLst.clear();
-                });
+                widget.deletedAll();
               },
               child: const Text(
                 "Xóa tất cả",
@@ -75,9 +80,15 @@ class _SearchHistoryState extends State<SearchHistory> {
                       ),
                       IconButton(
                           onPressed: () {
-                            setState(() {
-                              widget.historyLst.removeAt(index);
-                            });
+                            List<dynamic> lst = [];
+                            int i = 0;
+                            lst.addAll(widget.historyLst.reversed);
+                            for (var element in lst) {
+                              if (element == widget.historyLst[index]) {
+                                widget.deletedItem(i);
+                              }
+                              i++;
+                            }
                           },
                           icon: const Icon(Icons.remove_outlined))
                     ],

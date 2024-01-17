@@ -44,7 +44,7 @@ class _ProductSpecialState extends State<ProductSpecial> {
         id = valueId;
         searchsCompanies(id, widget.lstProduct, productCompanies);
       });
-    }) as int;
+    });
   }
 
   @override
