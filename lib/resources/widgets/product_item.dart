@@ -1,16 +1,19 @@
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/product_detail/product_detail_view.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({super.key, required this.product});
-  final String product;
+  final Product product;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.push(
           context, MaterialPageRoute(builder: (_) => const ProductDetail())),
       child: Container(
+        alignment: Alignment.center,
         margin: const EdgeInsets.only(right: 5),
         width: MediaQuery.of(context).size.width / 2,
         child: Column(
@@ -19,18 +22,21 @@ class ProductItem extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: SizedBox(
-                height: 200,
+                height: 150,
                 child: Image.network(
-                  product,
+                  product.images[0].imagePath,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            const SizedBox(height: 15),
-            const Text(
-              'Iphone 15 Pro Max 8G/ 128GB - VN',
-              style: TextStyle(fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                product.productName,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
@@ -41,9 +47,9 @@ class ProductItem extends StatelessWidget {
                     color: AppColor.primaryColor,
                   ),
                   const Text('4.5'),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 5),
                   const Text('|'),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 5),
                   Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
@@ -58,10 +64,11 @@ class ProductItem extends StatelessWidget {
                 ],
               ),
             ),
-            const Text(
-              '32.900.000đ',
-              style: TextStyle(
-                fontSize: 20,
+            Text(
+              NumberFormat.currency(locale: 'vi_VN', symbol: 'VND')
+                  .format(product.price),
+              style: const TextStyle(
+                fontSize: 16,
                 color: AppColor.primaryColor,
                 fontWeight: FontWeight.bold,
               ),
