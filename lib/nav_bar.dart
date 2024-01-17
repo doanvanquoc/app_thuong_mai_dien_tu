@@ -1,6 +1,6 @@
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
-import 'package:app_thuong_mai_dien_tu/views/account/acccount_view.dart';
+import 'package:app_thuong_mai_dien_tu/views/account/account_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/cart/cart_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/home_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/order/order_view.dart';

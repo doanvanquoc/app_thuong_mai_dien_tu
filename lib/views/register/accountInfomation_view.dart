@@ -129,8 +129,7 @@ class _AccountInformationState extends State<AccountInformation> {
           child: Column(
             children: [
               Avatar(
-                src:
-                    'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg',
+                src:'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg',
               ),
               const SizedBox(
                 height: 10,
@@ -146,7 +145,7 @@ class _AccountInformationState extends State<AccountInformation> {
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: DateTimeBirthDay(
                   controller: dateTime,
-                  date: 'Ngày sinh',
+                  datetime: 'Ngày sinh',
                 ),
               ),
               MyTextFile(
@@ -161,10 +160,11 @@ class _AccountInformationState extends State<AccountInformation> {
               ),
               Text(
                 notifications,
-                style: const TextStyle(fontSize: 16, color: Colors.red),
+                style: const TextStyle(fontSize:16, color: Colors.red),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(
-                height: 30,
+                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),

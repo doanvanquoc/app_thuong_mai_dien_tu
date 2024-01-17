@@ -162,4 +162,86 @@ class UserAPI {
       return {'error': 'Lỗi kết nối'};
     }
   }
+
+  // Phương thức đổi mật khẩu
+  Future<Map<String, dynamic>> changePass(
+      int userId, String oldPass, String newPass) async {
+    try {
+      final response = await _dio.post(
+        '${APIConfig.API_URL}/user/change-pass',
+        data: {'userID': userId, 'oldPass': oldPass, 'newPass': newPass},
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = response.data;
+
+        if (responseData != null && responseData.containsKey('code')) {
+          if (responseData['code'] == 1) {
+            // Token hợp lệ, trả về dữ liệu người dùng
+            log('Đổi mật khẩu thành công!');
+            return responseData;
+          } else {
+            log('Mật khẩu cũ không chính xác!');
+            return responseData;
+          }
+        } else {
+          return {'error': 'Lỗi không xác định từ server'};
+        }
+      } else {
+        log('Lỗi kiểm tra mật khẩu: ${response.statusCode}');
+        return {'error': 'Lỗi kiểm tra mật khẩu'};
+      }
+    } catch (e) {
+      log('Lỗi kết nối: $e');
+      return {'error': 'Lỗi kết nối'};
+    }
+  }
+
+//Phương thức cập nhật thông tin user thông qua userid
+  Future<Map<String, dynamic>> updateUser({
+    required int userId,
+    required String email,
+    required String fullname,
+    required DateTime birthday,
+    required String phoneNumber,
+    required String sex,
+  }) async {
+    try {
+      final formattedBirthday =birthday.toLocal().toIso8601String().split('T')[0];
+      final response = await _dio.post(
+        '${APIConfig.API_URL}/user/update',
+        data: {
+          'userID': userId,
+          'email': email,
+          'fullname': fullname,
+          'birthday': formattedBirthday,
+          'phone_number': phoneNumber,
+          'sex': sex,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = response.data;
+
+        if (responseData != null && responseData.containsKey('code')) {
+          if (responseData['code'] == 1) {
+            log('Cập nhật thông tin thành công!');
+            log(responseData.toString());
+            return responseData;
+          } else {
+            log('Lỗi khi cập nhật thông tin: ${responseData['message']}');
+            return responseData;
+          }
+        } else {
+          return {'error': 'Lỗi không xác định từ server'};
+        }
+      } else {
+        log('Lỗi cập nhật thông tin: ${response.statusCode}');
+        return {'error': 'Lỗi cập nhật thông tin'};
+      }
+    } catch (e) {
+      log('Lỗi kết nối: $e');
+      return {'error': 'Lỗi kết nối'};
+    }
+  }
 }

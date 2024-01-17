@@ -92,7 +92,7 @@ class _AccountState extends State<Account> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const EditPass()),
+                MaterialPageRoute(builder: (context) => EditPass(user: widget.user,)),
               );
             },
           ),

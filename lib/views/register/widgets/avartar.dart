@@ -38,7 +38,7 @@ class _AvatarState extends State<Avatar> {
                     borderRadius: BorderRadius.circular(100),
                     color: Colors.transparent,
                     border: Border.all(
-                      color: Colors.green, // Đổi màu viền tại đây
+                      color: Colors.green,
                       width: 2.0,
                     ),
                   ),
@@ -48,22 +48,25 @@ class _AvatarState extends State<Avatar> {
                 bottom: 0,
                 right: 0,
                 child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Colors.green,
-                    border: Border.all(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
                       color: Colors.green,
-                      width: 2.0,
+                      border: Border.all(
+                        color: Colors.green,
+                        width: 2.0,
+                      ),
                     ),
-                  ),
-                  child: const Icon(
-                    Icons.camera_alt_outlined,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                ),
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.camera_alt_outlined,
+                          color: Colors.black,
+                          size: 20,
+                        )
+                      )
+                    ),
               ),
             ],
           ),

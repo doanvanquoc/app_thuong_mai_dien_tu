@@ -38,8 +38,7 @@ class _RegisterState extends State<Register> {
     } else if (!emailRegExp.hasMatch(userName.text)) {
       noti = 'Email không hợp lệ!';
     } else if (!passwordRegExp.hasMatch(password.text)) {
-      noti =
-          'Mật khẩu ít nhất 8 ký tự, có ít nhất 1 ký tự đặc biệt, 1 chữ hoa và 1 chữ thường!';
+      noti ='Mật khẩu ít nhất 8 ký tự, có ít nhất 1 ký tự đặc biệt, 1 chữ hoa và 1 chữ thường!';
     } else if (password.text != rePassword.text) {
       noti = 'Mật khẩu và xác nhận mật khẩu không khớp!';
     } else {

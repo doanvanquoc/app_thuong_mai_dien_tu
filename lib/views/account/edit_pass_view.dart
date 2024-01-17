@@ -1,30 +1,88 @@
+import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfilepass.dart';
+import 'package:app_thuong_mai_dien_tu/views/account/account_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class EditPass extends StatefulWidget {
-  const EditPass({super.key});
+  EditPass({super.key, required this.user});
+  User user;
 
   @override
   State<EditPass> createState() => _EditPassState();
 }
 
 class _EditPassState extends State<EditPass> {
-  TextEditingController oldPassWord =TextEditingController();
-  TextEditingController newPassWord=TextEditingController();
-  TextEditingController confirmNewPassWord=TextEditingController();
+  TextEditingController oldPassWord = TextEditingController();
+  TextEditingController newPassWord = TextEditingController();
+  TextEditingController confirmNewPassWord = TextEditingController();
+  String notifications = '';
+
+  // ignore: non_constant_identifier_names
+  Future<void> editPassWord() async {
+    RegExp passwordRegExp = RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:"<>?~`]).{8,}$',
+    );
+    if (oldPassWord.text.isEmpty ||
+        newPassWord.text.isEmpty ||
+        confirmNewPassWord.text.isEmpty) {
+      setState(() {
+        notifications = 'Cần nhập đầy đủ thông tin!';
+      });
+    } else if (!passwordRegExp.hasMatch(newPassWord.text)) {
+      notifications =
+          'Mật khẩu ít nhất 8 ký tự, có ít nhất 1 ký tự đặc biệt, 1 chữ hoa và 1 chữ thường!';
+    } else if (newPassWord.text != confirmNewPassWord.text) {
+      notifications = 'Mật khẩu mới và xác nhận mật khẩu mới không trùng!';
+    } else {
+      notifications = '';
+      final UserAPI userApi = UserAPI.instance;
+      final result = await userApi.changePass(widget.user.userID, oldPassWord.text, newPassWord.text);
+
+      if (result.containsKey('error')) {
+        setState(() {
+          notifications = result['error'];
+        });
+        print(result);
+      } else if (result.containsKey('code') && result['code'] == 1) {
+        // ignore: use_build_context_synchronously
+        openDialog(
+          context,
+          'Đổi mật khẩu thành công',
+          'Chúng tôi sẽ đưa bạn đến trang tài khoản trong vài giây...',
+        );
+        Future.delayed(
+          const Duration(seconds: 2),
+          () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => Account(user: widget.user)),
+              (route) => false,
+            );
+          },
+        );
+      } else {
+        notifications = 'Mật khẩu không chính xác!';
+      }
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
-            Navigator.pop(context);
-          }, 
-          icon: const Icon(Icons.arrow_back,size: 30,)
-        ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              size: 30,
+            )),
         title: const Text(
           'Tạo mật khẩu mới',
           style: TextStyle(
@@ -37,11 +95,13 @@ class _EditPassState extends State<EditPass> {
         ),
       ),
       body: ListView(
-        children:  [
+        children: [
           Image.asset('assets/images/editpass.png'),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 25,horizontal: 15),
+            padding: EdgeInsets.symmetric(vertical: 25, horizontal: 15),
             child: Text(
               'Nhập mật khẩu',
               style: TextStyle(
@@ -54,37 +114,32 @@ class _EditPassState extends State<EditPass> {
               ),
             ),
           ),
-
           MyTextPass(
-            name: 'Nhập mật khẩu hiện tại', 
-            iconLeft: const Icon(Icons.lock_outline), 
+            name: 'Nhập mật khẩu hiện tại',
+            iconLeft: const Icon(Icons.lock_outline),
             controller: oldPassWord,
           ),
           MyTextPass(
-            name: 'Mật khẩu mới', 
+            name: 'Mật khẩu mới',
             iconLeft: const Icon(Icons.lock_outline),
             controller: newPassWord,
           ),
           MyTextPass(
-            name: 'Xác nhận mật khẩu mới', 
+            name: 'Xác nhận mật khẩu mới',
             iconLeft: const Icon(Icons.lock_outline),
             controller: confirmNewPassWord,
           ),
-
-          const SizedBox(height: 50,),
-              
+          Text(
+            notifications,
+            style: const TextStyle(fontSize: 18, color: Colors.red),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: MyButton(
-              onTap: (){
-                openDialog(
-                  context,
-                  'Đổi mật khẩu thành công!',
-                  'Mật khẩu đã được thay đổi thành công',
-                );
-              }, 
-              content: 'Tiếp tục'
-            ),
+            child: MyButton(onTap: editPassWord, content: 'Tiếp tục'),
           )
         ],
       ),

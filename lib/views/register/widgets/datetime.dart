@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 
 class DateTimeBirthDay extends StatefulWidget {
   const DateTimeBirthDay(
-      {Key? key, required this.controller, required this.date})
+      {Key? key, required this.controller, required this.datetime})
       : super(key: key);
-  final String date;
+  final String datetime;
   final TextEditingController controller;
 
   @override
@@ -28,11 +28,12 @@ class _DateTimeBirthDayState extends State<DateTimeBirthDay> {
       });
     });
 
-    _selectedDate = DateTime.now();
-
-    // Kiểm tra xem có ngày đã chọn từ trước hay không
-    if (widget.controller.text.isNotEmpty) {
-      _selectedDate = DateFormat('dd/MM/yyyy').parse(widget.controller.text);
+    // Parse the initial date and set the selected date with a default if parsing fails
+    try {
+      _selectedDate = DateFormat('dd/MM/yyyy').parse(widget.datetime);
+    } catch (e) {
+      print('Parsing initial date error: $e');
+      _selectedDate = DateTime.now();
     }
   }
 
@@ -58,7 +59,7 @@ class _DateTimeBirthDayState extends State<DateTimeBirthDay> {
               final ngayDaDinhDang = DateFormat('dd/MM/yyyy').format(newDate);
               setState(() {
                 widget.controller.text = ngayDaDinhDang;
-                _selectedDate = newDate; // Cập nhật ngày đã chọn
+                _selectedDate = newDate;
               });
             },
           ),
@@ -89,7 +90,7 @@ class _DateTimeBirthDayState extends State<DateTimeBirthDay> {
             child: Text(
               widget.controller.text.isNotEmpty
                   ? widget.controller.text
-                  : widget.date,
+                  : widget.datetime,
               style: TextStyle(
                 color: widget.controller.text.isNotEmpty
                     ? Colors.black
