@@ -17,23 +17,23 @@ class AddressView extends StatefulWidget {
 class _AddressViewState extends State<AddressView> {
   List<Address> addresses = [
     Address(
-      name: 'Nhà',
-      street: '65 Huỳnh Thúc Kháng, Quận 1',
+      addressID: 'Nhà',
+      address: '65 Huỳnh Thúc Kháng, Quận 1',
       isDefault: true,
     ),
     Address(
-      name: 'Công ty',
-      street: '652/37 Cộng Hòa, P13, Tân Bình',
+      addressID: 'Công ty',
+      address: '652/37 Cộng Hòa, P13, Tân Bình',
       isDefault: false,
     ),
     Address(
-      name: 'Trọ',
-      street: '231/93/5 Dương Bá Trạc, P1, Quận 8',
+      addressID: 'Trọ',
+      address: '231/93/5 Dương Bá Trạc, P1, Quận 8',
       isDefault: false,
     ),
     Address(
-      name: 'Một Buổi Sáng',
-      street: '27/4 Cộng Hòa, P4, Tân Bình',
+      addressID: 'Một Buổi Sáng',
+      address: '27/4 Cộng Hòa, P4, Tân Bình',
       isDefault: false,
     ),
   ];
@@ -46,8 +46,8 @@ class _AddressViewState extends State<AddressView> {
     super.initState();
     if (widget.selectedAddress != null) {
       selectedAddressIndex = addresses.indexWhere((address) =>
-          address.name == widget.selectedAddress!.name &&
-          address.street == widget.selectedAddress!.street);
+          address.addressID == widget.selectedAddress!.addressID &&
+          address.address == widget.selectedAddress!.address);
     }
 
     if (selectedAddressIndex == -1 || selectedAddressIndex == null) {
@@ -81,9 +81,9 @@ class _AddressViewState extends State<AddressView> {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 24),
                 child: AddressItem(
-                  name: address.name,
+                  name: address.addressID,
                   isDefault: address.isDefault!,
-                  street: address.street,
+                  street: address.address,
                   isIcon: false,
                   isRadioButton: true,
                   isSelected: selectedAddressIndex != null &&
@@ -129,7 +129,8 @@ class _AddressViewState extends State<AddressView> {
 
   void addNewAddress(String name, String street) {
     setState(() {
-      addresses.add(Address(name: name, street: street, isDefault: false));
+      addresses
+          .add(Address(addressID: name, address: street, isDefault: false));
       selectedAddressIndex = addresses.length - 1;
     });
   }

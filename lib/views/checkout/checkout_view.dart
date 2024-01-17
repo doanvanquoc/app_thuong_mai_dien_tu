@@ -26,23 +26,23 @@ class CheckoutView extends StatefulWidget {
 class _CheckoutViewState extends State<CheckoutView> {
   List<Address> addresses = [
     Address(
-      name: 'Nhà',
-      street: '65 Huỳnh Thúc Kháng, Quận 1',
+      addressID: 'Nhà',
+      address: '65 Huỳnh Thúc Kháng, Quận 1',
       isDefault: true,
     ),
     Address(
-      name: 'Công ty',
-      street: '652/37 Cộng Hòa, P13, Tân Bình',
+      addressID: 'Công ty',
+      address: '652/37 Cộng Hòa, P13, Tân Bình',
       isDefault: false,
     ),
     Address(
-      name: 'Trọ',
-      street: '231/93/5 Dương Bá Trạc, P1, Quận 8',
+      addressID: 'Trọ',
+      address: '231/93/5 Dương Bá Trạc, P1, Quận 8',
       isDefault: false,
     ),
     Address(
-      name: 'Một Buổi Sáng',
-      street: '27/4 Cộng Hòa, P4, Tân Bình',
+      addressID: 'Một Buổi Sáng',
+      address: '27/4 Cộng Hòa, P4, Tân Bình',
       isDefault: false,
     ),
   ];
@@ -113,9 +113,9 @@ class _CheckoutViewState extends State<CheckoutView> {
               const SizedBox(height: 24),
               if (selectedAddress != null)
                 AddressItem(
-                  name: selectedAddress!.name,
+                  name: selectedAddress!.addressID,
                   isDefault: selectedAddress!.isDefault!,
-                  street: selectedAddress!.street,
+                  street: selectedAddress!.address,
                   isIcon: true,
                   isRadioButton: false,
                   onSelected: () {
@@ -144,8 +144,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                     child: ProductWidget(
                       image: 'assets/images/iphone15_3.png',
                       name: 'product.name',
-                      price:' Product.formatPrice(product.price',
-                      qty : product.quantity,
+                      price: ' Product.formatPrice(product.price',
+                      qty: product.quantity,
                     ),
                   );
                 },
@@ -186,7 +186,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                           ),
                           const Expanded(child: SizedBox()),
                           Text(
-                            Product.formatPrice(widget.totalPrice.toString()).toString(),
+                            Product.formatPrice(widget.totalPrice.toString())
+                                .toString(),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: Color(0xFF424242),
@@ -240,7 +241,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                           ),
                           const Expanded(child: SizedBox()),
                           Text(
-                            Product.formatPrice(totalBill.toString()).toString(),
+                            Product.formatPrice(totalBill.toString())
+                                .toString(),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: Color(0xFF34C582),

@@ -1,9 +1,20 @@
 class Address {
-  String name;
-  String street;
+  String addressID;
+  String address;
   bool? isDefault;
+  int? userID;
 
-  Address({required this.name, required this.street, this.isDefault});
+  Address({
+    required this.addressID,
+    required this.address,
+    this.isDefault,
+    this.userID,
+  });
+
+  Address.fromJson(Map<String, dynamic> json)
+      : addressID = json['addressID'],
+        address = json['address'],
+        userID = json['userID'];
 
   static Address? getDefaultAddress(List<Address> addresses) {
     if (addresses.isEmpty) {
