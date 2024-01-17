@@ -57,8 +57,6 @@ class _CartViewState extends State<CartView> {
           'Giỏ hàng',
           style: TextStyle(
             color: Color(0xFF212121),
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
           ),
         ),
         actions: <Widget>[

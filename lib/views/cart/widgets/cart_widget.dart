@@ -77,7 +77,6 @@ class _CartWidgetState extends State<CartWidget> {
                     overflow: TextOverflow.visible,
                     style: const TextStyle(
                       color: Color(0xFF212121),
-                      fontSize: 18,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -89,7 +88,7 @@ class _CartWidgetState extends State<CartWidget> {
                     widget.price,
                     style: const TextStyle(
                       color: Color(0xFF01B763),
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.w700,
                       height: 0.07,
                     ),
