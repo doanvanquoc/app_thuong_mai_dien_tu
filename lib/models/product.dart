@@ -4,7 +4,7 @@ import 'package:app_thuong_mai_dien_tu/models/image.dart';
 class Product {
   final int productID;
   final String productName;
-  final num price;
+  final int price;
   final String description;
   final int quantity;
   final Company company;
@@ -57,4 +57,26 @@ class Product {
         postDate = json['post_date'],
         images =
             List.from((json['images'] as List).map((e) => Image.fromJson(e)));
+
+  Map<String, dynamic> toJson() {
+    return {
+      'productID': productID,
+      'product_name': productName,
+      'price': price,
+      'description': description,
+      'quantity': quantity,
+      'company': company.toJson(),
+      'screen_size': screenSize,
+      'os': os,
+      'cpu': cpu,
+      'ram': ram,
+      'internal_storage': internalStorage,
+      'main_cam_resolution': mainCamResolution,
+      'front_cam_resolution': frontCamResolution,
+      'battery': battery,
+      'weight': weight,
+      'post_date': postDate,
+      'images': images.map((e) => e.toJson()).toList(),
+    };
+  }
 }

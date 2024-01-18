@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:app_thuong_mai_dien_tu/models/order.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/order/widgets/order_item.dart';
@@ -7,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class OrderRating extends StatelessWidget {
-  const OrderRating({super.key});
+  const OrderRating({super.key, required this.order});
+  final Order order;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,7 +23,7 @@ class OrderRating extends StatelessWidget {
           const SizedBox(height: 12),
           const Divider(),
           const SizedBox(height: 12),
-          const OrderITem(status: 'Hoàn thành', isShow: false),
+          OrderITem(status: 'Hoàn thành', isShow: false, order: order,),
           const SizedBox(height: 24),
           const Text(
             'Đơn hàng của bạn như thế nào?',

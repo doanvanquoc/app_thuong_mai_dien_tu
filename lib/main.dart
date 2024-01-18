@@ -1,4 +1,4 @@
-import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
+import 'package:app_thuong_mai_dien_tu/views/order/order_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
           fontFamily: GoogleFonts.sarabun().fontFamily),
-      home: const MyNavBar(),
+      home: const OrderPage(),
     );
   }
 }

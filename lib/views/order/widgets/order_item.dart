@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/models/order.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -7,11 +8,13 @@ class OrderITem extends StatelessWidget {
       required this.status,
       this.isShow = true,
       this.onTap,
-      this.action = 'Theo dõi'});
+      this.action = 'Theo dõi',
+      required this.order});
   final Function()? onTap;
   final String status;
   final bool isShow;
   final String action;
+  final Order order;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +31,7 @@ class OrderITem extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Image.network(
-              'https://cdn.hoanghamobile.com/i/preview/Uploads/2022/09/08/2222.png',
+              order.orderDetails[0].product.images[0].imagePath,
               fit: BoxFit.cover,
             ),
           ),
@@ -39,14 +42,14 @@ class OrderITem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Iphone 15 Pro Max 8G/ 128GB - VN',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                Text(
+                  order.orderDetails[0].product.productName,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 5),
-                const Text(
-                  'SL: 1',
-                  style: TextStyle(
+                Text(
+                  'SL: ${order.orderDetails[0].quantity}',
+                  style: const TextStyle(
                     color: Colors.black45,
                   ),
                 ),
@@ -66,9 +69,9 @@ class OrderITem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      '38.000.000đ',
-                      style: TextStyle(
+                    Text(
+                      order.orderDetails[0].product.price.toString(),
+                      style: const TextStyle(
                         color: AppColor.primaryColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,

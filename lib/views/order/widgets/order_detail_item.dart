@@ -1,8 +1,11 @@
+import 'package:app_thuong_mai_dien_tu/models/order_detail.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
+import 'package:app_thuong_mai_dien_tu/resources/untils.dart';
 import 'package:flutter/material.dart';
 
-class OrderTrackingItem extends StatelessWidget {
-  const OrderTrackingItem({super.key});
+class OrderDetailItem extends StatelessWidget {
+  const OrderDetailItem({super.key, required this.orderDetail});
+  final OrderDetail orderDetail;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,32 +22,32 @@ class OrderTrackingItem extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Image.network(
-              'https://cdn.hoanghamobile.com/i/preview/Uploads/2022/09/08/2222.png',
+              orderDetail.product.images[0].imagePath,
               fit: BoxFit.cover,
             ),
           ),
           const SizedBox(width: 10),
-          const Expanded(
+          Expanded(
             flex: 2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Iphone 15 Pro Max 8G/ 128GB - VN',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  orderDetail.product.productName,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
                 Text(
-                  'SL: 1',
-                  style: TextStyle(
+                  'SL: ${orderDetail.quantity}',
+                  style: const TextStyle(
                     color: Colors.black45,
                   ),
                 ),
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
                 Text(
-                  '38.000.000đ',
-                  style: TextStyle(
+                  AppUntil.formatCurrency(orderDetail.product.price.toInt()),
+                  style: const TextStyle(
                     color: AppColor.primaryColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
