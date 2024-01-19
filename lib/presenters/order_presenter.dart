@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/order_api.dart';
-import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/models/order.dart';
 
 class OrderPresenter {
@@ -19,5 +18,4 @@ class OrderPresenter {
       return [];
     }
   }
-
 }
