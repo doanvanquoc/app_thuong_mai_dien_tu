@@ -30,7 +30,7 @@ class HomePopularProduct extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => ProductSpecial(
+                  builder: (_) => NewProduct(
                     nameTab: 'Phổ biến nhất',
                     lstCategory: companies,
                     lstProduct: const [],

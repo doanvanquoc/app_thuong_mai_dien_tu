@@ -30,7 +30,7 @@ class HomeNewProduct extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => ProductSpecial(
+                  builder: (_) => NewProduct(
                       nameTab: 'Sản phẩm mới nhất',
                       lstCategory: companies,
                       lstProduct: const []),
@@ -49,14 +49,19 @@ class HomeNewProduct extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: 270,
-          child: ListView.builder(
+          height: 320,
+          child: ListView.separated(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemCount: products.length,
             itemBuilder: (context, index) {
               return ProductItem(product: products[index]);
             },
+            separatorBuilder: (context, index) => Container(
+              margin: const EdgeInsets.only(right: 15),
+              width: 0.3,
+              color: Colors.black,
+            ),
           ),
         ),
       ],

@@ -33,19 +33,22 @@ class _OrderPageState extends State<OrderPage> {
     socket.on('order_updated', (_) {
       log('Nhận được tín hiệu vũ trụ từ server');
       OrderPresenter.instance.getUserOrders().then((value) => {
-            setState(() {
-              orders = value;
-              orderStatus1 = orders
-                  .where((element) => element.status.statusID == 1)
-                  .toList();
-              orderStatus2 = orders
-                  .where((element) => element.status.statusID == 2)
-                  .toList();
-              orderStatus3 = orders
-                  .where((element) => element.status.statusID == 3)
-                  .toList();
-            }),
-            OrderLocal.instance.saveListOrderToLocal(orders)
+            if (mounted)
+              {
+                setState(() {
+                  orders = value;
+                  orderStatus1 = orders
+                      .where((element) => element.status.statusID == 1)
+                      .toList();
+                  orderStatus2 = orders
+                      .where((element) => element.status.statusID == 2)
+                      .toList();
+                  orderStatus3 = orders
+                      .where((element) => element.status.statusID == 3)
+                      .toList();
+                }),
+                OrderLocal.instance.saveListOrderToLocal(orders)
+              }
           });
     });
     socket.connect();
@@ -53,35 +56,41 @@ class _OrderPageState extends State<OrderPage> {
           if (value == null)
             {
               OrderPresenter.instance.getUserOrders().then((value) => {
-                    setState(() {
-                      orders = value;
-                      orderStatus1 = orders
-                          .where((element) => element.status.statusID == 1)
-                          .toList();
-                      orderStatus2 = orders
-                          .where((element) => element.status.statusID == 2)
-                          .toList();
-                      orderStatus3 = orders
-                          .where((element) => element.status.statusID == 3)
-                          .toList();
-                    }),
-                    OrderLocal.instance.saveListOrderToLocal(orders)
+                    if (mounted)
+                      {
+                        setState(() {
+                          orders = value;
+                          orderStatus1 = orders
+                              .where((element) => element.status.statusID == 1)
+                              .toList();
+                          orderStatus2 = orders
+                              .where((element) => element.status.statusID == 2)
+                              .toList();
+                          orderStatus3 = orders
+                              .where((element) => element.status.statusID == 3)
+                              .toList();
+                        }),
+                        OrderLocal.instance.saveListOrderToLocal(orders)
+                      }
                   })
             }
           else
             {
-              setState(() {
-                orders = value;
-                orderStatus1 = orders
-                    .where((element) => element.status.statusID == 1)
-                    .toList();
-                orderStatus2 = orders
-                    .where((element) => element.status.statusID == 2)
-                    .toList();
-                orderStatus3 = orders
-                    .where((element) => element.status.statusID == 3)
-                    .toList();
-              })
+              if (mounted)
+                {
+                  setState(() {
+                    orders = value;
+                    orderStatus1 = orders
+                        .where((element) => element.status.statusID == 1)
+                        .toList();
+                    orderStatus2 = orders
+                        .where((element) => element.status.statusID == 2)
+                        .toList();
+                    orderStatus3 = orders
+                        .where((element) => element.status.statusID == 3)
+                        .toList();
+                  })
+                }
             }
         });
     super.initState();
@@ -131,7 +140,6 @@ class _OrderPageState extends State<OrderPage> {
                 itemCount: orderStatus1.length,
                 itemBuilder: (context, index) => OrderITem(
                   order: orderStatus1[index],
-                  status: 'Chờ xác nhận',
                   onTap: () {
                     Navigator.push(
                       context,
@@ -148,7 +156,6 @@ class _OrderPageState extends State<OrderPage> {
                 itemCount: orderStatus2.length,
                 itemBuilder: (context, index) => OrderITem(
                   order: orderStatus2[index],
-                  status: 'Đang giao',
                   onTap: () {
                     Navigator.push(
                       context,
@@ -164,7 +171,6 @@ class _OrderPageState extends State<OrderPage> {
                 itemCount: orderStatus3.length,
                 itemBuilder: (context, index) => OrderITem(
                   order: orderStatus3[index],
-                  status: 'Hoàn thành',
                   action: 'Đánh giá',
                   onTap: () => showRating(context, orderStatus3[index]),
                 ),

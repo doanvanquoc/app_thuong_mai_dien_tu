@@ -48,12 +48,12 @@ class _HomeListCategoryState extends State<HomeListCategory> {
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: MediaQuery.of(context).size.height / 1 / 2,
+          height: MediaQuery.of(context).size.height / 1.4,
           child: GridView.builder(
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 1 / 1.69,
+              childAspectRatio: 1 / 2,
               mainAxisSpacing: 5,
             ),
             itemCount: widget.products.length,

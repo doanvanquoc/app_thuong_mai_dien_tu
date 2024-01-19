@@ -2,8 +2,8 @@ import 'package:app_thuong_mai_dien_tu/views/product/widgets/product_option.dart
 import 'package:app_thuong_mai_dien_tu/views/product_detail/product_detail_view.dart';
 import 'package:flutter/material.dart';
 
-class ProductSpecial extends StatefulWidget {
-  const ProductSpecial({
+class NewProduct extends StatefulWidget {
+  const NewProduct({
     super.key,
     required this.nameTab,
     required this.lstCategory,
@@ -14,10 +14,10 @@ class ProductSpecial extends StatefulWidget {
   final List lstProduct;
 
   @override
-  State<ProductSpecial> createState() => _ProductSpecialState();
+  State<NewProduct> createState() => _NewProductState();
 }
 
-class _ProductSpecialState extends State<ProductSpecial> {
+class _NewProductState extends State<NewProduct> {
   String checkCategory = "";
   void checkOption(value) {
     setState(() {

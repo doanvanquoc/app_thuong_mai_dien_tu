@@ -1,17 +1,16 @@
 import 'package:app_thuong_mai_dien_tu/models/order.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
+import 'package:app_thuong_mai_dien_tu/resources/untils.dart';
 import 'package:flutter/material.dart';
 
 class OrderITem extends StatelessWidget {
   const OrderITem(
       {super.key,
-      required this.status,
       this.isShow = true,
       this.onTap,
       this.action = 'Theo dõi',
       required this.order});
   final Function()? onTap;
-  final String status;
   final bool isShow;
   final String action;
   final Order order;
@@ -42,9 +41,22 @@ class OrderITem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  order.orderDetails[0].product.productName,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                RichText(
+                  text: TextSpan(
+                    text: order.orderDetails[0].product.productName,
+                    style: const TextStyle(color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: order.orderDetails.length > 1
+                            ? ' ( +${order.orderDetails.length - 1} sản phẩm )'
+                            : '',
+                        style: const TextStyle(
+                          color: AppColor.primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 5),
                 Text(
@@ -54,7 +66,7 @@ class OrderITem extends StatelessWidget {
                   ),
                 ),
                 Chip(
-                  label: Text(status),
+                  label: Text(order.status.status),
                   backgroundColor: AppColor.primaryColor.withOpacity(0.2),
                   labelStyle: const TextStyle(
                     color: AppColor.primaryColor,
@@ -70,7 +82,8 @@ class OrderITem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      order.orderDetails[0].product.price.toString(),
+                      AppUntil.formatCurrency(
+                          order.orderDetails[0].product.price),
                       style: const TextStyle(
                         color: AppColor.primaryColor,
                         fontWeight: FontWeight.bold,

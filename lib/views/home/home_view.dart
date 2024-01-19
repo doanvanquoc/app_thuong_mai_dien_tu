@@ -1,5 +1,7 @@
+import 'package:app_thuong_mai_dien_tu/models/banner.dart' as MyBanner;
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/banner_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/company_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/home_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_appbar.dart';
@@ -17,35 +19,44 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final homePresenter = HomePresenter.instance;
-  final companyPresenter = CompanyPresenter.instance;
   final allCompany = Company(companyID: 0, companyName: 'Tất cả');
   List<Product> products = [];
   List<Company> companies = [];
+  List<MyBanner.Banner> banners = [
+    MyBanner.Banner(
+        bannerID: 1,
+        image:
+            'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705678734/banners/syhintfcmcuwavqqx3la.png'),
+    MyBanner.Banner(
+        bannerID: 2,
+        image:
+            'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705678737/banners/pbzvhznki50whobpjm5g.png')
+  ];
   @override
   void initState() {
-    homePresenter.getLatestProduct().then((value) {
+    HomePresenter.instance.getLatestProduct().then((value) {
       setState(() {
         products = value;
       });
     });
 
-    companyPresenter.getAllCompany().then((value) {
+    CompanyPresenter.instance.getAllCompany().then((value) {
       setState(() {
         companies = value;
         companies.insert(0, allCompany);
       });
     });
+
+    BannerPresenter.instance.getBanners().then((value) {
+      setState(() {
+        banners = value;
+      });
+    });
+
     super.initState();
   }
 
   int currentIndex = 0;
-  List<String> banners = [
-    'https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/sliding-home-iphone15.jpg',
-    'https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/infinix-sliding-th122.jpg',
-    'https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/sliding-home-iphone15.jpg',
-    'https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/infinix-sliding-th122.jpg'
-  ];
 
   @override
   Widget build(BuildContext context) {
