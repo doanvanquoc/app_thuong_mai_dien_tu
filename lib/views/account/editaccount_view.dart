@@ -3,6 +3,7 @@ import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
+import 'package:app_thuong_mai_dien_tu/views/account/widgets/notification_account.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/widgets/datetime.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/widgets/gender.dart';
@@ -25,37 +26,77 @@ class _EditAccountState extends State<EditAccount> {
   TextEditingController email = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
   TextEditingController gender = TextEditingController();
-  String notifications = '';
+  String notiName = '';
+  String notiDateTime = '';
+  String notiPhoneNumber = '';
+  String notiGender = '';
+  String notiEmail = '';
 
   Future<void> updateAccount() async {
-    if (
-      name.text.isEmpty 
-      // ||
-      //   dateTime.text.isEmpty ||
-      //   phoneNumber.text.isEmpty ||
-      //   gender.text.isEmpty ||
-        // email.text.isEmpty
-        ) {
-      setState(() {
-        notifications = 'Cần nhập đầy đủ thông tin!';
-      });
-    } else {
-      notifications = '';
-      final UserAPI userApi = UserAPI.instance;
-      DateTime birthdayy = DateFormat('dd/MM/yyyy').parse(dateTime.text);
+    RegExp regExp = RegExp(r'^0[0-9]{9}$');
+    RegExp emailRegExp = RegExp(
+      r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
+    );
 
+    if (email.text.isNotEmpty && !emailRegExp.hasMatch(email.text)) {
+      notiEmail = 'Email không hợp lệ!';
+    } else {
+      notiEmail = '';
+    }
+
+    if (phoneNumber.text.isNotEmpty && !regExp.hasMatch(phoneNumber.text)) {
+      notiPhoneNumber = 'Số điện thoại phải có định dạng "0xxxxxxxxx"';
+    } else {
+      notiPhoneNumber = '';
+    }
+
+    if (dateTime.text.isNotEmpty && !kiemtratuoi(dateTime.text)) {
+      notiDateTime = 'Không đủ tuổi( tuổi >= 18)';
+    } else {
+      notiDateTime = '';
+    }
+
+    if (notiEmail.isNotEmpty ||
+        notiPhoneNumber.isNotEmpty ||
+        notiDateTime.isNotEmpty) {
+      setState(() {});
+      return;
+    }
+    DateTime birthdayy = dateTime.text.isNotEmpty
+        ? DateFormat('dd/MM/yyyy').parse(dateTime.text)
+        : DateTime.parse(widget.user.birthday);
+    if ((name.text.trim().isNotEmpty &&
+            name.text.toString().replaceAll(RegExp(r'\s+'), ' ').trim() !=
+                widget.user.fullname) ||
+        (dateTime.text.isNotEmpty &&
+            birthdayy != DateTime.parse(widget.user.birthday)) ||
+        (phoneNumber.text.isNotEmpty &&
+            phoneNumber.text.replaceAll(RegExp(r'\s+'), '') !=
+                widget.user.phoneNumber) ||
+        (gender.text.isNotEmpty && gender.text != widget.user.sex) ||
+        (email.text.isNotEmpty)) {
+      notiDateTime = '';
+      notiGender = '';
+      notiPhoneNumber = '';
+      notiName = '';
+
+      print(
+          'Name: ${name.text}; Date: ${dateTime.text}; Phone: ${phoneNumber.text}; sex: ${gender.text}; Email: ${email.text}');
+      final UserAPI userApi = UserAPI.instance;
       final result = await userApi.updateUser(
-          userId: widget.user.userID,
-          email: email.text,
-          fullname: name.text,
-          birthday: birthdayy,
-          phoneNumber: phoneNumber.text,
-          sex: gender.text,
+        userId: widget.user.userID,
+        email: email.text.replaceAll(RegExp(r'\s+'), ''),
+        fullname: name.text.trim().isEmpty
+            ? widget.user.fullname
+            : name.text.toString().replaceAll(RegExp(r'\s+'), ' ').trim(),
+        birthday: birthdayy,
+        phoneNumber: phoneNumber.text.isEmpty
+            ? widget.user.phoneNumber
+            : phoneNumber.text.replaceAll(RegExp(r'\s+'), ''),
+        sex: gender.text.isEmpty ? widget.user.sex : gender.text,
       );
 
-      if (result.containsKey('error')) {
-        notifications = result['error'];
-      } else if (result.containsKey('code') && result['code'] == 1) {
+      if (result.containsKey('code') && result['code'] == 1) {
         final token = result['token'];
 
         //Lưu token vào local
@@ -63,11 +104,8 @@ class _EditAccountState extends State<EditAccount> {
         prefs.setString('auth_token', token);
 
         Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-        print('line 62: $decodedToken');
 
         widget.user = User.fromJson(decodedToken['user']);
-
-        notifications = '';
         // ignore: use_build_context_synchronously
         openDialog(
           context,
@@ -77,19 +115,24 @@ class _EditAccountState extends State<EditAccount> {
         Future.delayed(
           const Duration(seconds: 2),
           () {
-             Navigator.pushAndRemoveUntil(
+            Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (_) => MyNavBar(user:widget.user),
+                builder: (_) => MyNavBar(
+                  user: widget.user,
+                  index: 3,
+                ),
               ),
               (route) => false,
             );
           },
         );
-        
       } else {
-        notifications = 'Email đã tồn tại!';
+        // ignore: use_build_context_synchronously
+        notiEmail = 'Email đã tồn tại trong hệ thống!';
       }
+    }else{
+      notiAcconut(context, 'Cập nhật thất bại!', 'Vui lòng nhập thông tin muốn cập nhật');
     }
     setState(() {});
   }
@@ -129,6 +172,16 @@ class _EditAccountState extends State<EditAccount> {
             iconRight: null,
             controller: name,
           ),
+          notiName.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: Text(
+                    notiName,
+                    style: const TextStyle(fontSize: 16, color: Colors.red),
+                    textAlign: TextAlign.left,
+                  ),
+                )
+              : const SizedBox(),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: DateTimeBirthDay(
@@ -139,12 +192,32 @@ class _EditAccountState extends State<EditAccount> {
                         .format(DateTime.parse(widget.user.birthday))
                         .toString(),
               )),
+          notiDateTime.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: Text(
+                    notiDateTime,
+                    style: const TextStyle(fontSize: 16, color: Colors.red),
+                    textAlign: TextAlign.left,
+                  ),
+                )
+              : const SizedBox(),
           MyTextFile(
             name: widget.user.email == '' ? 'Email' : widget.user.email,
             iconLeft: null,
             iconRight: const Icon(Icons.email_outlined),
             controller: email,
           ),
+          notiEmail.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: Text(
+                    notiEmail,
+                    style: const TextStyle(fontSize: 16, color: Colors.red),
+                    textAlign: TextAlign.left,
+                  ),
+                )
+              : const SizedBox(),
           MyTextFile(
             name: widget.user.phoneNumber == ''
                 ? 'Số điện thoại'
@@ -153,22 +226,33 @@ class _EditAccountState extends State<EditAccount> {
             iconRight: const Icon(Icons.smartphone_outlined),
             controller: phoneNumber,
           ),
+          notiPhoneNumber.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: Text(
+                    notiPhoneNumber,
+                    style: const TextStyle(fontSize: 16, color: Colors.red),
+                    textAlign: TextAlign.left,
+                  ),
+                )
+              : const SizedBox(),
           Padding(
-            padding:
-                const EdgeInsets.only(left: 10,right: 10, top: 10.0),
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 10.0),
             child: Gender(
                 controller: gender,
                 selectedGender:
                     widget.user.sex == '' ? 'Giới tính' : widget.user.sex),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Text(
-              notifications,
-              style: const TextStyle(fontSize: 18, color: Colors.red),
-              textAlign: TextAlign.center,
-            ),
-          ),
+          notiGender.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: Text(
+                    notiGender,
+                    style: const TextStyle(fontSize: 16, color: Colors.red),
+                    textAlign: TextAlign.left,
+                  ),
+                )
+              : const SizedBox(),
           const SizedBox(
             height: 20,
           ),
@@ -179,5 +263,20 @@ class _EditAccountState extends State<EditAccount> {
         ],
       ),
     );
+  }
+
+  bool kiemtratuoi(String birthDate) {
+    try {
+      List<String> dateParts = birthDate.split("/");
+      String formattedDate = "${dateParts[2]}-${dateParts[1]}-${dateParts[0]}";
+
+      DateTime parsedDate = DateTime.parse(formattedDate);
+      DateTime currentDate = DateTime.now();
+      Duration difference = currentDate.difference(parsedDate);
+      int age = (difference.inDays / 365).floor();
+      return age >= 18;
+    } catch (e) {
+      return false;
+    }
   }
 }

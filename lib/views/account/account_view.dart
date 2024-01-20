@@ -37,7 +37,9 @@ class _AccountState extends State<Account> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CircularProgressIndicator(),
+              CircularProgressIndicator(
+                color: Colors.green,
+              ),
               SizedBox(height: 10),
               Text('Đang cập nhật ảnh đại diện...'),
             ],
@@ -70,17 +72,17 @@ class _AccountState extends State<Account> {
         print('line 82: $decodedToken');
 
         widget.user = User.fromJson(decodedToken['user']);
-
         // ignore: use_build_context_synchronously
-        // Navigator.pop(context);
-        // ignore: use_build_context_synchronously
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (_) => MyNavBar(user: widget.user),
-          ),
-          (route) => false,
-        );
+        Navigator.maybePop(context);
+        Future.delayed(Duration.zero, () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (_) => MyNavBar(user: widget.user, index: 3),
+            ),
+            (route) => false,
+          );
+        });
       }
     } finally {
       // ignore: use_build_context_synchronously
@@ -327,4 +329,5 @@ class _AccountState extends State<Account> {
     prefs.remove('auth_token');
     prefs.setBool('is_logged_out', true);
   }
+
 }

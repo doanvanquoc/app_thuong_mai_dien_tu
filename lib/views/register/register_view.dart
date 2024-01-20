@@ -23,50 +23,77 @@ class _RegisterState extends State<Register> {
   String noti = '';
 
   Future<void> registerUser() async {
-    RegExp emailRegExp = RegExp(
-      r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
-    );
-
-    RegExp passwordRegExp = RegExp(
-      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:"<>?~`]).{8,}$',
-    );
-
-    if (userName.text.isEmpty ||
-        password.text.isEmpty ||
-        rePassword.text.isEmpty) {
-      noti = 'Cần nhập đầy đủ thông tin!';
-    } else if (!emailRegExp.hasMatch(userName.text)) {
-      noti = 'Email không hợp lệ!';
-    } else if (!passwordRegExp.hasMatch(password.text)) {
-      noti =
-          'Mật khẩu ít nhất 8 ký tự, có ít nhất 1 ký tự đặc biệt, 1 chữ hoa và 1 chữ thường!';
-    } else if (password.text != rePassword.text) {
-      noti = 'Mật khẩu và xác nhận mật khẩu không khớp!';
-    } else {
-      final UserAPI userApi = UserAPI.instance;
-
-      try {
-        final result = await userApi.checkEmail(userName.text);
-        if (result.containsKey('error')) {
-          noti = result['error'];
-        } else if (result.containsKey('code') && result['code'] == 1) {
-          noti = '';
-          // ignore: use_build_context_synchronously
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AccountInformation(
-                email: userName.text,
-                passWord: password.text,
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(
+                color: Colors.green,
               ),
-            ),
-          );
-        } else {
-          noti = 'Email đã tồn tại!';
+              SizedBox(height: 10),
+              Text('Đang kiểm tra thông tin...'),
+            ],
+          ),
+        );
+      },
+    );
+    try {
+      RegExp emailRegExp = RegExp(
+        r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
+      );
+
+      RegExp passwordRegExp = RegExp(
+        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:"<>?~`]).{8,}$',
+      );
+
+      if (userName.text.isEmpty ||
+          password.text.isEmpty ||
+          rePassword.text.isEmpty) {
+        noti = 'Cần nhập đầy đủ thông tin!';
+      } else if (!emailRegExp.hasMatch(userName.text)) {
+        noti = 'Email không hợp lệ!';
+      } else if (!passwordRegExp.hasMatch(password.text)) {
+        noti =
+            'Mật khẩu ít nhất 8 ký tự, có ít nhất 1 ký tự đặc biệt, 1 chữ hoa và 1 chữ thường!';
+      } else if (password.text != rePassword.text) {
+        noti = 'Mật khẩu và xác nhận mật khẩu không khớp!';
+      } else {
+        final UserAPI userApi = UserAPI.instance;
+
+        try {
+          final result = await userApi.checkEmail(userName.text);
+          if (result.containsKey('error')) {
+            noti = result['error'];
+          } else if (result.containsKey('code') && result['code'] == 1) {
+            noti = '';
+            // ignore: use_build_context_synchronously
+            Navigator.maybePop(context);
+            Future.delayed(Duration.zero, () {
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AccountInformation(
+                    email: userName.text,
+                    passWord: password.text,
+                  ),
+                ),
+              );
+            });
+          } else {
+            noti = 'Email đã tồn tại!';
+          }
+        } catch (e) {
+          noti = 'Lỗi kết nối';
         }
-      } catch (e) {
-        noti = 'Lỗi kết nối';
       }
+    } finally {
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
     }
     setState(() {});
   }

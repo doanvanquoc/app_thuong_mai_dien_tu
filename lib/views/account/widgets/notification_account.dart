@@ -1,9 +1,9 @@
+import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-Future openDialog(BuildContext context, String title, String detail) {
+Future notiAcconut(BuildContext context, String title, String detail) {
   return showDialog(
-    barrierDismissible: false,
     context: context,
     builder: (context) => AlertDialog(
       content: Container(
@@ -13,9 +13,9 @@ Future openDialog(BuildContext context, String title, String detail) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Lottie.asset(
-              'assets/animations/headerIcon.json',
-              width: 180,
-              height: 180,
+              'assets/animations/error.json',
+              width: 190,
+              height: 190,
             ),
             Text(
               title,
@@ -38,11 +38,9 @@ Future openDialog(BuildContext context, String title, String detail) {
                 letterSpacing: 0.20,
               ),
             ),
-            Lottie.asset(
-              'assets/animations/loading.json',
-              width: 100,
-              height: 100,
-            ),
+            MyButton(onTap: (){
+              Navigator.pop(context);
+            }, content: 'Đóng')
           ],
         ),
       ),

@@ -30,54 +30,82 @@ class _LoginState extends State<Login> {
   String notifications = '';
 
   Future<void> loginUser() async {
-    if (userName.text.isEmpty || password.text.isEmpty) {
-      setState(() {
-        notifications = 'Cần nhập đầy đủ thông tin!';
-      });
-    } else {
-      setState(() {
-        notifications = '';
-      });
-
-      final result = await widget.loginUser(userName.text, password.text);
-
-      if (result.containsKey('error')) {
-        setState(() {
-          notifications = result['error'];
-        });
-      } else if (result.containsKey('message') && result['message'] == 'OK') {
-        final token = result['token'];
-
-        //Lưu token vào local
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('auth_token', token);
-        prefs.setBool('is_logged_out', false);
-
-        Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-        final user = User.fromJson(decodedToken['user']);
-        // ignore: use_build_context_synchronously
-        openDialog(
-          context,
-          'Đăng nhập thành công',
-          'Chúng tôi sẽ đưa bạn đến Trang chủ trong vài giây...',
-        );
-        Future.delayed(
-          const Duration(seconds: 2),
-          () {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (_) => MyNavBar(user: user),
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(
+                color: Colors.green,
               ),
-              (route) => false,
-            );
-          },
+              SizedBox(height: 10),
+              Text('Đang kiểm tra thông tin đăng nhập...'),
+            ],
+          ),
         );
+      },
+    );
+    try {
+      if (userName.text.isEmpty || password.text.isEmpty) {
+        setState(() {
+          notifications = 'Cần nhập đầy đủ thông tin!';
+        });
       } else {
         setState(() {
-          notifications = 'Tài khoản hoặc mật khẩu không chính xác';
+          notifications = '';
         });
+
+        final result = await widget.loginUser(userName.text, password.text);
+
+        if (result.containsKey('error')) {
+          setState(() {
+            notifications = result['error'];
+          });
+        } else if (result.containsKey('message') && result['message'] == 'OK') {
+          final token = result['token'];
+
+          //Lưu token vào local
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('auth_token', token);
+          prefs.setBool('is_logged_out', false);
+
+          Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+          final user = User.fromJson(decodedToken['user']);
+
+          // ignore: use_build_context_synchronously
+          Navigator.maybePop(context);
+          Future.delayed(Duration.zero, () {
+            // ignore: use_build_context_synchronously
+            openDialog(
+              context,
+              'Đăng nhập thành công',
+              'Chúng tôi sẽ đưa bạn đến Trang chủ trong vài giây...',
+            );
+          });
+          Future.delayed(
+            const Duration(seconds: 2),
+            () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => MyNavBar(user: user,index: 0),
+                ),
+                (route) => false,
+              );
+            },
+          );
+        } else {
+          setState(() {
+            notifications = 'Tài khoản hoặc mật khẩu không chính xác';
+          });
+        }
       }
+    } finally {
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
     }
   }
 

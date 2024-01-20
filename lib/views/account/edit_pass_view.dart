@@ -1,5 +1,6 @@
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
+import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfilepass.dart';
 import 'package:app_thuong_mai_dien_tu/views/account/account_view.dart';
@@ -37,6 +38,9 @@ class _EditPassState extends State<EditPass> {
           'Mật khẩu ít nhất 8 ký tự, có ít nhất 1 ký tự đặc biệt, 1 chữ hoa và 1 chữ thường!';
     } else if (newPassWord.text != confirmNewPassWord.text) {
       notifications = 'Mật khẩu mới và xác nhận mật khẩu mới không trùng!';
+    }
+    else if(oldPassWord.text==newPassWord.text){
+      notifications = 'Mật khẩu cũ và xác nhận mật khẩu mới trùng nhau!';
     } else {
       notifications = '';
       final UserAPI userApi = UserAPI.instance;
@@ -57,15 +61,17 @@ class _EditPassState extends State<EditPass> {
         Future.delayed(
           const Duration(seconds: 2),
           () {
-            Navigator.pushAndRemoveUntil(
+           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (_) => Account(user: widget.user)),
+              MaterialPageRoute(
+                builder: (_) => MyNavBar(user: widget.user,index: 3,),
+              ),
               (route) => false,
             );
           },
         );
       } else {
-        notifications = 'Mật khẩu không chính xác!';
+        notifications = 'Mật khẩu cũ không chính xác!';
       }
     }
     setState(() {});
@@ -129,10 +135,14 @@ class _EditPassState extends State<EditPass> {
             iconLeft: const Icon(Icons.lock_outline),
             controller: confirmNewPassWord,
           ),
-          Text(
-            notifications,
-            style: const TextStyle(fontSize: 18, color: Colors.red),
-            textAlign: TextAlign.center,
+          if(notifications!='')
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Text(
+              notifications,
+              style: const TextStyle(fontSize: 18, color: Colors.red),
+              textAlign: TextAlign.center,
+            ),
           ),
           const SizedBox(
             height: 20,

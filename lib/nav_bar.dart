@@ -8,15 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MyNavBar extends StatefulWidget {
-  const MyNavBar({super.key,required this.user});
+  const MyNavBar({super.key,required this.user,required this.index});
   final User user;
+  final int index;
   @override
   State<MyNavBar> createState() => _MyNavBarState();
 }
 
 class _MyNavBarState extends State<MyNavBar> {
   List<Widget> pages = [];
-  int currentIndex = 0;
+  late int currentIndex = widget.index;
 
   @override
   void initState() {
