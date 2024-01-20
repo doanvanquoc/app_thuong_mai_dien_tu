@@ -1,4 +1,3 @@
-import 'package:app_thuong_mai_dien_tu/data_sources/repo/company_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/company_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
@@ -7,6 +6,7 @@ import 'package:app_thuong_mai_dien_tu/views/review/widgets/review_option.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/filter_option.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class SearchFilter extends StatefulWidget {
   SearchFilter(
       {super.key,
@@ -23,6 +23,9 @@ class SearchFilter extends StatefulWidget {
 class _SearchFilterState extends State<SearchFilter> {
   final companyPresenter = CompanyPresenter.instance;
   List<Company> companies = [];
+
+  bool checkrReOrder = false;
+
   @override
   void initState() {
     companyPresenter.getAllCompany().then((value) {
@@ -34,9 +37,17 @@ class _SearchFilterState extends State<SearchFilter> {
   }
 
   List<Company> sort = [
-    Company(companyID: 1, companyName: 'Mới nhất'),
+    Company(companyID: 1, companyName: 'Phổ biến'),
     Company(companyID: 2, companyName: 'Gần nhất'),
-    Company(companyID: 1, companyName: 'Mua nhiều nhất'),
+    Company(companyID: 1, companyName: 'Giá cao nhất'),
+  ];
+
+  List<String> ratelst = [
+    '5',
+    '4',
+    '3',
+    '2',
+    '1',
   ];
 
   RangeValues rangeValues = const RangeValues(10, 21);
@@ -75,6 +86,7 @@ class _SearchFilterState extends State<SearchFilter> {
                     lst: companies,
                     nameOption: "Phân loại",
                     onTap: widget.checkOptioin,
+                    check: checkrReOrder,
                   ),
                   SizedBox(
                     height: 151,
@@ -99,6 +111,7 @@ class _SearchFilterState extends State<SearchFilter> {
                                 values: rangeValues,
                                 onChanged: (value) {
                                   setState(() {
+                                    checkrReOrder = false;
                                     rangeValues = value;
                                     widget.priceFT(rangeValues.start.toInt(),
                                         rangeValues.end.toInt());
@@ -125,6 +138,7 @@ class _SearchFilterState extends State<SearchFilter> {
                     lst: sort,
                     nameOption: "Sắp xếp theo",
                     onTap: widget.checkOptioin,
+                    check: checkrReOrder,
                   ),
                   const SizedBox(height: 16),
                   const Text(
@@ -133,7 +147,7 @@ class _SearchFilterState extends State<SearchFilter> {
                   ),
                   const SizedBox(height: 16),
                   ReviewOption(
-                    lst: const [],
+                    lst: ratelst,
                     onTap: widget.checkOptioin,
                   ),
                 ],
@@ -148,7 +162,8 @@ class _SearchFilterState extends State<SearchFilter> {
                 child: MyButton(
                   onTap: () {
                     setState(() {
-                      rangeValues = const RangeValues(10, 90);
+                      rangeValues = const RangeValues(10, 20);
+                      checkrReOrder = true;
                     });
                   },
                   content: 'Đặt lại',
@@ -160,6 +175,8 @@ class _SearchFilterState extends State<SearchFilter> {
               Expanded(
                 child: MyButton(
                     onTap: () {
+                      widget.priceFT(
+                          rangeValues.start.toInt(), rangeValues.end.toInt());
                       widget.applyOption();
                     },
                     content: "Áp dụng"),

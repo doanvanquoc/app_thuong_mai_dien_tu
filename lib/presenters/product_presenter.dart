@@ -28,4 +28,14 @@ class ProductPresenter {
       return [];
     }
   }
+
+  static void productSearch(
+      String value, List<Product> lstData, List<Product> lstSearch) {
+    lstSearch.clear();
+    for (var element in lstData) {
+      if (element.productName.toUpperCase().contains(value.toUpperCase())) {
+        lstSearch.add(element);
+      }
+    }
+  }
 }

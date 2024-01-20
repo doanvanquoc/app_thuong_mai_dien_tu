@@ -1,10 +1,12 @@
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/company_api.dart';
-import 'package:app_thuong_mai_dien_tu/data_sources/repo/product_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/models/history_search.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/models/review.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/company_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/history_search_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/product_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/review_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_filter.dart';
@@ -22,20 +24,23 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   TextEditingController searchTextController = TextEditingController();
   String reslutSearchTextController = "";
-  bool onSearch = false;
   bool checkNotDataPage = false;
   bool checkDataPage = false;
   bool checkResultSearch = false;
   bool checkHistory = true;
   final FocusNode focusNode = FocusNode();
 
-  int count = 0;
-
 //lấy data
   final productPresenter = ProductPresenter.instance;
   final companyPresenter = CompanyPresenter.instance;
+  final reviewPresenter = ReviewPresenter.instanse;
   List<Product> products = [];
   List<Company> companies = [];
+  List<Review> reviews = [];
+
+  List historyLst = [];
+  List historyLstReversed = [];
+
   @override
   void initState() {
     productPresenter.getAllProduct().then((value) {
@@ -50,56 +55,22 @@ class _SearchPageState extends State<SearchPage> {
       });
     });
 
-    loadHistoryLocal();
-    historyLstReversed.addAll(historyLst.reversed);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(focusNode);
+    });
+
+    HistorySearchPresenter.loadHistoryLocal(
+        historyLst: historyLst, historyLstReversed: historyLstReversed);
     super.initState();
   }
 
-  List historyLst = [];
-  List historyLstReversed = [];
-
-//LƯU LOCAL
-  var historiesBox = Hive.box<History>('history');
-
-  void addHistoryLocal(String value) {
-    int index = 0;
-    final his = History(searchHistory: value);
-
-    setState(() {
-      if (value.isEmpty) {
-        return;
-      }
-
-      for (var item in historyLst) {
-        if (item.toString() == value) {
-          historiesBox.deleteAt(index);
-          historiesBox.add(his);
-
-          historyLst.remove(value);
-
-          historyLstReversed.clear();
-
-          historyLst.add(value);
-
-          historyLstReversed.addAll(historyLst.reversed);
-
-          return;
-        }
-      }
-      historyLstReversed.clear(); //làm trống
-      historiesBox.add(his); //thêm vào local
-      historyLst.add(value); //thêm mới ls vào list phụ
-      historyLstReversed.addAll(historyLst.reversed); //đảo ngược
-      index += 1;
+  void productLatest() {
+    productPresenter.getLatestProduct().then((value) {
+      setState(() {
+        productsSearch = value;
+      });
     });
   }
-
-  void loadHistoryLocal() {
-    for (var element in historiesBox.values.toList()) {
-      historyLst.add(element.searchHistory);
-    }
-  }
-//
 
   void onTapHistory(value) {
     searchTextController.text = value;
@@ -107,20 +78,17 @@ class _SearchPageState extends State<SearchPage> {
 
   void deletedAll() {
     setState(() {
-      historiesBox.clear();
-      historyLstReversed = [];
-      historyLst = [];
-      loadHistoryLocal();
+      HistorySearchPresenter.historiesBox.clear();
+      historyLstReversed.clear();
+      historyLst.clear();
     });
   }
 
   void deletedItem(int index) {
     setState(() {
-      historiesBox.deleteAt(index);
-      historyLstReversed = [];
-      historyLst = [];
-      loadHistoryLocal();
-      historyLstReversed.addAll(historyLst.reversed);
+      HistorySearchPresenter.historiesBox.deleteAt(index);
+      HistorySearchPresenter.loadHistoryLocal(
+          historyLst: historyLst, historyLstReversed: historyLstReversed);
     });
   }
 
@@ -130,45 +98,43 @@ class _SearchPageState extends State<SearchPage> {
       required checkHistory,
       required checkDataPage,
       required checkResultSearch}) {
-    this.checkNotDataPage = checkNotDataPage;
-    this.checkHistory = checkHistory;
-    this.checkDataPage = checkDataPage;
+    this.checkNotDataPage = checkNotDataPage; //trang ko có dữ liệu
+    this.checkHistory = checkHistory; //trang hiển lịch sử
+    this.checkDataPage = checkDataPage; //trang dư liệu tìm kiếm
     this.checkResultSearch = checkResultSearch;
-  }
-
-  List<dynamic> productSearch(
-      String value, List<dynamic> lstData, List<dynamic> lstSearch) {
-    lstSearch.clear();
-    for (var element in lstData) {
-      if (element.productName.toUpperCase().contains(value.toUpperCase())) {
-        lstSearch.add(element);
-      }
-    }
-    return lstSearch;
   }
 
   //Danh sach theo từ khóa tìm kiếm
   List<Product> productsSearch = [];
 
   //Kiểm tra có trùng data ko
-  bool checkData(value) {
+  bool checkSameData(value) {
     for (var item in products) {
       if (item.productName
           .toString()
           .toUpperCase()
           .contains(value.toString().toUpperCase())) {
-        productSearch(value, products, productsSearch);
+        ProductPresenter.productSearch(value, products, productsSearch);
         return true;
       }
     }
     return false;
   }
 
-  String checkCategory = "";
+  int priceFrom = 0;
+  int priceTo = 0;
 
+  //lay khoang gia
+  void priceFromTo(from, to) {
+    setState(() {
+      priceFrom = from;
+      priceTo = to;
+    });
+  }
+
+  //lấy id option
   int id = -1;
   Future<void> checkOption(value) async {
-    print(value);
     CompanyAPI.instance.getCompanyId(value).then((valueId) {
       setState(() {
         id = valueId;
@@ -176,41 +142,47 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  int priceFrom = 0;
-  int priceTo = 0;
-
-  void priceFromTo(from, to) {
-    //lay khoang gia
-    setState(() {
-      priceFrom = from;
-      priceTo = to;
-    });
-  }
-
   void applyOption() {
-    //them vao gio hang
     setState(() {
-      searchsCompanies(id, products, productsSearch);
-      checkSearch(
-          checkNotDataPage: false,
-          checkHistory: false,
-          checkDataPage: true,
-          checkResultSearch: true);
+      searchsCompanies(
+          categoryID: id, lstData: products, lstSearch: productsSearch);
+      searchTextController.text = '';
+      reslutSearchTextController = '';
+      if (productsSearch.isEmpty) {
+        checkSearch(
+            checkNotDataPage: true,
+            checkHistory: false,
+            checkDataPage: false,
+            checkResultSearch: true);
+      } else {
+        reslutSearchTextController = 'theo bộ lọc';
+        checkSearch(
+            checkNotDataPage: false,
+            checkHistory: false,
+            checkDataPage: true,
+            checkResultSearch: true);
+      }
+      id = -1; //reset giá trị option đang chọn
       Navigator.pop(context);
     });
   }
 
-  List<dynamic> searchsCompanies(
-      int value, List<Product> lstData, List<dynamic> lstSearch) {
+//Tim theo bộ lọc
+  void searchsCompanies(
+      {required int categoryID,
+      String sortName = 'Phổ biến',
+      String rating = '',
+      required List<Product> lstData,
+      required List<Product> lstSearch}) {
     lstSearch.clear();
     for (var element in lstData) {
-      if (element.company.companyID == value &&
-          (element.price >= 10000000 && element.price <= 20000000)) {
+      if ((element.company.companyID == categoryID) &&
+          (element.price >= int.parse("${priceFrom}000000") &&
+              element.price <= int.parse("${priceTo}000000"))) {
         lstSearch.add(element);
       }
     }
-    return lstSearch;
-  } //demo
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -239,16 +211,17 @@ class _SearchPageState extends State<SearchPage> {
                 onSubmitted: (value) {
                   setState(() {
                     if (value.isEmpty) {
+                      productLatest();
+                      reslutSearchTextController = 'mới nhất';
                       checkSearch(
-                          checkNotDataPage: true,
+                          checkNotDataPage: false,
                           checkHistory: false,
-                          checkDataPage: false,
+                          checkDataPage: true,
                           checkResultSearch: true);
                       return;
                     }
-
                     reslutSearchTextController = value;
-                    if (checkData(value)) {
+                    if (checkSameData(value)) {
                       checkSearch(
                           checkNotDataPage: false,
                           checkHistory: false,
@@ -261,7 +234,10 @@ class _SearchPageState extends State<SearchPage> {
                           checkDataPage: false,
                           checkResultSearch: true);
                     }
-                    addHistoryLocal(value);
+                    HistorySearchPresenter.addHistoryLocal(
+                        value: value,
+                        historyLst: historyLst,
+                        historyLstReversed: historyLstReversed);
                   });
                 },
                 onChanged: (value) {
@@ -281,7 +257,18 @@ class _SearchPageState extends State<SearchPage> {
                     onPressed: () {
                       setState(() {
                         reslutSearchTextController = searchTextController.text;
-                        if (checkData(searchTextController.text)) {
+                        if (reslutSearchTextController.isEmpty) {
+                          reslutSearchTextController = "mới nhất";
+                          productLatest();
+                          focusNode.unfocus();
+                          checkSearch(
+                              checkNotDataPage: false,
+                              checkHistory: false,
+                              checkDataPage: true,
+                              checkResultSearch: true);
+                          return;
+                        }
+                        if (checkSameData(searchTextController.text)) {
                           checkSearch(
                               checkNotDataPage: false,
                               checkHistory: false,
@@ -294,7 +281,10 @@ class _SearchPageState extends State<SearchPage> {
                               checkDataPage: false,
                               checkResultSearch: true);
                         }
-                        addHistoryLocal(reslutSearchTextController);
+                        HistorySearchPresenter.addHistoryLocal(
+                            value: reslutSearchTextController,
+                            historyLst: historyLst,
+                            historyLstReversed: historyLstReversed);
                         focusNode.unfocus();
                       });
                     },
@@ -342,7 +332,9 @@ class _SearchPageState extends State<SearchPage> {
                                 fontWeight: FontWeight.bold),
                             children: [
                               TextSpan(
-                                text: ' "$reslutSearchTextController"',
+                                text: productsSearch.isNotEmpty
+                                    ? ' "$reslutSearchTextController"'
+                                    : '',
                                 style: const TextStyle(
                                     color: AppColor.primaryColor,
                                     fontSize: 16,

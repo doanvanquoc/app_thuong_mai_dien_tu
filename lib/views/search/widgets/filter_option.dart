@@ -1,5 +1,4 @@
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
-import 'package:app_thuong_mai_dien_tu/models/review.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -10,10 +9,12 @@ class FilterOption extends StatefulWidget {
     required this.lst,
     required this.nameOption,
     required this.onTap,
+    required this.check,
   });
   final List<Company> lst;
   final String nameOption;
   Function onTap;
+  bool check;
 
   @override
   State<FilterOption> createState() => _FilterOptionState();
@@ -24,6 +25,10 @@ class _FilterOptionState extends State<FilterOption> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.check) {
+      selectedIndex = -1;
+      widget.check = false;
+    }
     return SizedBox(
       height: 80,
       child: Column(

@@ -21,7 +21,7 @@ class _AddCartDetailState extends State<AddCartDetail> {
       left: 0,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24),
-        height: 80,
+        height: 64,
         color: const Color.fromARGB(255, 255, 255, 255),
         width: double.infinity,
         child: Row(
@@ -53,7 +53,7 @@ class _AddCartDetailState extends State<AddCartDetail> {
                             top: Radius.circular(40))),
                     context: context,
                     builder: (_) {
-                      return const DetailChange();
+                      return DetailChange(product: widget.product);
                     });
               },
               child: Container(
@@ -78,7 +78,9 @@ class _AddCartDetailState extends State<AddCartDetail> {
                       size: 22,
                       color: Colors.white,
                     ),
+
                     SizedBox(width: 8),
+                    //add cart
                     Text(
                       'Thêm vào giỏ hàng',
                       style: TextStyle(fontSize: 16, color: Colors.white),

@@ -4,8 +4,9 @@ import 'package:app_thuong_mai_dien_tu/views/review/widgets/review_option.dart';
 import 'package:flutter/material.dart';
 
 class ReviewPage extends StatefulWidget {
-  const ReviewPage({super.key, required this.reviews});
+  ReviewPage({super.key, required this.reviews, required this.avgRating});
   final List<Review> reviews;
+  Function avgRating;
   @override
   State<ReviewPage> createState() => _ReviewPageState();
 }
@@ -24,8 +25,8 @@ class _ReviewPageState extends State<ReviewPage> {
   ];
 
   List<Review> reviewByRating = [];
+  //lọc theo sao
   void checkOption(value) {
-    //lọc theo sao
     setState(() {
       reviewByRating.clear();
       checkRate = value;
@@ -40,9 +41,8 @@ class _ReviewPageState extends State<ReviewPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
     reviewByRating.addAll(widget.reviews);
+    super.initState();
   }
 
   @override
@@ -52,7 +52,7 @@ class _ReviewPageState extends State<ReviewPage> {
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         title: Text(
-          "${Review.avgRating(widget.reviews).toStringAsFixed(1)} (${widget.reviews.length} đánh giá)",
+          "${widget.avgRating(widget.reviews).toStringAsFixed(1)} (${widget.reviews.length} đánh giá)",
           style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),

@@ -1,7 +1,9 @@
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/review_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/models/review.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/review_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
+import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/detail_specification.dart';
 import 'package:app_thuong_mai_dien_tu/views/review/review_view.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +27,7 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
     return Positioned(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height / 2.4,
-      bottom: 62,
+      bottom: 70,
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
@@ -42,10 +44,6 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                           fontSize: 28, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.favorite, size: 28),
-                  )
                 ],
               ),
               const SizedBox(height: 12),
@@ -77,13 +75,14 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) =>
-                                    ReviewPage(reviews: widget.review)));
+                                builder: (_) => ReviewPage(
+                                    reviews: widget.review,
+                                    avgRating: ReviewPresenter.avgRating)));
                       });
                     },
                     child: Text(
                       //toStringAsFixed(1) --> làm tròn
-                      '${Review.avgRating(widget.review).toStringAsFixed(1)} (${widget.review.length} đánh giá)',
+                      '${ReviewPresenter.avgRating(widget.review).toStringAsFixed(1)} (${widget.review.length} đánh giá)',
                       style: const TextStyle(fontSize: 14),
                     ),
                   )
@@ -94,18 +93,18 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                 padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
                 child: Text(
                   "Mô tả",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
               Text(
                 widget.product.description,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 16,
                 ),
                 textAlign: TextAlign.justify,
               ),
               const SizedBox(height: 12),
-              const Divider(),
+              DetailSpecifications(product: widget.product)
             ],
           ),
         ),

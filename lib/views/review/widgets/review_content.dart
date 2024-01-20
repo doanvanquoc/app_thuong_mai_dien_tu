@@ -1,4 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/models/review.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/review_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -10,18 +11,6 @@ class ReviewContent extends StatefulWidget {
 }
 
 class _ReviewContentState extends State<ReviewContent> {
-  String converDate(String dateString) {
-    DateTime dateTime = DateTime.parse(dateString);
-    // Lấy ngày hiện tại
-    DateTime currentDate = DateTime.now();
-    if (dateTime.year != currentDate.year) return dateString;
-    if (dateTime.month != currentDate.month) return dateString;
-    if (dateTime.day == currentDate.day) return "Hôm nay";
-    if (currentDate.day - 1 == dateTime.day) return "1 Ngày trước";
-    if (currentDate.day - 2 == dateTime.day) return "2 Ngày trước";
-    return dateString;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -84,7 +73,7 @@ class _ReviewContentState extends State<ReviewContent> {
           style: const TextStyle(fontSize: 12),
         ),
         const SizedBox(height: 12),
-        Text(converDate(widget.review.reviewDate))
+        Text(ReviewPresenter.converDate(widget.review.reviewDate))
       ],
     );
   }

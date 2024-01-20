@@ -1,31 +1,53 @@
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/cart_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/notification_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class DetailChange extends StatefulWidget {
-  const DetailChange({super.key});
-
+  const DetailChange({super.key, required this.product});
+  final Product product;
   @override
   State<DetailChange> createState() => _DetailChangeState();
 }
 
 class _DetailChangeState extends State<DetailChange> {
+  final cartPresenter = CartPresenter.instance;
+
   int count = 1;
-  void incrQ() {
+  void incrQ(int productQuanlity) {
     setState(() {
-      count++;
+      if (count >= productQuanlity) {
+        count == productQuanlity;
+      } else {
+        count++;
+      }
     });
   }
 
   void decrQ() {
     setState(() {
+      if (widget.product.quantity == 0) {
+        count = 0;
+        return;
+      }
       if (count <= 1) {
         count = 1;
       } else {
         count -= 1;
       }
     });
+  }
+
+  @override
+  void initState() {
+    if (widget.product.quantity == 0) {
+      count = 0;
+      return;
+    }
+    super.initState();
   }
 
   @override
@@ -80,7 +102,7 @@ class _DetailChangeState extends State<DetailChange> {
                     ),
                     IconButton(
                       onPressed: () {
-                        incrQ();
+                        incrQ(widget.product.quantity);
                       },
                       icon: const Icon(
                         Icons.add,
@@ -93,7 +115,23 @@ class _DetailChangeState extends State<DetailChange> {
             ],
           ),
           MyButton(
-              onTap: () {
+              onTap: () async {
+                if (widget.product.quantity == 0) {
+                  return;
+                }
+                Map<String, dynamic> result = await cartPresenter.addToCart(
+                    userID: 1,
+                    productID: widget.product.productID,
+                    quanlity: count);
+                print(result.entries.last);
+                NotificationPresenter.addNotification(
+                  2,
+                  DateTime.now(),
+                  'Giỏ hàng!',
+                  'Thêm vào giỏ hàng thàn công',
+                );
+                NotificationPresenter.getNotification();
+                // ignore: use_build_context_synchronously
                 Navigator.pop(context);
               },
               content: "Xác nhận thêm vào giỏ hàng")

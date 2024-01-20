@@ -1,7 +1,5 @@
-import 'package:app_thuong_mai_dien_tu/models/history_search.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 
 // ignore: must_be_immutable
 class SearchHistory extends StatefulWidget {
@@ -39,7 +37,7 @@ class _SearchHistoryState extends State<SearchHistory> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            InkWell(
+            GestureDetector(
               onTap: () {
                 widget.deletedAll();
               },
@@ -80,12 +78,13 @@ class _SearchHistoryState extends State<SearchHistory> {
                       ),
                       IconButton(
                           onPressed: () {
-                            List<dynamic> lst = [];
+                            List<dynamic> lst = []; //dùng để chứ danh sách gốc
                             int i = 0;
                             lst.addAll(widget.historyLst.reversed);
                             for (var element in lst) {
-                              if (element == widget.historyLst[index]) {
+                              if (widget.historyLst[index] == element) {
                                 widget.deletedItem(i);
+                                return;
                               }
                               i++;
                             }

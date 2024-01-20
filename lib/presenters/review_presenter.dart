@@ -18,4 +18,27 @@ class ReviewPresenter {
       return [];
     }
   }
+
+  static double avgRating(List<Review> lst) {
+    if (lst.isEmpty) return 0;
+    double total = 0;
+    double avg = 0;
+    for (var element in lst) {
+      total += element.rating;
+    }
+    avg = total / lst.length;
+    return avg;
+  }
+
+  static String converDate(String dateString) {
+    DateTime dateTime = DateTime.parse(dateString);
+    // Lấy ngày hiện tại
+    DateTime currentDate = DateTime.now();
+    if (dateTime.year != currentDate.year) return dateString;
+    if (dateTime.month != currentDate.month) return dateString;
+    if (dateTime.day == currentDate.day) return "Hôm nay";
+    if (currentDate.day - 1 == dateTime.day) return "1 Ngày trước";
+    if (currentDate.day - 2 == dateTime.day) return "2 Ngày trước";
+    return dateString;
+  }
 }

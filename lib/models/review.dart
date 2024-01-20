@@ -22,15 +22,4 @@ class Review {
         rating = json['rating'],
         userID = json['userID'],
         productID = json['productID'];
-
-  static double avgRating(List<Review> lst) {
-    if (lst.isEmpty) return 0;
-    double total = 0;
-    double avg = 0;
-    for (var element in lst) {
-      total += element.rating;
-    }
-    avg = total / lst.length;
-    return avg;
-  }
 }
