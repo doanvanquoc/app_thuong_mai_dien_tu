@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +61,7 @@ class _CartWidgetState extends State<CartWidget> {
             height: 120,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(widget.image),
+                image: NetworkImage(widget.image),
                 fit: BoxFit.fill,
               ),
             ),
@@ -78,7 +79,7 @@ class _CartWidgetState extends State<CartWidget> {
                     softWrap: true,
                     overflow: TextOverflow.visible,
                     style: const TextStyle(
-                      color: Color(0xFF212121),
+                      color: AppColor.secondaryColor,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -227,7 +228,7 @@ class _CartWidgetState extends State<CartWidget> {
               const Text(
                 'Xóa khỏi giỏ hàng?',
                 style: TextStyle(
-                  color: Color(0xFF212121),
+                  color: AppColor.secondaryColor,
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
                 ),

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class AddressItem extends StatelessWidget {
   const AddressItem({
     super.key,
-    required this.name,
-    required this.street,
+    this.addressID,
+    required this.address,
     required this.isIcon,
     required this.isRadioButton,
     this.isSelected = true,
@@ -12,13 +12,13 @@ class AddressItem extends StatelessWidget {
     this.isDefault = false,
   });
 
-  final String name;
-  final String street;
+  final int? addressID;
+  final String address;
   final bool isIcon;
   final bool isRadioButton;
   final bool isSelected;
   final VoidCallback? onSelected;
-  final bool isDefault;
+  final bool? isDefault;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +88,7 @@ class AddressItem extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          name,
+                          addressID.toString(),
                           style: const TextStyle(
                             color: Color(0xFF212121),
                             fontSize: 18,
@@ -96,7 +96,7 @@ class AddressItem extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        if (isDefault)
+                        if (isDefault != null && isDefault == true)
                           Container(
                             width: 67,
                             height: 25,
@@ -120,7 +120,7 @@ class AddressItem extends StatelessWidget {
                     ),
                     Flexible(
                       child: Text(
-                        street,
+                        address,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Color(0xFF616161),

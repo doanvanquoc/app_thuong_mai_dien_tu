@@ -59,8 +59,36 @@ class Product {
         images =
             List.from((json['images'] as List).map((e) => Image.fromJson(e)));
 
+  Map<String, dynamic> toJson() {
+    return {
+      'productID': productID,
+      'product_name': productName,
+      'price': price,
+      'description': description,
+      'quantity': quantity,
+      'company': company.toJson(),
+      'screen_size': screenSize,
+      'os': os,
+      'cpu': cpu,
+      'ram': ram,
+      'internal_storage': internalStorage,
+      'main_cam_resolution': mainCamResolution,
+      'front_cam_resolution': frontCamResolution,
+      'battery': battery,
+      'weight': weight,
+      'post_date': postDate,
+      'images': images.map((e) => e.toJson()).toList(),
+    };
+  }
+
   static String formatPrice(String price) {
+    num priceNum = num.parse(price);
     final numberFormat = NumberFormat('#,##0', 'vi_VN');
-    return '${numberFormat.format(price)}đ';
+    return '${numberFormat.format(priceNum)}đ';
+  }
+
+  static int parsePrice(String price) {
+    String numericString = price.replaceAll('đ', '').replaceAll('.', '');
+    return int.tryParse(numericString) ?? 0;
   }
 }

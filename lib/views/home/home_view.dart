@@ -19,12 +19,14 @@ class _HomePageState extends State<HomePage> {
   List<Product> products = [];
   @override
   void initState() {
-    instance.getNewsProduct().then((value) {
-      setState(() {
-        products = value;
-      });
-    });
     super.initState();
+    instance.getNewsProduct().then((value) {
+      if (mounted) {
+        setState(() {
+          products = value;
+        });
+      }
+    });
   }
 
   int currentIndex = 0;

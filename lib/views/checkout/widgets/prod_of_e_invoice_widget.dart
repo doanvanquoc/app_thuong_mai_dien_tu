@@ -38,7 +38,7 @@ class ProductOfInvoiceWidget extends StatelessWidget {
             height: 60,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(image),
+                image: NetworkImage(image),
                 fit: BoxFit.fill,
               ),
             ),

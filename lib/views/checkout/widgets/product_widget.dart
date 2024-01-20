@@ -46,7 +46,7 @@ class _ProductWidgetState extends State<ProductWidget> {
             height: 120,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(widget.image),
+                image: NetworkImage(widget.image),
                 fit: BoxFit.fill,
               ),
             ),

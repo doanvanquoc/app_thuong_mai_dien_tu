@@ -1,11 +1,11 @@
 class Address {
-  String addressID;
+  int? addressID;
   String address;
   bool? isDefault;
   int? userID;
 
   Address({
-    required this.addressID,
+    this.addressID,
     required this.address,
     this.isDefault,
     this.userID,
@@ -14,17 +14,16 @@ class Address {
   Address.fromJson(Map<String, dynamic> json)
       : addressID = json['addressID'],
         address = json['address'],
-        userID = json['userID'];
+        userID = json['userID'] ?? 1;
 
   static Address? getDefaultAddress(List<Address> addresses) {
     if (addresses.isEmpty) {
       return null;
     }
-
     try {
       return addresses.firstWhere((address) => address.isDefault == true);
     } catch (e) {
-      return null;
+      return addresses.first;
     }
   }
 }

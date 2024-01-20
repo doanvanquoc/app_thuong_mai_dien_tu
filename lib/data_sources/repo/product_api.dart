@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_thuong_mai_dien_tu/data_sources/api_url.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:dio/dio.dart';

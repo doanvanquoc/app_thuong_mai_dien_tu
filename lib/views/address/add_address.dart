@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 class AddAddressView extends StatefulWidget {
   const AddAddressView({super.key, required this.onAddAddress});
 
-  final Function(String name, String street) onAddAddress;
+  final Function(String address) onAddAddress;
 
   @override
   State<AddAddressView> createState() => _AddAddressViewState();
 }
 
 class _AddAddressViewState extends State<AddAddressView> {
-  final TextEditingController name = TextEditingController();
+  final TextEditingController id = TextEditingController();
   final TextEditingController address = TextEditingController();
   final TextEditingController note = TextEditingController();
 
@@ -36,7 +36,7 @@ class _AddAddressViewState extends State<AddAddressView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            AddAddressWidget(title: 'Tên', content: 'Nhà', controller: name),
+            AddAddressWidget(title: 'Tên', content: 'Nhà', controller: id),
             const SizedBox(height: 24),
             AddAddressWidget(
                 title: 'Địa chỉ', content: 'Địa chỉ', controller: address),
@@ -56,11 +56,8 @@ class _AddAddressViewState extends State<AddAddressView> {
   }
 
   void onConfirmPressed() {
-    String nameValue = name.text;
-    String addressValue = address.text;
-
-    widget.onAddAddress(nameValue, addressValue);
-
+    String addressName = address.text;
+    widget.onAddAddress(addressName);
     Navigator.of(context).pop();
   }
 }

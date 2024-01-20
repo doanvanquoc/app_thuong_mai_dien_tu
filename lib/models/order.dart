@@ -1,8 +1,8 @@
 class Order {
   final int orderID;
-  final double totalPrice;
+  final int totalPrice;
   final DateTime orderDate;
-  final int userID;
+  final int? userID;
   Order({
     required this.orderID,
     required this.totalPrice,
@@ -12,7 +12,7 @@ class Order {
 
   Order.fromJson(Map<String, dynamic> json)
       : orderID = json['orderID'],
-        totalPrice = json['totalPrice'],
-        orderDate = DateTime.parse(json['orderDate']),
-        userID = json['userID'];
+        totalPrice = json['total_price'],
+        orderDate = DateTime.parse(json['order_date']),
+        userID = json['userID'] ?? 1;
 }

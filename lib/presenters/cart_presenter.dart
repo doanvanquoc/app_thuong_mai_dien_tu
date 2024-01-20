@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/cart_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/cart.dart';
+import 'package:dio/dio.dart';
 
 class CartPresenter {
   CartPresenter._internal();
@@ -11,20 +12,28 @@ class CartPresenter {
 
   Future<List<Cart>> getCartDetails(int userID) async {
     try {
-      List<Cart> cartItem = await api.getCartDetailsByUserID(userID);
-      return cartItem;
+      final a = await api.getCartDetailsByUserID(userID);
+      return a;
+    } on DioException catch (e) {
+      log('pre: Lỗi khi gọi API: ${e.message}');
+      return [];
     } catch (e) {
       log(e.toString());
       return [];
     }
   }
 
-  Future<bool> updateQuantity(int productID, int quantity) async {
+  Future<bool> updateCartQuantity(int cartID, int quantity) async {
     try {
-      return await api.updateProductQuantity(productID, quantity);
+      bool isSuccess = await api.updateQuantity(cartID, quantity);
+      return isSuccess;
     } catch (e) {
       log(e.toString());
       return false;
     }
+  }
+
+  Future<bool> removeProductFromCart(int productID) async {
+    return await api.deleteProductFromCart(productID);
   }
 }

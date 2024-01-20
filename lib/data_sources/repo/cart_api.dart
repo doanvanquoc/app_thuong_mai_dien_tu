@@ -13,33 +13,54 @@ class CartAPI {
 
   Future<List<Cart>> getCartDetailsByUserID(int userID) async {
     try {
-      final res = await dio.get('${APIConfig.API_URL}/cart/user/$userID');
-      if (res.statusCode == 200 && res.data is List) {
-        return (res.data as List).map((e) => Cart.fromJson(e)).toList();
+      final res = await dio.get('${APIConfig.API_URL}/cart/$userID');
+      log(res.data.toString());
+      if (res.statusCode == 200 && res.data['data'] is List) {
+        log(res.data['data'][0]['product'].toString());
+        return (res.data['data'] as List).map((e) {
+          return Cart.fromJson(e);
+        }).toList();
       } else {
         log('Lỗi khi lấy thông tin giỏ hàng: ${res.statusCode}');
         return [];
       }
+    } on DioException catch (e) {
+      log('api: Lỗi khi gọi API: ${e.message}');
+      return [];
     } catch (e) {
-      rethrow;
+      return [];
     }
   }
 
-  Future<bool> updateProductQuantity(int productID, int quantity) async {
+  Future<bool> updateQuantity(int cartID, int quantity) async {
     try {
-      final res = await dio.put('${APIConfig.API_URL}/product/updateQuantity',
-          data: jsonEncode({
-            'productID': productID,
-            'newQuantity': quantity,
-          }));
-      if (res.statusCode == 200) {
+      final response = await dio.post(
+        '${APIConfig.API_URL}/cart/update',
+        data: jsonEncode({'cartID': cartID, 'quantity': quantity}),
+      );
+      log(response.data['code'].toString());
+      if (response.statusCode == 200 && response.data['code'] == 1) {
         return true;
       } else {
-        log('Lỗi khi cập nhật số lượng sản phẩm: ${res.statusCode}');
+        log('Cập nhật thất bại: ${response.statusCode}');
         return false;
       }
     } catch (e) {
-      rethrow;
+      log('Lỗi kết nối: $e');
+      return false;
+    }
+  }
+
+  Future<bool> deleteProductFromCart(int productID) async {
+    try {
+      final response = await dio.delete('${APIConfig.API_URL}/cart/$productID');
+      if (response.data['code'] == 1) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      log(e.toString());
       return false;
     }
   }

@@ -1,17 +1,21 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:app_thuong_mai_dien_tu/models/cart.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/checkout_view.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 class TotalWidget extends StatelessWidget {
-  const TotalWidget({
+  TotalWidget({
     super.key,
-    required this.products,
+    this.products,
     required this.totalPrice,
   });
 
-  final List<Product> products;
-  final int totalPrice;
+  List<Cart>? products;
+  final String totalPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +57,7 @@ class TotalWidget extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                Product.formatPrice(totalPrice.toString()).toString(),
+                totalPrice.toString(),
                 style: const TextStyle(
                   color: Color(0xFF212121),
                   fontSize: 24,
@@ -65,15 +69,30 @@ class TotalWidget extends StatelessWidget {
           const SizedBox(width: 32),
           Expanded(
             child: MyButton(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CheckoutView(
-                              products: products,
-                              totalPrice: totalPrice,
-                            )),
-                  );
+                onTap: () async {
+                  var connectivityResult =
+                      await (Connectivity().checkConnectivity());
+                  if (connectivityResult != ConnectivityResult.none) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CheckoutView(
+                                products: products!,
+                                totalPrice: Product.parsePrice(totalPrice),
+                              )),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Lỗi kết nối'),
+                      backgroundColor: Colors.red,
+                      behavior: SnackBarBehavior.floating,
+                      margin:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                      ),
+                    ));
+                  }
                 },
                 content: 'Thanh toán'),
           ),
