@@ -113,11 +113,11 @@ class _LoginState extends State<Login> {
               ),
               Text(
                 notifications,
-                style: const TextStyle(color: Colors.red, fontSize: 16),
+                style: const TextStyle(color: Colors.red, fontSize: 18),
               ),
               const SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: MyButton(
                   onTap: loginUser,
                   content: 'Đăng Nhập',

@@ -1,4 +1,9 @@
+import 'dart:io';
+import 'dart:math';
+
+import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
+import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
 import 'package:app_thuong_mai_dien_tu/views/account/edit_pass_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/account/editaccount_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/account/widgets/button_logout.dart';
@@ -9,17 +14,80 @@ import 'package:app_thuong_mai_dien_tu/views/login/login_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/notification/notification_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/widgets/avartar.dart';
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Account extends StatefulWidget {
-  const Account({Key? key, required this.user}) : super(key: key);
-  final User user;
+  Account({Key? key, required this.user}) : super(key: key);
+  User user;
 
   @override
   State<Account> createState() => _AccountState();
 }
 
 class _AccountState extends State<Account> {
+  File? selectedImage;
+
+  Future<void> updateUserAvatar(File? image) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 10),
+              Text('Đang cập nhật ảnh đại diện...'),
+            ],
+          ),
+        );
+      },
+    );
+
+    try {
+      final UserAPI userApi = UserAPI.instance;
+      final result = await userApi.updateUser(
+        userId: widget.user.userID,
+        email: null,
+        fullname: null,
+        birthday: null,
+        phoneNumber: null,
+        sex: null,
+        avatar: image,
+      );
+
+      if (result.containsKey('code') && result['code'] == 1) {
+        final token = result['token'];
+
+        // Lưu token vào local
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('auth_token', token);
+        prefs.setBool('is_logged_out', false);
+
+        Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+        print('line 82: $decodedToken');
+
+        widget.user = User.fromJson(decodedToken['user']);
+
+        // ignore: use_build_context_synchronously
+        // Navigator.pop(context);
+        // ignore: use_build_context_synchronously
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (_) => MyNavBar(user: widget.user),
+          ),
+          (route) => false,
+        );
+      }
+    } finally {
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,23 +105,31 @@ class _AccountState extends State<Account> {
         ),
         actions: [
           IconButton(
-              onPressed: () {}, icon: const Icon(Icons.more_horiz_rounded))
+            onPressed: () {},
+            icon: const Icon(Icons.more_horiz_rounded),
+          ),
         ],
       ),
       body: ListView(
         children: [
           Avatar(
-              src: widget.user.avatar == ''
-                  ? 'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg'
-                  : widget.user.avatar),
+            src: widget.user.avatar == ''
+                ? 'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg'
+                : widget.user.avatar,
+            onImageSelected: (File? image) {
+              setState(() async {
+                updateUserAvatar(image);
+              });
+            },
+          ),
           const SizedBox(
             height: 10,
           ),
           InfomationAccount(
-              name: widget.user.fullname == ''
-                  ? 'Username'
-                  : widget.user.fullname,
-              phone: widget.user.phoneNumber ?? ''),
+            name:
+                widget.user.fullname == '' ? 'Username' : widget.user.fullname,
+            phone: widget.user.phoneNumber ?? '',
+          ),
           const SizedBox(
             height: 40,
           ),
@@ -72,7 +148,8 @@ class _AccountState extends State<Account> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => EditAccount(user: widget.user)),
+                  builder: (context) => EditAccount(user: widget.user),
+                ),
               );
             },
           ),
@@ -92,7 +169,11 @@ class _AccountState extends State<Account> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => EditPass(user: widget.user,)),
+                MaterialPageRoute(
+                  builder: (context) => EditPass(
+                    user: widget.user,
+                  ),
+                ),
               );
             },
           ),

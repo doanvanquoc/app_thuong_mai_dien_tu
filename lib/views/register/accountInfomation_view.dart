@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
@@ -26,84 +27,106 @@ class AccountInformation extends StatefulWidget {
 }
 
 class _AccountInformationState extends State<AccountInformation> {
-  String dropdownValue = 'Nam';
   TextEditingController name = TextEditingController();
   TextEditingController dateTime = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
   TextEditingController gender = TextEditingController();
-  String avatar =
-      'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg';
-  String notifications = '';
+  String notiName = '';
+  String notiDateTime = '';
+  String notiPhoneNumber = '';
+  String notiGender = '';
+  File? selectedImage;
 
   Future<void> registerUser() async {
-    if (name.text.isEmpty ||
-        dateTime.text.isEmpty ||
-        phoneNumber.text.isEmpty ||
-        gender.text.isEmpty) {
-      setState(() {
-        notifications = 'Cần nhập đầy đủ thông tin!';
-      });
-    } else {
-      setState(() {
-        notifications = '';
-      });
+    RegExp regExp = RegExp(r'^0[0-9]{9}$');
 
+    if (name.text.isEmpty) {
+      notiName = 'Vui lòng nhập họ và tên!';
+    } else {
+      notiName = '';
+    }
+
+    if (dateTime.text.isEmpty) {
+      notiDateTime = 'Vui lòng nhập ngày sinh!';
+    } else {
+      notiDateTime = '';
+    }
+
+    if (phoneNumber.text.isEmpty) {
+      notiPhoneNumber = 'Vui lòng nhập số điện thoại!';
+    } else if (!regExp.hasMatch(phoneNumber.text)) {
+      notiPhoneNumber = 'Số điện thoại phải có định dạng "0xxxxxxxxx"';
+      print(phoneNumber.text);
+    } else {
+      notiPhoneNumber = '';
+    }
+
+    if (gender.text.isEmpty) {
+      notiGender = 'Vui lòng chọn giới tính!';
+    } else {
+      notiGender = '';
+    }
+
+    if (name.text.isNotEmpty &&
+        dateTime.text.isNotEmpty &&
+        phoneNumber.text.isNotEmpty &&
+        gender.text.isNotEmpty) {
+      notiDateTime = '';
+      notiGender = '';
+      notiPhoneNumber = '';
+      notiName = '';
       final UserAPI userApi = UserAPI.instance;
       DateTime birthdayy = DateFormat('dd/MM/yyyy').parse(dateTime.text);
 
       try {
+        String fullname=name.text.toString().replaceAll(RegExp(r'\s+'), ' ').trim();
         final result = await userApi.registerUser(widget.email, widget.passWord,
-            name.text, birthdayy, phoneNumber.text, gender.text, avatar);
-        if (result.containsKey('error')) {
-          setState(() {
-            notifications = result['error'];
-          });
-        } else if (result.containsKey('message') && result['message'] == 'OK') {
+            fullname, birthdayy, phoneNumber.text, gender.text, selectedImage);
+
+        await Future.delayed(const Duration(seconds: 2));
+
+        if (result.containsKey('code') && result['code'] == 1) {
           final token = result['token'];
 
-          //Lưu token vào local
+          // Lưu token vào local
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('auth_token', token);
           prefs.setBool('is_logged_out', false);
 
           Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-          print('line 63: ${decodedToken['id']}');
+
           final user = User(
-              userID: decodedToken['id'],
-              email: decodedToken['email'],
-              fullname: decodedToken['fullname'],
-              birthday: decodedToken['birthday'],
-              phoneNumber: decodedToken['phone_number'],
-              avatar: decodedToken['avatar'],
-              sex: decodedToken['sex']);
-          notifications = '';
+              userID: decodedToken['user']['id'],
+              email: decodedToken['user']['email'],
+              fullname: decodedToken['user']['fullname'],
+              birthday: decodedToken['user']['birthday'],
+              phoneNumber: decodedToken['user']['phone_number'],
+              avatar: decodedToken['user']['avatar'],
+              sex: decodedToken['user']['sex']);
+
           // ignore: use_build_context_synchronously
           openDialog(context, 'Đăng ký thành công',
               'Chúng tôi sẽ đưa bạn đến Trang chủ trong vài giây...');
-
-          Future.delayed(
-            const Duration(seconds: 2),
-            () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => MyNavBar(user: user),
-                ),
-                (route) => false,
-              );
-            },
-          );
-        } else {
-          setState(() {
-            notifications = 'Tài khoản hoặc mật khẩu không chính xác';
+          Future.delayed(const Duration(seconds: 2), () {
+            // ignore: use_build_context_synchronously
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (_) => MyNavBar(user: user),
+              ),
+              (route) => false,
+            );
           });
+        } else {
+          // ignore: use_build_context_synchronously
+          openDialog(context,'Đăng ký tài khoản thất bại', 'Có lỗi trong quá trình đăng ký');
         }
       } catch (e) {
-        setState(() {
-          notifications = 'Lỗi kết nối';
-        });
+        // ignore: use_build_context_synchronously
+        openDialog(context,'Đăng ký tài khoản thất bại', 'Có lỗi trong quá trình đăng ký');
       }
     }
+    setState(() {});
   }
 
   @override
@@ -127,10 +150,16 @@ class _AccountInformationState extends State<AccountInformation> {
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.all(5),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Avatar(
-                src:'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg',
-              ),
+                  src:
+                      'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg',
+                  onImageSelected: (File? image) {
+                    setState(() {
+                      selectedImage = image;
+                    });
+                  }),
               const SizedBox(
                 height: 10,
               ),
@@ -140,6 +169,16 @@ class _AccountInformationState extends State<AccountInformation> {
                 iconRight: null,
                 controller: name,
               ),
+              notiName.isNotEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 30),
+                      child: Text(
+                        notiName,
+                        style: const TextStyle(fontSize: 16, color: Colors.red),
+                        textAlign: TextAlign.left,
+                      ),
+                    )
+                  : const SizedBox(),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -148,23 +187,48 @@ class _AccountInformationState extends State<AccountInformation> {
                   datetime: 'Ngày sinh',
                 ),
               ),
+              notiDateTime.isNotEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 30),
+                      child: Text(
+                        notiDateTime,
+                        style: const TextStyle(fontSize: 16, color: Colors.red),
+                        textAlign: TextAlign.left,
+                      ),
+                    )
+                  : const SizedBox(),
               MyTextFile(
                 name: 'Số điện thoại',
                 iconLeft: null,
                 iconRight: const Icon(Icons.phone_android),
                 controller: phoneNumber,
               ),
+              notiPhoneNumber.isNotEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 30),
+                      child: Text(
+                        notiPhoneNumber,
+                        style: const TextStyle(fontSize: 16, color: Colors.red),
+                        textAlign: TextAlign.left,
+                      ),
+                    )
+                  : const SizedBox(),
               Padding(
                 padding: const EdgeInsets.only(left: 10.0, right: 10, top: 10),
                 child: Gender(controller: gender, selectedGender: 'Giới tính'),
               ),
-              Text(
-                notifications,
-                style: const TextStyle(fontSize:16, color: Colors.red),
-                textAlign: TextAlign.center,
-              ),
+              notiGender.isNotEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 30),
+                      child: Text(
+                        notiGender,
+                        style: const TextStyle(fontSize: 16, color: Colors.red),
+                        textAlign: TextAlign.left,
+                      ),
+                    )
+                  : const SizedBox(),
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),

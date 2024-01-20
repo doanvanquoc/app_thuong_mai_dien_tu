@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MyNavBar extends StatefulWidget {
-  MyNavBar({super.key,required this.user});
+  const MyNavBar({super.key,required this.user});
   final User user;
   @override
   State<MyNavBar> createState() => _MyNavBarState();
@@ -21,7 +21,7 @@ class _MyNavBarState extends State<MyNavBar> {
   @override
   void initState() {
     pages = [
-      const HomePage(),
+      HomePage(user: widget.user,),
       const CartView(),
       const OrderPage(),
       Account(user: widget.user,),

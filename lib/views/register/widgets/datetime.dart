@@ -29,11 +29,27 @@ class _DateTimeBirthDayState extends State<DateTimeBirthDay> {
     });
 
     // Parse the initial date and set the selected date with a default if parsing fails
-    try {
-      _selectedDate = DateFormat('dd/MM/yyyy').parse(widget.datetime);
-    } catch (e) {
-      print('Parsing initial date error: $e');
-      _selectedDate = DateTime.now();
+    if (widget.datetime != 'Ngày sinh') {
+      try {
+        DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(widget.datetime);
+        _selectedDate = _validateDate(parsedDate);
+      } catch (e) {
+        print('Parsing initial date error: $e');
+        _selectedDate = _validateDate(DateTime.now());
+      }
+    } else {
+      _selectedDate = _validateDate(DateTime.now());
+    }
+  }
+
+  DateTime _validateDate(DateTime date) {
+    // Ensure the date is within the specified range
+    if (date.isBefore(DateTime(1900, 1, 1))) {
+      return DateTime(1900, 1, 1);
+    } else if (date.isAfter(DateTime(2023, 12, 31))) {
+      return DateTime(2023, 12, 31);
+    } else {
+      return date;
     }
   }
 

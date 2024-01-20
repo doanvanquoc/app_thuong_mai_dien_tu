@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:app_thuong_mai_dien_tu/data_sources/api_url.dart';
 import 'package:dio/dio.dart';
@@ -55,7 +56,6 @@ class UserAPI {
     }
   }
 
-  //Phương thức đăng ký trả về code, mess và token
   Future<Map<String, dynamic>> registerUser(
     String email,
     String password,
@@ -63,23 +63,35 @@ class UserAPI {
     DateTime birthday,
     String phoneNumber,
     String sex,
-    String avatar,
+    File? avatar,
   ) async {
     try {
+      print('line 70: $avatar');
       final formattedBirthday =
           birthday.toLocal().toIso8601String().split('T')[0];
+
+      // Tạo FormData
+      FormData formData = FormData.fromMap({
+        'email': email,
+        'password': password,
+        'fullname': fullname,
+        'birthday': formattedBirthday,
+        'phone_number': phoneNumber,
+        'sex': sex,
+        'avatar': avatar != null
+            ? await MultipartFile.fromFile(
+                avatar.path,
+                filename: 'avatar.jpg',
+              )
+            : 'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg',
+      });
+
       final response = await _dio.post(
         '${APIConfig.API_URL}/auth/register',
-        data: {
-          'email': email,
-          'password': password,
-          'fullname': fullname,
-          'birthday': formattedBirthday,
-          'phone_number': phoneNumber,
-          'avatar': avatar,
-          'sex': sex,
-        },
+        data: formData,
       );
+
+      print('line 97: $response');
 
       if (response.data != null && response.data is Map<String, dynamic>) {
         if (response.data.containsKey('message') &&
@@ -200,24 +212,33 @@ class UserAPI {
 //Phương thức cập nhật thông tin user thông qua userid
   Future<Map<String, dynamic>> updateUser({
     required int userId,
-    required String email,
-    required String fullname,
-    required DateTime birthday,
-    required String phoneNumber,
-    required String sex,
+    String? email,
+    String? fullname,
+    DateTime? birthday,
+    String? phoneNumber,
+    String? sex,
+    File? avatar,
   }) async {
     try {
-      final formattedBirthday =birthday.toLocal().toIso8601String().split('T')[0];
+      print('line 223: $avatar');
+      final formattedBirthday =
+          birthday?.toLocal().toIso8601String().split('T')[0];
       final response = await _dio.post(
         '${APIConfig.API_URL}/user/update',
-        data: {
+        data: FormData.fromMap({
           'userID': userId,
           'email': email,
           'fullname': fullname,
           'birthday': formattedBirthday,
           'phone_number': phoneNumber,
           'sex': sex,
-        },
+          'avatar': avatar != null
+              ? await MultipartFile.fromFile(
+                  avatar.path,
+                  filename: 'tat.jpg',
+                )
+              : null,
+        }),
       );
 
       if (response.statusCode == 200) {

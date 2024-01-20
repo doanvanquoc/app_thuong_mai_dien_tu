@@ -1,8 +1,8 @@
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
+import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
-import 'package:app_thuong_mai_dien_tu/views/account/account_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/widgets/datetime.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/widgets/gender.dart';
@@ -28,11 +28,14 @@ class _EditAccountState extends State<EditAccount> {
   String notifications = '';
 
   Future<void> updateAccount() async {
-    if (name.text.isEmpty ||
-        dateTime.text.isEmpty ||
-        phoneNumber.text.isEmpty ||
-        gender.text.isEmpty ||
-        email.text.isEmpty) {
+    if (
+      name.text.isEmpty 
+      // ||
+      //   dateTime.text.isEmpty ||
+      //   phoneNumber.text.isEmpty ||
+      //   gender.text.isEmpty ||
+        // email.text.isEmpty
+        ) {
       setState(() {
         notifications = 'Cần nhập đầy đủ thông tin!';
       });
@@ -47,7 +50,8 @@ class _EditAccountState extends State<EditAccount> {
           fullname: name.text,
           birthday: birthdayy,
           phoneNumber: phoneNumber.text,
-          sex: gender.text);
+          sex: gender.text,
+      );
 
       if (result.containsKey('error')) {
         notifications = result['error'];
@@ -61,9 +65,8 @@ class _EditAccountState extends State<EditAccount> {
         Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
         print('line 62: $decodedToken');
 
-        final newUser = User.fromJson(decodedToken['user']);
+        widget.user = User.fromJson(decodedToken['user']);
 
-        print(newUser);
         notifications = '';
         // ignore: use_build_context_synchronously
         openDialog(
@@ -74,13 +77,16 @@ class _EditAccountState extends State<EditAccount> {
         Future.delayed(
           const Duration(seconds: 2),
           () {
-            Navigator.pushAndRemoveUntil(
+             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (_) => Account(user: newUser)),
+              MaterialPageRoute(
+                builder: (_) => MyNavBar(user:widget.user),
+              ),
               (route) => false,
             );
           },
         );
+        
       } else {
         notifications = 'Email đã tồn tại!';
       }
@@ -149,19 +155,22 @@ class _EditAccountState extends State<EditAccount> {
           ),
           Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+                const EdgeInsets.only(left: 10,right: 10, top: 10.0),
             child: Gender(
                 controller: gender,
                 selectedGender:
                     widget.user.sex == '' ? 'Giới tính' : widget.user.sex),
           ),
-          Text(
-            notifications,
-            style: const TextStyle(fontSize: 18, color: Colors.red),
-            textAlign: TextAlign.center,
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Text(
+              notifications,
+              style: const TextStyle(fontSize: 18, color: Colors.red),
+              textAlign: TextAlign.center,
+            ),
           ),
           const SizedBox(
-            height: 30,
+            height: 20,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),

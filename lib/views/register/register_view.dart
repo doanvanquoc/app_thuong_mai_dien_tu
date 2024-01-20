@@ -38,7 +38,8 @@ class _RegisterState extends State<Register> {
     } else if (!emailRegExp.hasMatch(userName.text)) {
       noti = 'Email không hợp lệ!';
     } else if (!passwordRegExp.hasMatch(password.text)) {
-      noti ='Mật khẩu ít nhất 8 ký tự, có ít nhất 1 ký tự đặc biệt, 1 chữ hoa và 1 chữ thường!';
+      noti =
+          'Mật khẩu ít nhất 8 ký tự, có ít nhất 1 ký tự đặc biệt, 1 chữ hoa và 1 chữ thường!';
     } else if (password.text != rePassword.text) {
       noti = 'Mật khẩu và xác nhận mật khẩu không khớp!';
     } else {
@@ -47,9 +48,7 @@ class _RegisterState extends State<Register> {
       try {
         final result = await userApi.checkEmail(userName.text);
         if (result.containsKey('error')) {
-          setState(() {
-            noti = result['error'];
-          });
+          noti = result['error'];
         } else if (result.containsKey('code') && result['code'] == 1) {
           noti = '';
           // ignore: use_build_context_synchronously
@@ -63,16 +62,13 @@ class _RegisterState extends State<Register> {
             ),
           );
         } else {
-          setState(() {
-            noti = 'Email đã tồn tại!';
-          });
+          noti = 'Email đã tồn tại!';
         }
       } catch (e) {
-        setState(() {
-          noti = 'Lỗi kết nối';
-        });
+        noti = 'Lỗi kết nối';
       }
     }
+    setState(() {});
   }
 
   @override
@@ -109,15 +105,12 @@ class _RegisterState extends State<Register> {
                 iconLeft: const Icon(Icons.lock_outlined),
                 controller: rePassword,
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                child: Text(
+              if (noti != '')
+                Text(
                   noti,
-                  style: const TextStyle(fontSize: 16, color: Colors.red),
+                  style: const TextStyle(fontSize: 18, color: Colors.red),
                   textAlign: TextAlign.center,
                 ),
-              ),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -131,6 +124,7 @@ class _RegisterState extends State<Register> {
                 question: 'Bạn đã có tài khoản?',
                 name: 'Đăng Nhập',
                 onTap: () {
+                  print('đang đăng nhập');
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => const Login()),
