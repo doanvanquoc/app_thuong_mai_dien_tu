@@ -35,22 +35,28 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     HomePresenter.instance.getLatestProduct().then((value) {
-      setState(() {
-        products = value;
-      });
+      if (mounted) {
+        setState(() {
+          products = value;
+        });
+      }
     });
 
     CompanyPresenter.instance.getAllCompany().then((value) {
-      setState(() {
-        companies = value;
-        companies.insert(0, allCompany);
-      });
+      if (mounted) {
+        setState(() {
+          companies = value;
+          companies.insert(0, allCompany);
+        });
+      }
     });
 
     BannerPresenter.instance.getBanners().then((value) {
-      setState(() {
-        banners = value;
-      });
+      if (mounted) {
+        setState(() {
+          banners = value;
+        });
+      }
     });
 
     super.initState();

@@ -1,8 +1,9 @@
+// ignore: library_prefixes
+import 'package:app_thuong_mai_dien_tu/models/banner.dart' as MyBanner;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-// ignore: library_prefixes
-import 'package:app_thuong_mai_dien_tu/models/banner.dart' as MyBanner;
 
 class HomeSlider extends StatefulWidget {
   const HomeSlider({super.key, required this.banners});
@@ -34,8 +35,8 @@ class _HomeSliderState extends State<HomeSlider> {
           itemBuilder: (context, index, realIndex) {
             return ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                widget.banners[index].image,
+              child: CachedNetworkImage(
+                imageUrl: widget.banners[index].image,
                 fit: BoxFit.cover,
               ),
             );

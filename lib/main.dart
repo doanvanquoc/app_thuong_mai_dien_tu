@@ -1,9 +1,25 @@
+import 'package:app_thuong_mai_dien_tu/data_sources/push_noti.dart';
+import 'package:app_thuong_mai_dien_tu/data_sources/socket.io.dart';
+import 'package:app_thuong_mai_dien_tu/firebase_options.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/socket_presenter.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+final navigatorKey = GlobalKey<NavigatorState>();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await PushNoti.instance.configNotification();
+
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => SocketPresenter()..initData(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,8 +27,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SocketManager().init(context);
     return MaterialApp(
       title: 'CKCPhoneStore',
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

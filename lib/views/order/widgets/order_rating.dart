@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_thuong_mai_dien_tu/models/order.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/review_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
@@ -107,8 +105,11 @@ class _OrderRatingState extends State<OrderRating> {
                     child: MyButton(
                         onTap: () {
                           if (_formKey.currentState!.validate()) {
-                            ReviewPresenter.instance
-                                .addReview(controller.text, rating, 1, widget.order.orderDetails[0].product.productID);
+                            ReviewPresenter.instance.addReview(
+                                controller.text,
+                                rating,
+                                1,
+                                widget.order.orderDetails[0].product.productID);
                           }
                         },
                         content: 'Gửi đánh giá')),

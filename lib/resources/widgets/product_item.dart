@@ -2,6 +2,7 @@ import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_add_to_cart.dart';
 import 'package:app_thuong_mai_dien_tu/views/product_detail/product_detail_view.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -22,8 +23,8 @@ class ProductItem extends StatelessWidget {
             Container(
               height: 150,
               alignment: Alignment.center,
-              child: Image.network(
-                product.images[0].imagePath,
+              child: CachedNetworkImage(
+                imageUrl: product.images[0].imagePath,
                 fit: BoxFit.cover,
               ),
             ),

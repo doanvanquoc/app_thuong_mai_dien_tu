@@ -1,6 +1,7 @@
 import 'package:app_thuong_mai_dien_tu/models/order.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/untils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class OrderITem extends StatelessWidget {
@@ -29,8 +30,8 @@ class OrderITem extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: Image.network(
-              order.orderDetails[0].product.images[0].imagePath,
+            child: CachedNetworkImage(
+              imageUrl: order.orderDetails[0].product.images[0].imagePath,
               fit: BoxFit.cover,
             ),
           ),
