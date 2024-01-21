@@ -1,10 +1,15 @@
+import 'dart:developer';
+
 import 'package:app_thuong_mai_dien_tu/models/order.dart';
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/product_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/review_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/order/widgets/rating_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderRating extends StatefulWidget {
   const OrderRating({super.key, required this.order});
@@ -17,16 +22,44 @@ class OrderRating extends StatefulWidget {
 class _OrderRatingState extends State<OrderRating> {
   final controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  List<Product> productsUserReviewed = [];
   int? currentDetailID;
   double rating = 5;
   @override
   void initState() {
     currentDetailID = widget.order.orderDetails[0].orderDetailID;
+
+    SharedPreferences.getInstance().then((value) {
+      if (mounted) {
+        final userID = value.getInt('curUser')!;
+        ProductPresenter.instance.getProductByReviewUser(userID).then((value) {
+          if (mounted) {
+            setState(() {
+              productsUserReviewed = value;
+            });
+          }
+        });
+      }
+    });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    bool check = productsUserReviewed
+        .map(
+          (e) => e.productID,
+        )
+        .toList()
+        .contains(currentDetailID != null
+            ? widget.order.orderDetails
+                .singleWhere(
+                    (element) => element.orderDetailID == currentDetailID)
+                .product
+                .productID
+            : widget.order.orderDetails[0].product.productID);
+    log('Kiểm tra: $check');
     return Form(
       key: _formKey,
       child: Padding(
@@ -128,50 +161,60 @@ class _OrderRatingState extends State<OrderRating> {
                 Expanded(
                     child: MyButton(
                         onTap: () async {
-                          if (_formKey.currentState!.validate()) {
-                            showDialog(
-                                context: context,
-                                builder: (context) => const AlertDialog(
-                                      backgroundColor: Colors.transparent,
-                                      shadowColor: Colors.transparent,
-                                      surfaceTintColor: Colors.transparent,
-                                      contentPadding: EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 30),
-                                      content: SizedBox(
-                                        width: 50, // Đặt chiều rộng mong muốn
-                                        height: 50, // Đặt chiều cao mong muốn
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            CircularProgressIndicator(
-                                              color: AppColor.primaryColor,
-                                            ),
-                                            // Các phần tử khác nếu cần
-                                          ],
+                          if (!check) {
+                            if (_formKey.currentState!.validate()) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => const AlertDialog(
+                                        backgroundColor: Colors.transparent,
+                                        shadowColor: Colors.transparent,
+                                        surfaceTintColor: Colors.transparent,
+                                        contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 30),
+                                        content: SizedBox(
+                                          width: 50, // Đặt chiều rộng mong muốn
+                                          height: 50, // Đặt chiều cao mong muốn
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              CircularProgressIndicator(
+                                                color: AppColor.primaryColor,
+                                              ),
+                                              // Các phần tử khác nếu cần
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ));
-                            await ReviewPresenter.instance.addReview(
-                                controller.text,
-                                rating,
-                                1,
-                                widget.order.orderDetails
-                                    .singleWhere((element) =>
-                                        element.orderDetailID ==
-                                        currentDetailID)
-                                    .product
-                                    .productID);
-                            // ignore: use_build_context_synchronously
+                                      ));
+                              await ReviewPresenter.instance.addReview(
+                                  controller.text,
+                                  rating,
+                                  1,
+                                  widget.order.orderDetails
+                                      .singleWhere((element) =>
+                                          element.orderDetailID ==
+                                          currentDetailID)
+                                      .product
+                                      .productID);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                              // ignore: use_build_context_synchronously
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Đánh giá thành công'),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            }
+                          } else {
                             Navigator.pop(context);
-                            // ignore: use_build_context_synchronously
-                            Navigator.pop(context);
-                            // ignore: use_build_context_synchronously
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Đánh giá thành công'),
+                                content: Text('Bạn đã đánh giá sản phẩm này'),
                                 duration: Duration(seconds: 1),
                               ),
                             );

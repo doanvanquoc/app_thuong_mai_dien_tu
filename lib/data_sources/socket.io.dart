@@ -63,6 +63,7 @@ class SocketManager {
 
   // Hàm để gửi dữ liệu đến server (nếu cần)
   void emitEvent(String eventName, dynamic data) {
+    log('data emit: $data');
     _socket.emit(eventName, data);
   }
 

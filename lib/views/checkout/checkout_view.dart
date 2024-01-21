@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:app_thuong_mai_dien_tu/data_sources/socket.io.dart';
 import 'package:app_thuong_mai_dien_tu/models/address.dart';
 import 'package:app_thuong_mai_dien_tu/models/cart.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
@@ -14,6 +15,7 @@ import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/loading.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/product_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CheckoutView extends StatefulWidget {
   const CheckoutView({
@@ -266,9 +268,11 @@ class _CheckoutViewState extends State<CheckoutView> {
           // DateTime now = DateTime.now();
           // String formattedDate = formatDate(now);
           // String eCode = generateOrderCode();
-          int userID = 1;
+          final pref = await SharedPreferences.getInstance();
+          int userID = pref.getInt('curUser')!;
           final order = await OrderPresenter.instance.createOrder(userID);
-
+          print('Log ktra socket: $userID');
+          SocketManager().emitEvent('add_order', userID);
           if (order != null) {
             openDialog(
               context,
