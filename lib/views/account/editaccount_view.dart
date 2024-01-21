@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
@@ -80,7 +82,7 @@ class _EditAccountState extends State<EditAccount> {
       notiPhoneNumber = '';
       notiName = '';
 
-      print(
+      log(
           'Name: ${name.text}; Date: ${dateTime.text}; Phone: ${phoneNumber.text}; sex: ${gender.text}; Email: ${email.text}');
       final UserAPI userApi = UserAPI.instance;
       final result = await userApi.updateUser(

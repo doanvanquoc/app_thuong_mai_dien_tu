@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
@@ -18,7 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class Account extends StatefulWidget {
-  Account({Key? key, required this.user}) : super(key: key);
+  Account({super.key, required this.user});
   User user;
 
   @override
@@ -69,7 +70,7 @@ class _AccountState extends State<Account> {
         prefs.setBool('is_logged_out', false);
 
         Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-        print('line 82: $decodedToken');
+        log('line 82: $decodedToken');
 
         widget.user = User.fromJson(decodedToken['user']);
         // ignore: use_build_context_synchronously

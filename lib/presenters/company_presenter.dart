@@ -18,4 +18,13 @@ class CompanyPresenter {
       return [];
     }
   }
+
+  Future<int> getCompanyId(value) async {
+    try {
+      return await api.getCompanyId(value);
+    } catch (e) {
+      log(e.toString());
+      return -1;
+    }
+  }
 }

@@ -1,13 +1,15 @@
+import 'package:app_thuong_mai_dien_tu/models/company.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class ProductOption extends StatefulWidget {
   ProductOption({
     super.key,
-    required this.lst,
+    required this.lstCompany,
     required this.onTap,
   });
-  final List lst;
+  final List<Company> lstCompany;
   Function onTap;
   @override
   State<ProductOption> createState() => _ProductOptionState();
@@ -27,35 +29,38 @@ class _ProductOptionState extends State<ProductOption> {
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                itemCount: widget.lst.length,
+                itemCount: widget.lstCompany.length,
                 itemBuilder: (_, index) {
                   return GestureDetector(
                     onTap: () {
-                      widget.onTap(widget.lst[index]);
+                      widget.onTap(widget.lstCompany[index].companyName);
                       setState(() {
-                        selectedIndex = index;
-                        print(index);
+                        if (selectedIndex == index) {
+                          selectedIndex = -1;
+                        } else {
+                          selectedIndex = index;
+                        }
                       });
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 12),
                       decoration: BoxDecoration(
                         color: selectedIndex == index
-                            ? const Color(0xFF01B763)
+                            ? AppColor.primaryColor
                             : Colors.white,
-                        border: Border.all(
-                            width: 2, color: const Color(0xFF01B763)),
+                        border:
+                            Border.all(width: 2, color: AppColor.primaryColor),
                         borderRadius: BorderRadius.circular(100),
                       ),
                       height: 38,
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: Center(
                         child: Text(
-                          widget.lst[index],
+                          widget.lstCompany[index].companyName,
                           style: TextStyle(
                             color: selectedIndex == index
                                 ? Colors.white
-                                : const Color(0xFF01B763),
+                                : AppColor.primaryColor,
                           ),
                         ),
                       ),

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,8 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 // ignore: must_be_immutable
 class Avatar extends StatefulWidget {
-  Avatar({Key? key, required this.src, required this.onImageSelected})
-      : super(key: key);
+  Avatar({super.key, required this.src, required this.onImageSelected});
 
   String src;
   final Function(File?) onImageSelected;
@@ -34,7 +34,7 @@ class _AvatarState extends State<Avatar> {
       // Invoke the callback to pass the selected image file to the parent widget
       widget.onImageSelected(imageTemporary);
     } on PlatformException catch (e) {
-      print('Không thể chọn hình ảnh: $e');
+      log('Không thể chọn hình ảnh: $e');
     }
   }
 

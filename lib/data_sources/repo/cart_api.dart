@@ -64,4 +64,36 @@ class CartAPI {
       return false;
     }
   }
+
+  Future<Map<String, dynamic>> addToCart(
+      {required int userID,
+      required int productID,
+      required int quanlity}) async {
+    try {
+      final res = await dio.post(
+        '${APIConfig.API_URL}/cart/add',
+        data: {
+          'userID': userID,
+          'productID': productID,
+          'quantity': quanlity,
+        },
+      );
+      if (res.statusCode == 200) {
+        final resData = res.data;
+        if (resData != null && resData.containsKey('code')) {
+          if (resData['code'] == 1) {
+            return {'succesful': 'Thêm vào giỏ hàng thành công'};
+          } else {
+            return {'error': 'Lỗi dữ liệu thêm vào giỏ hàng'};
+          }
+        } else {
+          return {'error': 'Lỗi dữ liệu thêm vào giỏ hàng'};
+        }
+      } else {
+        return {'error': 'Thêm vào giỏ hàng thất bại'};
+      }
+    } catch (e) {
+      return {'error': 'Lỗi kết nối'};
+    }
+  }
 }

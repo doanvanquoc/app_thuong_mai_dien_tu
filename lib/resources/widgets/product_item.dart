@@ -12,8 +12,8 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-          context, MaterialPageRoute(builder: (_) => const ProductDetail())),
+      onTap: () => Navigator.push(context,
+          MaterialPageRoute(builder: (_) => ProductDetail(product: product))),
       child: Container(
         alignment: Alignment.center,
         margin: const EdgeInsets.only(right: 15),

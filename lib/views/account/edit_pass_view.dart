@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
@@ -49,7 +51,7 @@ class _EditPassState extends State<EditPass> {
         setState(() {
           notifications = result['error'];
         });
-        print(result);
+        log(result.toString());
       } else if (result.containsKey('code') && result['code'] == 1) {
         // ignore: use_build_context_synchronously
         openDialog(

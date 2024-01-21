@@ -1,9 +1,13 @@
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
+import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/detail_change.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class AddCartDetail extends StatefulWidget {
-  AddCartDetail({super.key, required this.total});
-  double total;
+  const AddCartDetail({super.key, required this.product});
+  final Product product;
+
   @override
   State<AddCartDetail> createState() => _AddCartDetailState();
 }
@@ -17,7 +21,7 @@ class _AddCartDetailState extends State<AddCartDetail> {
       left: 0,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24),
-        height: 65,
+        height: 64,
         color: const Color.fromARGB(255, 255, 255, 255),
         width: double.infinity,
         child: Row(
@@ -33,7 +37,7 @@ class _AddCartDetailState extends State<AddCartDetail> {
                     style: TextStyle(fontSize: 12),
                   ),
                   Text(
-                    '${widget.total}đ',
+                    '${widget.product.price}',
                     style: const TextStyle(
                         fontSize: 24, fontWeight: FontWeight.bold),
                   ),
@@ -41,7 +45,17 @@ class _AddCartDetailState extends State<AddCartDetail> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                showModalBottomSheet(
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadiusDirectional.vertical(
+                            top: Radius.circular(40))),
+                    context: context,
+                    builder: (_) {
+                      return DetailChange(product: widget.product);
+                    });
+              },
               child: Container(
                 height: 58,
                 width: MediaQuery.of(context).size.width / 2,
@@ -51,11 +65,11 @@ class _AddCartDetailState extends State<AddCartDetail> {
                         offset: Offset(1, 2),
                         blurRadius: 8,
                         spreadRadius: 0,
-                        color: Color(0xFF01B763),
+                        color: AppColor.primaryColor,
                       ),
                     ],
                     borderRadius: BorderRadius.circular(100),
-                    color: const Color(0xFF01B763)),
+                    color: AppColor.primaryColor),
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -64,11 +78,13 @@ class _AddCartDetailState extends State<AddCartDetail> {
                       size: 22,
                       color: Colors.white,
                     ),
+
                     SizedBox(width: 8),
+                    //add cart
                     Text(
                       'Thêm vào giỏ hàng',
                       style: TextStyle(fontSize: 16, color: Colors.white),
-                    )
+                    ),
                   ],
                 ),
               ),

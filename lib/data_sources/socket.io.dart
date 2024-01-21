@@ -6,6 +6,7 @@ import 'package:app_thuong_mai_dien_tu/presenters/socket_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// ignore: library_prefixes
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketManager {

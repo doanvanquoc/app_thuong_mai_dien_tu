@@ -66,7 +66,7 @@ class UserAPI {
     File? avatar,
   ) async {
     try {
-      print('line 70: $avatar');
+      log('line 70: $avatar');
       final formattedBirthday =
           birthday.toLocal().toIso8601String().split('T')[0];
 
@@ -91,7 +91,7 @@ class UserAPI {
         data: formData,
       );
 
-      print('line 97: $response');
+      log('line 97: $response');
 
       if (response.data != null && response.data is Map<String, dynamic>) {
         if (response.data.containsKey('message') &&
@@ -220,7 +220,7 @@ class UserAPI {
     File? avatar,
   }) async {
     try {
-      print('line 223: $avatar');
+      log('line 223: $avatar');
       final formattedBirthday =
           birthday?.toLocal().toIso8601String().split('T')[0];
       final response = await _dio.post(

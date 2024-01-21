@@ -1,3 +1,4 @@
+
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/views/notification/notification_view.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ class HomeAppbar extends StatelessWidget {
   final User user;
   @override
   Widget build(BuildContext context) {
-    print(user);
     return ListTile(
       leading: Container(
         width: 50,

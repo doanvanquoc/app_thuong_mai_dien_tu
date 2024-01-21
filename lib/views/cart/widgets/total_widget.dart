@@ -7,6 +7,7 @@ import 'package:app_thuong_mai_dien_tu/views/checkout/checkout_view.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TotalWidget extends StatelessWidget {
   TotalWidget({
     super.key,

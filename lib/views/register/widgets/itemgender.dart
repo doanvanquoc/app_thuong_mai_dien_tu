@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ItemGender extends StatefulWidget {
+  // ignore: use_key_in_widget_constructors
   const ItemGender({
     Key? key,
     required this.onTap,
@@ -9,6 +10,7 @@ class ItemGender extends StatefulWidget {
   final Function(String) onTap;
 
   @override
+  // ignore: library_private_types_in_public_api
   _ItemGenderState createState() => _ItemGenderState();
 }
 

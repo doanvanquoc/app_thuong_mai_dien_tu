@@ -2,6 +2,7 @@ import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/widgets/itemgender.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class Gender extends StatefulWidget {
   Gender({super.key, required this.controller, required this.selectedGender});
 

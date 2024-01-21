@@ -33,7 +33,7 @@ class HomeNewProduct extends StatelessWidget {
                   builder: (_) => NewProduct(
                       nameTab: 'Sản phẩm mới nhất',
                       lstCategory: companies,
-                      lstProduct: const []),
+                      lstProduct: products),
                 ),
               ),
               child: const Text(

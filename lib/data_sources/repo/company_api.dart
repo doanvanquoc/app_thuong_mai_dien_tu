@@ -22,4 +22,14 @@ class CompanyAPI {
       return [];
     }
   }
+
+  Future<int> getCompanyId(value) async {
+    List<Company> companies = await getAllCompany();
+    for (var element in companies) {
+      if (element.companyName == value) {
+        return element.companyID;
+      }
+    }
+    return -1;
+  }
 }

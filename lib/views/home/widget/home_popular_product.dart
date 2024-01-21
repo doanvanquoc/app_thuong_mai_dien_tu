@@ -33,7 +33,7 @@ class HomePopularProduct extends StatelessWidget {
                   builder: (_) => NewProduct(
                     nameTab: 'Phổ biến nhất',
                     lstCategory: companies,
-                    lstProduct: const [],
+                    lstProduct: products,
                   ),
                 ),
               ),

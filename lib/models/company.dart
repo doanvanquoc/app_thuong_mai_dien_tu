@@ -1,6 +1,7 @@
 class Company {
   final int companyID;
   final String companyName;
+
   Company({
     required this.companyID,
     required this.companyName,

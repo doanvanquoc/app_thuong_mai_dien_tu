@@ -1,5 +1,9 @@
+import 'package:app_thuong_mai_dien_tu/data_sources/repo/company_api.dart';
+import 'package:app_thuong_mai_dien_tu/models/company.dart';
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
+
+import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
 import 'package:app_thuong_mai_dien_tu/views/product/widgets/product_option.dart';
-import 'package:app_thuong_mai_dien_tu/views/product_detail/product_detail_view.dart';
 import 'package:flutter/material.dart';
 
 class NewProduct extends StatefulWidget {
@@ -10,8 +14,8 @@ class NewProduct extends StatefulWidget {
     required this.lstProduct,
   });
   final String nameTab;
-  final List lstCategory;
-  final List lstProduct;
+  final List<Company> lstCategory;
+  final List<Product> lstProduct;
 
   @override
   State<NewProduct> createState() => _NewProductState();
@@ -19,9 +23,27 @@ class NewProduct extends StatefulWidget {
 
 class _NewProductState extends State<NewProduct> {
   String checkCategory = "";
-  void checkOption(value) {
-    setState(() {
-      checkCategory = value;
+  List<Product> productCompanies = [];
+  int id = -1;
+
+  List<dynamic> searchsCompanies(
+      int value, List<dynamic> lstData, List<dynamic> lstSearch) {
+    lstSearch.clear();
+    for (var element in lstData) {
+      if (element.company.companyID == value) {
+        lstSearch.add(element);
+      }
+    }
+    return lstSearch;
+  }
+
+  Future<void> checkOption(String value) async {
+    checkCategory = value;
+    CompanyAPI.instance.getCompanyId(value).then((valueId) {
+      setState(() {
+        id = valueId;
+        searchsCompanies(id, widget.lstProduct, productCompanies);
+      });
     });
   }
 
@@ -35,89 +57,28 @@ class _NewProductState extends State<NewProduct> {
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Column(
           children: [
-            ProductOption(lst: widget.lstCategory, onTap: checkOption),
+            ProductOption(lstCompany: widget.lstCategory, onTap: checkOption),
+            const SizedBox(height: 12),
             Expanded(
               child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 1 / 2.2,
                   ),
-                  itemCount: 10,
+                  itemCount: productCompanies.length,
                   itemBuilder: (_, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const ProductDetail()));
-                      },
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Align(
-                              alignment: Alignment.center,
-                              child: SizedBox(
-                                height: 200,
-                                child: Image.asset(
-                                  'assets/images/phone2.png',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 15),
-                            const Text(
-                              'Iphone 15 Pro Max 8G/ 128GB - VN',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.star_border,
-                                    color: Color(0xFF01B763),
-                                  ),
-                                  const Text('4.5'),
-                                  const SizedBox(width: 10),
-                                  const Text('|'),
-                                  const SizedBox(width: 10),
-                                  Container(
-                                    padding: const EdgeInsets.all(6),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: const Color(0xFF01B763)),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: const Text(
-                                      '3000 đã bán',
-                                      style:
-                                          TextStyle(color: Color(0xFF01B763)),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            const Text(
-                              '32.900.000đ',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Color(0xFF01B763),
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                      ),
-                    );
+                    return ProductItem(product: productCompanies[index]);
                   }),
             ),
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    productCompanies.addAll(widget.lstProduct);
   }
 }

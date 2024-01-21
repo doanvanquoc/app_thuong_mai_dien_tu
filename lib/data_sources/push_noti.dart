@@ -69,5 +69,5 @@ class PushNoti {
 
 Future<void> _fcmMessageBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print("fcmMessage: $message");
+  log("fcmMessage: $message");
 }

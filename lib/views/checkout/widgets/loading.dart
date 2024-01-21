@@ -1,7 +1,6 @@
 import 'package:app_thuong_mai_dien_tu/models/cart.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/e_invoice_view.dart';
-import 'package:app_thuong_mai_dien_tu/views/order/order_view.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 

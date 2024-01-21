@@ -1,36 +1,56 @@
+import 'package:app_thuong_mai_dien_tu/models/company.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/company_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
-import 'package:app_thuong_mai_dien_tu/views/rate/widgets/rate_option.dart';
+import 'package:app_thuong_mai_dien_tu/views/review/widgets/review_option.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/filter_option.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class SearchFilter extends StatefulWidget {
-  const SearchFilter({super.key});
-
+  SearchFilter(
+      {super.key,
+      required this.checkOptioin,
+      required this.applyOption,
+      required this.priceFT});
+  Function checkOptioin;
+  Function applyOption;
+  Function priceFT;
   @override
   State<SearchFilter> createState() => _SearchFilterState();
 }
 
 class _SearchFilterState extends State<SearchFilter> {
-  List<String> categorylst = [
-    'Apple',
-    'Iphone',
-    'Samsung',
-    'Xiaomi',
-    'Apple',
-    'Iphone',
-    'Samsung',
-    'Xiaomi'
-  ];
-  List<String> sort = ['Phổ biến', 'Gần đây', 'Giá cao', 'Giá thấp'];
-  List<String> ratelst = ['Tất cả', '5', '4', '3', '2', '1'];
-  RangeValues rangeValues = const RangeValues(10, 90);
-  String checkCategory = "";
-  void checkOption(value) {
-    setState(() {
-      checkCategory = value;
-      print(checkCategory);
+  final companyPresenter = CompanyPresenter.instance;
+  List<Company> companies = [];
+
+  bool checkrReOrder = false;
+
+  @override
+  void initState() {
+    companyPresenter.getAllCompany().then((value) {
+      setState(() {
+        companies = value;
+      });
     });
+    super.initState();
   }
+
+  List<Company> sort = [
+    Company(companyID: 1, companyName: 'Phổ biến'),
+    Company(companyID: 2, companyName: 'Gần nhất'),
+    Company(companyID: 1, companyName: 'Giá cao nhất'),
+  ];
+
+  List<String> ratelst = [
+    '5',
+    '4',
+    '3',
+    '2',
+    '1',
+  ];
+
+  RangeValues rangeValues = const RangeValues(10, 21);
 
   @override
   Widget build(BuildContext context) {
@@ -43,100 +63,128 @@ class _SearchFilterState extends State<SearchFilter> {
         ),
       ),
       height: MediaQuery.of(context).size.height / 1.238,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Divider(
-          indent: 130,
-          thickness: 4,
-          endIndent: 130,
-        ),
-        const SizedBox(height: 20),
-        const Center(
-          child: Text(
-            "Bộ lọc",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 10),
+          const Center(
+            child: Text(
+              "Bộ lọc",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        const Divider(),
-        const SizedBox(height: 24),
-        FilterOption(
-          lst: categorylst,
-          nameOption: "Phân loại",
-          onTap: checkOption,
-        ),
-        const SizedBox(height: 24),
-        SizedBox(
-          height: 151,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Khoảng giá',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          const SizedBox(height: 10),
+          const Divider(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 1.63,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  FilterOption(
+                    lst: companies,
+                    nameOption: "Phân loại",
+                    onTap: widget.checkOptioin,
+                    check: checkrReOrder,
+                  ),
+                  SizedBox(
+                    height: 151,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Khoảng giá',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                        const SizedBox(height: 16),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              RangeSlider(
+                                mouseCursor: MaterialStateMouseCursor.clickable,
+                                activeColor: AppColor.primaryColor,
+                                min: 3,
+                                max: 100,
+                                values: rangeValues,
+                                onChanged: (value) {
+                                  setState(() {
+                                    checkrReOrder = false;
+                                    rangeValues = value;
+                                    widget.priceFT(rangeValues.start.toInt(),
+                                        rangeValues.end.toInt());
+                                  });
+                                },
+                                divisions: 100,
+                                labels: RangeLabels(
+                                  rangeValues.start.round().toInt().toString(),
+                                  rangeValues.end.round().toInt().toString(),
+                                ),
+                              ),
+                              Text(
+                                'khoảng giá ${rangeValues.start.toInt()} tr -- ${rangeValues.end.toInt()} tr',
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  FilterOption(
+                    lst: sort,
+                    nameOption: "Sắp xếp theo",
+                    onTap: widget.checkOptioin,
+                    check: checkrReOrder,
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Đánh giá',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  const SizedBox(height: 16),
+                  ReviewOption(
+                    lst: ratelst,
+                    onTap: widget.checkOptioin,
+                  ),
+                ],
               ),
-              const SizedBox(height: 24),
+            ),
+          ),
+          const Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
               Expanded(
-                child: Column(
-                  children: [
-                    RangeSlider(
-                      mouseCursor: MaterialStateMouseCursor.clickable,
-                      activeColor: const Color(0xFF01B763),
-                      min: 0,
-                      max: 100,
-                      values: rangeValues,
-                      onChanged: (value) {
-                        setState(() {
-                          rangeValues = value;
-                          print(rangeValues);
-                        });
-                      },
-                      divisions: 100,
-                      labels: RangeLabels(
-                        rangeValues.start.round().toString(),
-                        rangeValues.end.round().toString(),
-                      ),
-                    ),
-                    Text(
-                      'khoảng giá ${rangeValues.start} tr -- ${rangeValues.end} tr',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ],
+                child: MyButton(
+                  onTap: () {
+                    setState(() {
+                      rangeValues = const RangeValues(10, 20);
+                      checkrReOrder = true;
+                    });
+                  },
+                  content: 'Đặt lại',
+                  backgroundColor: const Color(0xFFe4faf0),
+                  textColor: AppColor.primaryColor,
                 ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: MyButton(
+                    onTap: () {
+                      widget.priceFT(
+                          rangeValues.start.toInt(), rangeValues.end.toInt());
+                      widget.applyOption();
+                    },
+                    content: "Áp dụng"),
               ),
             ],
           ),
-        ),
-        const SizedBox(height: 24),
-        FilterOption(
-          lst: sort,
-          nameOption: "Sắp xếp theo",
-          onTap: checkOption,
-        ),
-        const SizedBox(height: 24),
-        const Text(
-          'Đánh giá',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-        ),
-        const SizedBox(height: 24),
-        RateOption(
-          lst: ratelst,
-          onTap: checkOption,
-        ),
-        const Divider(),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: MyButton(onTap: () {}, content: "Đặt lại"),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: MyButton(onTap: () {}, content: "Áp dụng"),
-            )
-          ],
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }

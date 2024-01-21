@@ -1,11 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DateTimeBirthDay extends StatefulWidget {
   const DateTimeBirthDay(
-      {Key? key, required this.controller, required this.datetime})
-      : super(key: key);
+      {super.key, required this.controller, required this.datetime});
   final String datetime;
   final TextEditingController controller;
 
@@ -34,7 +35,7 @@ class _DateTimeBirthDayState extends State<DateTimeBirthDay> {
         DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(widget.datetime);
         _selectedDate = _validateDate(parsedDate);
       } catch (e) {
-        print('Parsing initial date error: $e');
+        log('Parsing initial date error: $e');
         _selectedDate = _validateDate(DateTime.now());
       }
     } else {

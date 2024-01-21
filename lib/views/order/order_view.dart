@@ -6,7 +6,6 @@ import 'package:app_thuong_mai_dien_tu/views/order/order_detail_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/order/widgets/order_item.dart';
 import 'package:app_thuong_mai_dien_tu/views/order/widgets/order_rating.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class OrderPage extends StatefulWidget {
@@ -42,15 +41,6 @@ class _OrderPageState extends State<OrderPage> {
           title: const Text(
             'Đơn hàng',
           ),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
-                color: Colors.grey,
-              ),
-            ),
-          ],
           bottom: const TabBar(
             tabs: [
               Text('Chờ xác nhận'),

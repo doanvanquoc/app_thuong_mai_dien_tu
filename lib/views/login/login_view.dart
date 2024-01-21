@@ -8,7 +8,7 @@ import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfilepass.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_logo.dart';
-import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_richText.dart';
+import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_rich_text.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/register_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

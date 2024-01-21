@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class MyTextPass extends StatefulWidget {
   const MyTextPass({
-    Key? key,
+    super.key,
     required this.name,
     required this.iconLeft,
     required this.controller,
-  }) : super(key: key);
+  });
 
   final String name;
   final Icon? iconLeft;

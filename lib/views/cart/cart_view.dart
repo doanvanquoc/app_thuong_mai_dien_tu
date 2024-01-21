@@ -285,14 +285,6 @@ class _CartViewState extends State<CartView> {
             color: Color(0xFF212121),
           ),
         ),
-        actions: <Widget>[
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-                size: 35,
-              ))
-        ],
       ),
       body: cartProducts.isNotEmpty
           ? RefreshIndicator(

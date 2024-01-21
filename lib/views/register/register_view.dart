@@ -1,15 +1,17 @@
+import 'dart:developer';
+
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfilepass.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/login_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_logo.dart';
-import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_richText.dart';
-import 'package:app_thuong_mai_dien_tu/views/register/accountInfomation_view.dart';
+import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_rich_text.dart';
+import 'package:app_thuong_mai_dien_tu/views/register/account_infomation_view.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
+  const Register({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -151,7 +153,7 @@ class _RegisterState extends State<Register> {
                 question: 'Bạn đã có tài khoản?',
                 name: 'Đăng Nhập',
                 onTap: () {
-                  print('đang đăng nhập');
+                  log('đang đăng nhập');
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => const Login()),

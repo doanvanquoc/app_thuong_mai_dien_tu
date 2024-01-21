@@ -1,3 +1,4 @@
+// ignore: library_prefixes
 import 'package:app_thuong_mai_dien_tu/models/banner.dart' as MyBanner;
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';

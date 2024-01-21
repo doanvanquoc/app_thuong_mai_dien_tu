@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class MyTextFile extends StatefulWidget {
   const MyTextFile({
-    Key? key,
+    super.key,
     required this.name,
     required this.iconLeft,
     required this.iconRight,
     required this.controller,
-  }) : super(key: key);
+  });
 
   final String name;
   final Icon? iconLeft;
