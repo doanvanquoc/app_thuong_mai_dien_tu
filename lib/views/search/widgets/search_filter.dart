@@ -11,9 +11,12 @@ class SearchFilter extends StatefulWidget {
   SearchFilter(
       {super.key,
       required this.checkOptioin,
+      required this.checkSort,
       required this.applyOption,
       required this.priceFT});
   Function checkOptioin;
+  Function checkSort;
+
   Function applyOption;
   Function priceFT;
   @override
@@ -37,9 +40,8 @@ class _SearchFilterState extends State<SearchFilter> {
   }
 
   List<Company> sort = [
-    Company(companyID: 1, companyName: 'Phổ biến'),
-    Company(companyID: 2, companyName: 'Gần nhất'),
-    Company(companyID: 1, companyName: 'Giá cao nhất'),
+    Company(companyID: 1, companyName: 'Mới nhất'),
+    Company(companyID: 2, companyName: 'Phổ biến'),
   ];
 
   List<String> ratelst = [
@@ -85,7 +87,7 @@ class _SearchFilterState extends State<SearchFilter> {
                   FilterOption(
                     lst: companies,
                     nameOption: "Phân loại",
-                    onTap: widget.checkOptioin,
+                    checkOptioin: widget.checkOptioin,
                     check: checkrReOrder,
                   ),
                   SizedBox(
@@ -106,7 +108,7 @@ class _SearchFilterState extends State<SearchFilter> {
                               RangeSlider(
                                 mouseCursor: MaterialStateMouseCursor.clickable,
                                 activeColor: AppColor.primaryColor,
-                                min: 3,
+                                min: 1,
                                 max: 100,
                                 values: rangeValues,
                                 onChanged: (value) {
@@ -137,7 +139,7 @@ class _SearchFilterState extends State<SearchFilter> {
                   FilterOption(
                     lst: sort,
                     nameOption: "Sắp xếp theo",
-                    onTap: widget.checkOptioin,
+                    checkOptioin: widget.checkSort,
                     check: checkrReOrder,
                   ),
                   const SizedBox(height: 16),

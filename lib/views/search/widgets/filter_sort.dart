@@ -3,24 +3,24 @@ import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class FilterOption extends StatefulWidget {
-  FilterOption({
+class FilterSort extends StatefulWidget {
+  FilterSort({
     super.key,
     required this.lst,
     required this.nameOption,
-    required this.checkOptioin,
+    required this.checkSort,
     required this.check,
   });
-  final List<Company> lst;
+  final List lst;
   final String nameOption;
-  Function checkOptioin;
+  Function checkSort;
   bool check;
 
   @override
-  State<FilterOption> createState() => _FilterOptionState();
+  State<FilterSort> createState() => _FilterSortState();
 }
 
-class _FilterOptionState extends State<FilterOption> {
+class _FilterSortState extends State<FilterSort> {
   int selectedIndex = -1;
 
   @override
@@ -50,10 +50,10 @@ class _FilterOptionState extends State<FilterOption> {
                       setState(() {
                         if (selectedIndex == index) {
                           selectedIndex = -1;
-                          widget.checkOptioin('');
+                          widget.checkSort('');
                         } else {
                           selectedIndex = index;
-                          widget.checkOptioin(widget.lst[index].companyName);
+                          widget.checkSort(widget.lst[index]);
                         }
                       });
                     },

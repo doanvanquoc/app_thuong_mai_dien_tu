@@ -3,7 +3,6 @@ import 'package:app_thuong_mai_dien_tu/views/review/widgets/review_content.dart'
 import 'package:app_thuong_mai_dien_tu/views/review/widgets/review_option.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_not_fond_view.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 // ignore: must_be_immutable
 class ReviewPage extends StatefulWidget {

@@ -44,11 +44,8 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   void initState() {
-    productPresenter.getAllProduct().then((value) {
-      setState(() {
-        products = value;
-      });
-    });
+    getAllProduct();
+    print(products.length);
 
     companyPresenter.getAllCompany().then((value) {
       setState(() {
@@ -65,10 +62,22 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
   }
 
+  List<Product> productsLatest = [];
+
+  void getAllProduct() {
+    productPresenter.getAllProduct().then((value) {
+      setState(() {
+        products = value;
+      });
+    });
+  }
+
   void productLatest() {
     productPresenter.getLatestProduct().then((value) {
       setState(() {
-        productsSearch = value;
+        productsSearch.clear();
+        productsLatest = value;
+        productsSearch.addAll(productsLatest);
       });
     });
   }
@@ -110,16 +119,18 @@ class _SearchPageState extends State<SearchPage> {
 
   //Kiểm tra có trùng data ko
   bool checkSameData(value) {
+    productsSearch.clear();
+
     for (var item in products) {
       if (item.productName
           .toString()
           .toUpperCase()
           .contains(value.toString().toUpperCase())) {
-        ProductPresenter.productSearch(value, products, productsSearch);
-        return true;
+        productsSearch.add(item);
       }
     }
-    return false;
+    if (productsSearch.isEmpty) return false;
+    return true;
   }
 
   int priceFrom = 0;
@@ -135,25 +146,51 @@ class _SearchPageState extends State<SearchPage> {
 
   //lấy id option
   int id = -1;
-  Future<void> checkOption(value) async {
-    CompanyAPI.instance.getCompanyId(value).then((valueId) {
+  String nameSort = '';
+  Future<void> checkOption(String nameCompany) async {
+    CompanyAPI.instance.getCompanyId(nameCompany).then((valueId) {
       setState(() {
         id = valueId;
       });
+    });
+    print(nameCompany);
+  }
+
+  void checkSort(String sort) {
+    setState(() {
+      nameSort = sort;
+      print(nameSort);
     });
   }
 
   //Tim theo bộ lọc
   void searchsCompanies({
     required int categoryID,
-    String sortName = 'Phổ biến',
     String rating = '',
-    required List<Product> lstData,
     required List<Product> lstSearch,
   }) {
     setState(() {
+      if (nameSort == 'Mới nhất') {
+        productPresenter.getLatestProduct().then((value) {
+          setState(() {
+            productsLatest = value;
+          });
+        });
+        products.clear();
+        products.addAll(productsLatest);
+      } else if (nameSort == 'Phổ biến') {
+        productPresenter.getBestSellingProduct(10).then((value) {
+          setState(() {
+            productsLatest = value;
+          });
+        });
+        products.clear();
+        products.addAll(productsLatest);
+      }
+
       lstSearch.clear();
-      for (var element in lstData) {
+
+      for (var element in products) {
         if ((element.company.companyID == categoryID) &&
             (element.price >= int.parse("${priceFrom}000000") &&
                 element.price <= int.parse("${priceTo}000000"))) {
@@ -166,8 +203,7 @@ class _SearchPageState extends State<SearchPage> {
   //dat hang
   void applyOption() {
     setState(() {
-      searchsCompanies(
-          categoryID: id, lstData: products, lstSearch: productsSearch);
+      searchsCompanies(categoryID: id, lstSearch: productsSearch);
       searchTextController.text = '';
       reslutSearchTextController = '';
       if (productsSearch.isEmpty) {
@@ -204,6 +240,7 @@ class _SearchPageState extends State<SearchPage> {
                 focusNode: focusNode,
                 onTap: () {
                   //Khi nhấn vào textfile thì lich su hien ra
+                  getAllProduct();
                   setState(() {
                     checkSearch(
                         checkNotDataPage: false,
@@ -250,14 +287,14 @@ class _SearchPageState extends State<SearchPage> {
                 onChanged: (value) {
                   setState(() {
                     if (value.isEmpty) {
-                      productsSearch = [];
+                      productsSearch.clear();
                       checkSuggest = false;
                       return;
                     }
                     if (checkSameData(value)) {
                       checkSuggest = true;
                     } else {
-                      productsSearch = [];
+                      productsSearch.clear();
                       checkSuggest = false;
                     }
                   });
@@ -323,6 +360,7 @@ class _SearchPageState extends State<SearchPage> {
                           builder: (_) {
                             return SearchFilter(
                               checkOptioin: checkOption,
+                              checkSort: checkSort,
                               applyOption: applyOption,
                               priceFT: priceFromTo,
                             );

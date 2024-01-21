@@ -39,9 +39,11 @@ class ProductPresenter {
     }
   }
 
-  Future<List<Product>> getBestSellingProductByCompanyID(int companyID, [int? limit]) async {
+  Future<List<Product>> getBestSellingProductByCompanyID(int companyID,
+      [int? limit]) async {
     try {
-      List<Product> products = await api.getBestSellingProductByCompanyID(limit, companyID);
+      List<Product> products =
+          await api.getBestSellingProductByCompanyID(limit, companyID);
       return products;
     } catch (e) {
       log('Lỗi prod: dòng 47 - $e');
@@ -49,13 +51,13 @@ class ProductPresenter {
     }
   }
 
-  static void productSearch(
-      String value, List<Product> lstData, List<Product> lstSearch) {
-    lstSearch.clear();
-    for (var element in lstData) {
-      if (element.productName.toUpperCase().contains(value.toUpperCase())) {
-        lstSearch.add(element);
-      }
-    }
-  }
+  // static void productSearch(
+  //     String value, List<Product> lstData, List<Product> lstSearch) {
+  //   lstSearch.clear();
+  //   for (var element in lstData) {
+  //     if (element.productName.toUpperCase().contains(value.toUpperCase())) {
+  //       lstSearch.add(element);
+  //     }
+  //   }
+  // }
 }
