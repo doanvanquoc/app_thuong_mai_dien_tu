@@ -1,5 +1,6 @@
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/models/image.dart';
+import 'package:intl/intl.dart';
 
 class Product {
   final int productID;
@@ -78,5 +79,16 @@ class Product {
       'post_date': postDate,
       'images': images.map((e) => e.toJson()).toList(),
     };
+  }
+
+  static String formatPrice(String price) {
+    num priceNum = num.parse(price);
+    final numberFormat = NumberFormat('#,##0', 'vi_VN');
+    return '${numberFormat.format(priceNum)}đ';
+  }
+
+  static int parsePrice(String price) {
+    String numericString = price.replaceAll('đ', '').replaceAll('.', '');
+    return int.tryParse(numericString) ?? 0;
   }
 }

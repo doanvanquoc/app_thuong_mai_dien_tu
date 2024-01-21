@@ -1,5 +1,4 @@
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
-
 class OrderDetail {
   final int orderDetailID;
   final int quantity;

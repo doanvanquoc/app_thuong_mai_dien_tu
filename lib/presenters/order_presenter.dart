@@ -18,4 +18,13 @@ class OrderPresenter {
       return [];
     }
   }
+  Future<Order?> createOrder(int userID) async {
+    try {
+      Order? order = await api.createOrder(userID);
+      return order;
+    } catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
 }
