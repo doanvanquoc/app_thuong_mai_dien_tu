@@ -24,70 +24,75 @@ class _AddCartDetailState extends State<AddCartDetail> {
         height: 64,
         color: const Color.fromARGB(255, 255, 255, 255),
         width: double.infinity,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Tổng cộng',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  Text(
-                    '${widget.product.price}',
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                showModalBottomSheet(
-                    isScrollControlled: true,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadiusDirectional.vertical(
-                            top: Radius.circular(40))),
-                    context: context,
-                    builder: (_) {
-                      return DetailChange(product: widget.product);
-                    });
-              },
-              child: Container(
-                height: 58,
-                width: MediaQuery.of(context).size.width / 2,
-                decoration: BoxDecoration(
-                    boxShadow: const [
-                      BoxShadow(
-                        offset: Offset(1, 2),
-                        blurRadius: 8,
-                        spreadRadius: 0,
-                        color: AppColor.primaryColor,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Giá bán',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      Text(
+                        '${widget.product.price}',
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                     ],
-                    borderRadius: BorderRadius.circular(100),
-                    color: AppColor.primaryColor),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.shopping_bag_rounded,
-                      size: 22,
-                      color: Colors.white,
-                    ),
-
-                    SizedBox(width: 8),
-                    //add cart
-                    Text(
-                      'Thêm vào giỏ hàng',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadiusDirectional.vertical(
+                                top: Radius.circular(40))),
+                        context: context,
+                        builder: (_) {
+                          return DetailChange(product: widget.product);
+                        });
+                  },
+                  child: Container(
+                    height: 58,
+                    width: MediaQuery.of(context).size.width / 2,
+                    decoration: BoxDecoration(
+                        boxShadow: const [
+                          BoxShadow(
+                            offset: Offset(1, 2),
+                            blurRadius: 8,
+                            spreadRadius: 0,
+                            color: AppColor.primaryColor,
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(100),
+                        color: AppColor.primaryColor),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.shopping_bag_rounded,
+                          size: 22,
+                          color: Colors.white,
+                        ),
+
+                        SizedBox(width: 8),
+                        //add cart
+                        Text(
+                          'Thêm vào giỏ hàng',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

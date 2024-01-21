@@ -89,7 +89,9 @@ class _SearchHistoryState extends State<SearchHistory> {
                               i++;
                             }
                           },
-                          icon: const Icon(Icons.remove_outlined))
+                          icon: const Icon(
+                            Icons.remove_outlined,
+                          ))
                     ],
                   ),
                 );

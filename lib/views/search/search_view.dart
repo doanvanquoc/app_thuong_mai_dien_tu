@@ -12,6 +12,7 @@ import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_filter.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_history.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_not_fond_view.dart';
+import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_suggest.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -40,6 +41,8 @@ class _SearchPageState extends State<SearchPage> {
 
   List historyLst = [];
   List historyLstReversed = [];
+
+  bool checkSuggest = false;
 
   @override
   void initState() {
@@ -142,6 +145,27 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
+  //Tim theo bộ lọc
+  void searchsCompanies({
+    required int categoryID,
+    String sortName = 'Phổ biến',
+    String rating = '',
+    required List<Product> lstData,
+    required List<Product> lstSearch,
+  }) {
+    setState(() {
+      lstSearch.clear();
+      for (var element in lstData) {
+        if ((element.company.companyID == categoryID) &&
+            (element.price >= int.parse("${priceFrom}000000") &&
+                element.price <= int.parse("${priceTo}000000"))) {
+          lstSearch.add(element);
+        }
+      }
+    });
+  }
+
+  //dat hang
   void applyOption() {
     setState(() {
       searchsCompanies(
@@ -163,25 +187,7 @@ class _SearchPageState extends State<SearchPage> {
             checkResultSearch: true);
       }
       id = -1; //reset giá trị option đang chọn
-      Navigator.pop(context);
     });
-  }
-
-//Tim theo bộ lọc
-  void searchsCompanies(
-      {required int categoryID,
-      String sortName = 'Phổ biến',
-      String rating = '',
-      required List<Product> lstData,
-      required List<Product> lstSearch}) {
-    lstSearch.clear();
-    for (var element in lstData) {
-      if ((element.company.companyID == categoryID) &&
-          (element.price >= int.parse("${priceFrom}000000") &&
-              element.price <= int.parse("${priceTo}000000"))) {
-        lstSearch.add(element);
-      }
-    }
   }
 
   @override
@@ -199,8 +205,8 @@ class _SearchPageState extends State<SearchPage> {
               TextField(
                 focusNode: focusNode,
                 onTap: () {
+                  //Khi nhấn vào textfile thì lich su hien ra
                   setState(() {
-                    productsSearch = [];
                     checkSearch(
                         checkNotDataPage: false,
                         checkHistory: true,
@@ -210,6 +216,7 @@ class _SearchPageState extends State<SearchPage> {
                 },
                 onSubmitted: (value) {
                   setState(() {
+                    //nhan enter nhan data
                     if (value.isEmpty) {
                       productLatest();
                       reslutSearchTextController = 'mới nhất';
@@ -220,7 +227,9 @@ class _SearchPageState extends State<SearchPage> {
                           checkResultSearch: true);
                       return;
                     }
+
                     reslutSearchTextController = value;
+
                     if (checkSameData(value)) {
                       checkSearch(
                           checkNotDataPage: false,
@@ -241,7 +250,19 @@ class _SearchPageState extends State<SearchPage> {
                   });
                 },
                 onChanged: (value) {
-                  setState(() {});
+                  setState(() {
+                    if (value.isEmpty) {
+                      productsSearch = [];
+                      checkSuggest = false;
+                      return;
+                    }
+                    if (checkSameData(value)) {
+                      checkSuggest = true;
+                    } else {
+                      productsSearch = [];
+                      checkSuggest = false;
+                    }
+                  });
                 },
                 controller: searchTextController,
                 decoration: InputDecoration(
@@ -308,6 +329,7 @@ class _SearchPageState extends State<SearchPage> {
                               priceFT: priceFromTo,
                             );
                           });
+                      focusNode.unfocus();
                     },
                     icon: const Icon(
                       Icons.filter_frames_rounded,
@@ -357,18 +379,25 @@ class _SearchPageState extends State<SearchPage> {
               Visibility(
                   visible: checkHistory,
                   child: Expanded(
-                    child: SearchHistory(
-                      historyLst: historyLstReversed,
-                      onTapHistory: onTapHistory,
-                      deletedAll: deletedAll,
-                      deletedItem: deletedItem,
-                    ),
+                    child: checkSuggest
+                        ? SearchSuggest(
+                            historySuggest: productsSearch,
+                            onTapHistory: onTapHistory)
+                        : SearchHistory(
+                            historyLst: historyLstReversed,
+                            onTapHistory: onTapHistory,
+                            deletedAll: deletedAll,
+                            deletedItem: deletedItem,
+                          ),
                   )),
               Visibility(
-                  visible: checkNotDataPage,
+                visible: checkNotDataPage,
+                child: const Expanded(
                   child: SearchNotFound(
-                    reslutSearchTextController: reslutSearchTextController,
-                  )),
+                      message:
+                          'Chúng tôi rất tiếc, từ khóa bạn tìm không thấy kết quả nào. Vui lòng kiểm tra lại hoặc tìm kiếm với từ khóa khác.'),
+                ),
+              ),
               Visibility(
                 visible: checkDataPage,
                 child: Expanded(

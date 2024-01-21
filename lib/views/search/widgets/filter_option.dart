@@ -47,12 +47,13 @@ class _FilterOptionState extends State<FilterOption> {
                 itemBuilder: (_, index) {
                   return GestureDetector(
                     onTap: () {
-                      widget.onTap(widget.lst[index].companyName);
                       setState(() {
                         if (selectedIndex == index) {
                           selectedIndex = -1;
+                          widget.onTap('');
                         } else {
                           selectedIndex = index;
+                          widget.onTap(widget.lst[index].companyName);
                         }
                       });
                     },

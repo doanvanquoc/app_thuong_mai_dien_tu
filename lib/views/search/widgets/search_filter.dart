@@ -178,6 +178,7 @@ class _SearchFilterState extends State<SearchFilter> {
                       widget.priceFT(
                           rangeValues.start.toInt(), rangeValues.end.toInt());
                       widget.applyOption();
+                      Navigator.pop(context);
                     },
                     content: "Áp dụng"),
               ),

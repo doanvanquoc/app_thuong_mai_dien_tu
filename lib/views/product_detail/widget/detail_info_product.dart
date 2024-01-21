@@ -27,7 +27,7 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
     return Positioned(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height / 2.4,
-      bottom: 70,
+      bottom: 80,
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
