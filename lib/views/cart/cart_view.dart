@@ -188,17 +188,6 @@ class _CartViewState extends State<CartView> {
         log('Cập nhật số lượng thành công');
       } else {
         log('Cập nhật số lượng thất bại');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Lỗi kết nối'),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(4.0)),
-            ),
-          ),
-        );
         return;
       }
     } else {
@@ -285,14 +274,6 @@ class _CartViewState extends State<CartView> {
             color: Color(0xFF212121),
           ),
         ),
-        actions: <Widget>[
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-                size: 35,
-              ))
-        ],
       ),
       body: cartProducts.isNotEmpty
           ? RefreshIndicator(

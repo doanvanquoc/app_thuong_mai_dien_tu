@@ -59,8 +59,8 @@ class _AddressViewState extends State<AddressView> {
     }
   }
 
-    void addNewAddress(String street) async {
-    bool isSuccess = await AddressPresenter.instance.addNewAddress(1, street);
+    void addNewAddress(String name, String address) async {
+    bool isSuccess = await AddressPresenter.instance.addNewAddress(1, name, address);
 
     if (isSuccess) {
       loadAddresses().then((loadedAddresses) {
@@ -100,6 +100,7 @@ class _AddressViewState extends State<AddressView> {
                 padding: const EdgeInsets.only(bottom: 24),
                 child: AddressItem(
                   addressID: address.addressID,
+                  name: address.name,
                   address: address.address,
                   isIcon: false,
                   isRadioButton: true,

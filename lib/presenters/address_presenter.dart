@@ -11,9 +11,9 @@ class AddressPresenter {
     return await api.getUserAddresses(userID);
   }
 
-  Future<bool> addNewAddress(int userID, String address) async {
+  Future<bool> addNewAddress(int userID, String name, String address) async {
     try {
-      Address? newAddress = await api.addAddress(userID, address);
+      Address? newAddress = await api.addAddress(userID, name, address);
       return newAddress != null;
     } catch (e) {
       log(e.toString());

@@ -4,6 +4,7 @@ class AddressItem extends StatelessWidget {
   const AddressItem({
     super.key,
     this.addressID,
+    required this.name,
     required this.address,
     required this.isIcon,
     required this.isRadioButton,
@@ -13,6 +14,7 @@ class AddressItem extends StatelessWidget {
   });
 
   final int? addressID;
+  final String name;
   final String address;
   final bool isIcon;
   final bool isRadioButton;
@@ -88,7 +90,7 @@ class AddressItem extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          addressID.toString(),
+                          name.toString(),
                           style: const TextStyle(
                             color: Color(0xFF212121),
                             fontSize: 18,

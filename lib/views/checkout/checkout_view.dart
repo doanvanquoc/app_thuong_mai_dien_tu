@@ -50,7 +50,7 @@ class _CheckoutViewState extends State<CheckoutView> {
     return letter + number;
   }
 
-  int ship = 123456;
+  int ship = 50000;
 
   @override
   void initState() {
@@ -118,6 +118,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                 AddressItem(
                   addressID: selectedAddress!.addressID!,
                   isDefault: selectedAddress!.isDefault,
+                  name: selectedAddress!.name,
                   address: selectedAddress!.address,
                   isIcon: true,
                   isRadioButton: false,
@@ -298,7 +299,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         'assets/animations/error.json',
                         width: 180,
                         height: 180,
-                        frameRate: FrameRate(100),
+                        frameRate: const FrameRate(100),
                       ),
                       const SizedBox(height: 32),
                       const Text(
