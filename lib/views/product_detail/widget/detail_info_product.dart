@@ -1,25 +1,20 @@
-import 'package:app_thuong_mai_dien_tu/views/rate/rate_view.dart';
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/models/review.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/review_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
+import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/detail_specification.dart';
+import 'package:app_thuong_mai_dien_tu/views/review/review_view.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class InfoProductDetail extends StatefulWidget {
   InfoProductDetail({
     super.key,
-    required this.description,
-    required this.name,
-    required this.rate,
-    required this.sold,
-    required this.count,
-    required this.incrQuanlity,
-    required this.decrQuanlity,
+    required this.product,
+    required this.review,
   });
-  final String name;
-  final String description;
-  final String rate;
-  final String sold;
-  int count;
-  Function incrQuanlity;
-  Function decrQuanlity;
+  final Product product;
+  List<Review> review;
 
   @override
   State<InfoProductDetail> createState() => _InfoProductDetailState();
@@ -31,7 +26,7 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
     return Positioned(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height / 2.4,
-      bottom: 62,
+      bottom: 70,
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
@@ -43,15 +38,11 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                 children: [
                   Expanded(
                     child: Text(
-                      widget.name,
+                      widget.product.productName,
                       style: const TextStyle(
                           fontSize: 28, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.favorite, size: 28),
-                  )
                 ],
               ),
               const SizedBox(height: 12),
@@ -64,12 +55,12 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                       borderRadius: BorderRadius.circular(6),
                       color: const Color.fromARGB(255, 212, 249, 232),
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
-                        widget.sold,
-                        style: const TextStyle(
+                        '1 đã bán',
+                        style: TextStyle(
                           fontSize: 10,
-                          color: Color(0xFF01B763),
+                          color: AppColor.primaryColor,
                         ),
                       ),
                     ),
@@ -79,11 +70,18 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                   const SizedBox(width: 8),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => const RatePage()));
+                      setState(() {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => ReviewPage(
+                                    reviews: widget.review,
+                                    avgRating: ReviewPresenter.avgRating)));
+                      });
                     },
                     child: Text(
-                      widget.rate,
+                      //toStringAsFixed(1) --> làm tròn
+                      '${ReviewPresenter.avgRating(widget.review).toStringAsFixed(1)} (${widget.review.length} đánh giá)',
                       style: const TextStyle(fontSize: 14),
                     ),
                   )
@@ -94,81 +92,18 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                 padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
                 child: Text(
                   "Mô tả",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
               Text(
-                widget.description,
+                widget.product.description,
                 style: const TextStyle(
-                  fontSize: 14,
-                ),
-                textAlign: TextAlign.justify,
-              ),
-              Text(
-                widget.description,
-                style: const TextStyle(
-                  fontSize: 14,
-                ),
-                textAlign: TextAlign.justify,
-              ),
-              Text(
-                widget.description,
-                style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 16,
                 ),
                 textAlign: TextAlign.justify,
               ),
               const SizedBox(height: 12),
-              Row(
-                children: [
-                  const Text(
-                    "Số lượng",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Container(
-                    width: 139,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: const Color.fromARGB(255, 248, 248, 248),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              widget.decrQuanlity();
-                            },
-                            icon: const Icon(
-                              Icons.remove,
-                              color: Color(0xFF01B763),
-                            )),
-                        Text(
-                          '${widget.count} ',
-                          style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF01B763)),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            widget.incrQuanlity();
-                          },
-                          icon: const Icon(
-                            Icons.add,
-                            color: Color(0xFF01B763),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const Divider(),
+              DetailSpecifications(product: widget.product)
             ],
           ),
         ),

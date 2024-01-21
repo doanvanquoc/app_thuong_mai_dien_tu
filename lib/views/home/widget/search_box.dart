@@ -2,11 +2,25 @@ import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/search_view.dart';
 import 'package:flutter/material.dart';
 
-class SearchBox extends StatelessWidget {
+class SearchBox extends StatefulWidget {
   const SearchBox({super.key});
+
+  @override
+  State<SearchBox> createState() => _SearchBoxState();
+}
+
+class _SearchBoxState extends State<SearchBox> {
   @override
   Widget build(BuildContext context) {
+    final FocusNode focusNode = FocusNode();
+
     return TextField(
+      focusNode: focusNode,
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const SearchPage()));
+        focusNode.unfocus();//hao
+      },
       cursorColor: AppColor.primaryColor,
       decoration: InputDecoration(
         hintText: 'Tìm kiếm...',

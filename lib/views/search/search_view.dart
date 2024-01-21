@@ -1,4 +1,13 @@
-import 'package:app_thuong_mai_dien_tu/views/product_detail/product_detail_view.dart';
+import 'package:app_thuong_mai_dien_tu/data_sources/repo/company_api.dart';
+import 'package:app_thuong_mai_dien_tu/models/company.dart';
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/models/review.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/company_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/history_search_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/product_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/review_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
+import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_filter.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_history.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_not_fond_view.dart';
@@ -13,87 +22,164 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   TextEditingController searchTextController = TextEditingController();
   String reslutSearchTextController = "";
-  String contenHistory = "";
-  bool onSearch = false;
   bool checkNotDataPage = false;
   bool checkDataPage = false;
   bool checkResultSearch = false;
   bool checkHistory = true;
   final FocusNode focusNode = FocusNode();
 
-  int count = 0;
-  // List<String> query = [];
-  List historyLstMain = [
-    'Iphone 15',
-    'Iphone 13',
-    'Iphone 11',
-    'Samsung galaxy S23 Ultra'
-  ];
-  List historyLst = [
-    'Iphone 15',
-    'Iphone 13',
-    'Iphone 11',
-    'Samsung galaxy S23 Ultra'
-  ];
+//lấy data
+  final productPresenter = ProductPresenter.instance;
+  final companyPresenter = CompanyPresenter.instance;
+  final reviewPresenter = ReviewPresenter.instance;
+  List<Product> products = [];
+  List<Company> companies = [];
+  List<Review> reviews = [];
 
-  // List historyLstNew = [];
-  // void loadHistoryNew() {
-  //   historyLstNew.add(historyLst.reversed.toString());
-  // }
+  List historyLst = [];
   List historyLstReversed = [];
 
-  bool checkData(value) {
-    for (var item in historyLstMain) {
-      if (item.toString().contains(value.toString())) {
+  @override
+  void initState() {
+    productPresenter.getAllProduct().then((value) {
+      setState(() {
+        products = value;
+      });
+    });
+
+    companyPresenter.getAllCompany().then((value) {
+      setState(() {
+        companies = value;
+      });
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(focusNode);
+    });
+
+    HistorySearchPresenter.loadHistoryLocal(
+        historyLst: historyLst, historyLstReversed: historyLstReversed);
+    super.initState();
+  }
+
+  void productLatest() {
+    productPresenter.getLatestProduct().then((value) {
+      setState(() {
+        productsSearch = value;
+      });
+    });
+  }
+
+  void onTapHistory(value) {
+    searchTextController.text = value;
+  }
+
+  void deletedAll() {
+    setState(() {
+      HistorySearchPresenter.historiesBox.clear();
+      historyLstReversed.clear();
+      historyLst.clear();
+    });
+  }
+
+  void deletedItem(int index) {
+    setState(() {
+      HistorySearchPresenter.historiesBox.deleteAt(index);
+      HistorySearchPresenter.loadHistoryLocal(
+          historyLst: historyLst, historyLstReversed: historyLstReversed);
+    });
+  }
+
+//ẩn hiện page
+  void checkSearch(
+      {required checkNotDataPage,
+      required checkHistory,
+      required checkDataPage,
+      required checkResultSearch}) {
+    this.checkNotDataPage = checkNotDataPage; //trang ko có dữ liệu
+    this.checkHistory = checkHistory; //trang hiển lịch sử
+    this.checkDataPage = checkDataPage; //trang dư liệu tìm kiếm
+    this.checkResultSearch = checkResultSearch;
+  }
+
+  //Danh sach theo từ khóa tìm kiếm
+  List<Product> productsSearch = [];
+
+  //Kiểm tra có trùng data ko
+  bool checkSameData(value) {
+    for (var item in products) {
+      if (item.productName
+          .toString()
+          .toUpperCase()
+          .contains(value.toString().toUpperCase())) {
+        ProductPresenter.productSearch(value, products, productsSearch);
         return true;
       }
     }
     return false;
   }
 
-  void checkDataSame(value) {
-    for (var item in historyLstMain) {
-      if (item.toString() == value) {
-        historyLst.remove(value);
-        historyLstReversed.clear();
-        historyLst.add(value);
-        historyLstReversed.addAll(historyLst.reversed);
+  int priceFrom = 0;
+  int priceTo = 0;
 
-        return;
-      }
-    }
-    historyLstReversed.clear();
-    historyLst.add(value);
-    historyLstReversed.addAll(historyLst.reversed);
-  }
-
-  int incrCount(value) {
-    for (var item in historyLst) {
-      if (item.toString().contains(value.toString())) {
-        count++;
-      }
-    }
-    return count;
-  }
-
-  void onTapHistory(value) {
+  //lay khoang gia
+  void priceFromTo(from, to) {
     setState(() {
-      searchTextController.text = value;
+      priceFrom = from;
+      priceTo = to;
     });
   }
 
-  void checkSearch(
-      checkNotDataPage, checkHistory, checkDataPage, checkResultSearch) {
-    this.checkNotDataPage = checkNotDataPage;
-    this.checkHistory = checkHistory;
-    this.checkDataPage = checkDataPage;
-    this.checkResultSearch = checkResultSearch;
+  //lấy id option
+  int id = -1;
+  Future<void> checkOption(value) async {
+    CompanyAPI.instance.getCompanyId(value).then((valueId) {
+      setState(() {
+        id = valueId;
+      });
+    });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    historyLstReversed.addAll(historyLst.reversed);
+  void applyOption() {
+    setState(() {
+      searchsCompanies(
+          categoryID: id, lstData: products, lstSearch: productsSearch);
+      searchTextController.text = '';
+      reslutSearchTextController = '';
+      if (productsSearch.isEmpty) {
+        checkSearch(
+            checkNotDataPage: true,
+            checkHistory: false,
+            checkDataPage: false,
+            checkResultSearch: true);
+      } else {
+        reslutSearchTextController = 'theo bộ lọc';
+        checkSearch(
+            checkNotDataPage: false,
+            checkHistory: false,
+            checkDataPage: true,
+            checkResultSearch: true);
+      }
+      id = -1; //reset giá trị option đang chọn
+      Navigator.pop(context);
+    });
+  }
+
+//Tim theo bộ lọc
+  void searchsCompanies(
+      {required int categoryID,
+      String sortName = 'Phổ biến',
+      String rating = '',
+      required List<Product> lstData,
+      required List<Product> lstSearch}) {
+    lstSearch.clear();
+    for (var element in lstData) {
+      if ((element.company.companyID == categoryID) &&
+          (element.price >= int.parse("${priceFrom}000000") &&
+              element.price <= int.parse("${priceTo}000000"))) {
+        lstSearch.add(element);
+      }
+    }
   }
 
   @override
@@ -112,19 +198,44 @@ class _SearchPageState extends State<SearchPage> {
                 focusNode: focusNode,
                 onTap: () {
                   setState(() {
-                    checkSearch(false, true, false, false);
+                    productsSearch = [];
+                    checkSearch(
+                        checkNotDataPage: false,
+                        checkHistory: true,
+                        checkDataPage: false,
+                        checkResultSearch: false);
                   });
                 },
                 onSubmitted: (value) {
                   setState(() {
-                    print(value);
-                    reslutSearchTextController = value;
-                    if (checkData(value)) {
-                      checkSearch(false, false, true, true);
-                    } else {
-                      checkSearch(true, false, false, true);
+                    if (value.isEmpty) {
+                      productLatest();
+                      reslutSearchTextController = 'mới nhất';
+                      checkSearch(
+                          checkNotDataPage: false,
+                          checkHistory: false,
+                          checkDataPage: true,
+                          checkResultSearch: true);
+                      return;
                     }
-                    checkDataSame(value);
+                    reslutSearchTextController = value;
+                    if (checkSameData(value)) {
+                      checkSearch(
+                          checkNotDataPage: false,
+                          checkHistory: false,
+                          checkDataPage: true,
+                          checkResultSearch: true);
+                    } else {
+                      checkSearch(
+                          checkNotDataPage: true,
+                          checkHistory: false,
+                          checkDataPage: false,
+                          checkResultSearch: true);
+                    }
+                    HistorySearchPresenter.addHistoryLocal(
+                        value: value,
+                        historyLst: historyLst,
+                        historyLstReversed: historyLstReversed);
                   });
                 },
                 onChanged: (value) {
@@ -144,12 +255,34 @@ class _SearchPageState extends State<SearchPage> {
                     onPressed: () {
                       setState(() {
                         reslutSearchTextController = searchTextController.text;
-                        if (checkData(searchTextController.text)) {
-                          checkSearch(false, false, true, true);
-                        } else {
-                          checkSearch(true, false, false, true);
+                        if (reslutSearchTextController.isEmpty) {
+                          reslutSearchTextController = "mới nhất";
+                          productLatest();
+                          focusNode.unfocus();
+                          checkSearch(
+                              checkNotDataPage: false,
+                              checkHistory: false,
+                              checkDataPage: true,
+                              checkResultSearch: true);
+                          return;
                         }
-                        historyLst.add(reslutSearchTextController);
+                        if (checkSameData(searchTextController.text)) {
+                          checkSearch(
+                              checkNotDataPage: false,
+                              checkHistory: false,
+                              checkDataPage: true,
+                              checkResultSearch: true);
+                        } else {
+                          checkSearch(
+                              checkNotDataPage: true,
+                              checkHistory: false,
+                              checkDataPage: false,
+                              checkResultSearch: true);
+                        }
+                        HistorySearchPresenter.addHistoryLocal(
+                            value: reslutSearchTextController,
+                            historyLst: historyLst,
+                            historyLstReversed: historyLstReversed);
                         focusNode.unfocus();
                       });
                     },
@@ -167,12 +300,16 @@ class _SearchPageState extends State<SearchPage> {
                                   top: Radius.circular(40))),
                           context: context,
                           builder: (_) {
-                            return const SearchFilter();
+                            return SearchFilter(
+                              checkOptioin: checkOption,
+                              applyOption: applyOption,
+                              priceFT: priceFromTo,
+                            );
                           });
                     },
                     icon: const Icon(
                       Icons.filter_frames_rounded,
-                      color: Color(0xFF01B763),
+                      color: AppColor.primaryColor,
                     ),
                   ),
                 ),
@@ -193,9 +330,11 @@ class _SearchPageState extends State<SearchPage> {
                                 fontWeight: FontWeight.bold),
                             children: [
                               TextSpan(
-                                text: ' "$reslutSearchTextController"',
+                                text: productsSearch.isNotEmpty
+                                    ? ' "$reslutSearchTextController"'
+                                    : '',
                                 style: const TextStyle(
-                                    color: Color(0xFF01B763),
+                                    color: AppColor.primaryColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               )
@@ -203,9 +342,9 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     ),
                     Text(
-                      "${incrCount(reslutSearchTextController)} kết quả",
+                      "${productsSearch.length} kết quả",
                       style: const TextStyle(
-                        color: Color(0xFF01B763),
+                        color: AppColor.primaryColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -219,6 +358,8 @@ class _SearchPageState extends State<SearchPage> {
                     child: SearchHistory(
                       historyLst: historyLstReversed,
                       onTapHistory: onTapHistory,
+                      deletedAll: deletedAll,
+                      deletedItem: deletedItem,
                     ),
                   )),
               Visibility(
@@ -235,79 +376,9 @@ class _SearchPageState extends State<SearchPage> {
                         crossAxisCount: 2,
                         childAspectRatio: 1 / 2.2,
                       ),
-                      itemCount: 10,
+                      itemCount: productsSearch.length,
                       itemBuilder: (_, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => const ProductDetail()));
-                          },
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width / 2,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: SizedBox(
-                                    height: 200,
-                                    child: Image.asset(
-                                      'assets/images/phone2.png',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 15),
-                                const Text(
-                                  'Iphone 15 Pro Max 8G/ 128GB - VN',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
-                                  child: Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.star_border,
-                                        color: Color(0xFF01B763),
-                                      ),
-                                      const Text('4.5'),
-                                      const SizedBox(width: 10),
-                                      const Text('|'),
-                                      const SizedBox(width: 10),
-                                      Container(
-                                        padding: const EdgeInsets.all(6),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: const Color(0xFF01B763)),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: const Text(
-                                          '3000 đã bán',
-                                          style: TextStyle(
-                                              color: Color(0xFF01B763)),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                const Text(
-                                  '32.900.000đ',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Color(0xFF01B763),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                )
-                              ],
-                            ),
-                          ),
-                        );
+                        return ProductItem(product: productsSearch[index]);
                       }),
                 ),
               )

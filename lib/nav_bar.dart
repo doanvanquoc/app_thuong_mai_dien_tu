@@ -1,5 +1,6 @@
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
-import 'package:app_thuong_mai_dien_tu/views/account/acccount_view.dart';
+import 'package:app_thuong_mai_dien_tu/views/account/account_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/cart/cart_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/home_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/order/order_view.dart';
@@ -7,21 +8,28 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MyNavBar extends StatefulWidget {
-  const MyNavBar({super.key});
+  const MyNavBar({super.key, required this.user, required this.index});
+  final User user;
+  final int index;
   @override
   State<MyNavBar> createState() => _MyNavBarState();
 }
 
 class _MyNavBarState extends State<MyNavBar> {
   List<Widget> pages = [];
-  int currentIndex = 0;
+  late int currentIndex = widget.index;
+
   @override
   void initState() {
     pages = [
-      const HomePage(),
+      HomePage(
+        user: widget.user,
+      ),
       const CartView(),
       const OrderPage(),
-      const Account(),
+      Account(
+        user: widget.user,
+      ),
     ];
     super.initState();
   }

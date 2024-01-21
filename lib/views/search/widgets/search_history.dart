@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -6,9 +7,14 @@ class SearchHistory extends StatefulWidget {
     super.key,
     required this.historyLst,
     required this.onTapHistory,
+    required this.deletedAll,
+    required this.deletedItem,
   });
   List historyLst;
   Function onTapHistory;
+  Function deletedAll;
+
+  Function deletedItem;
 
   @override
   State<SearchHistory> createState() => _SearchHistoryState();
@@ -31,16 +37,14 @@ class _SearchHistoryState extends State<SearchHistory> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            InkWell(
+            GestureDetector(
               onTap: () {
-                setState(() {
-                  widget.historyLst.clear();
-                });
+                widget.deletedAll();
               },
               child: const Text(
                 "Xóa tất cả",
                 style: TextStyle(
-                  color: Color(0xFF01B763),
+                  color: AppColor.primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -74,9 +78,16 @@ class _SearchHistoryState extends State<SearchHistory> {
                       ),
                       IconButton(
                           onPressed: () {
-                            setState(() {
-                              widget.historyLst.removeAt(index);
-                            });
+                            List<dynamic> lst = []; //dùng để chứ danh sách gốc
+                            int i = 0;
+                            lst.addAll(widget.historyLst.reversed);
+                            for (var element in lst) {
+                              if (widget.historyLst[index] == element) {
+                                widget.deletedItem(i);
+                                return;
+                              }
+                              i++;
+                            }
                           },
                           icon: const Icon(Icons.remove_outlined))
                     ],

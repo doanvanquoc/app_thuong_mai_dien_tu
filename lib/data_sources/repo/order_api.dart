@@ -11,13 +11,27 @@ class OrderAPI {
 
   final dio = Dio();
 
+  Future<List<Order>> getUserOrders(userID) async {
+    List<Order> orders = [];
+    try {
+      final res = await dio.get('${APIConfig.API_URL}/order/$userID');
+      log('Gọi API get orders: $userID');
+      orders =
+          (res.data['data'] as List).map((e) => Order.fromJson(e)).toList();
+
+      return orders;
+    } catch (e) {
+      log('Lỗi order: $e');
+      return [];
+    }
+  }
+
   Future<Order?> createOrder(int userID) async {
     try {
       final res = await dio.post('${APIConfig.API_URL}/order/create',
           data: jsonEncode({'id': userID}));
 
       if (res.statusCode == 200) {
-        log(res.data['order'].toString());
         return Order.fromJson(res.data['order']);
       } else {
         log('Lỗi khi tạo đơn hàng: ${res.statusCode}');

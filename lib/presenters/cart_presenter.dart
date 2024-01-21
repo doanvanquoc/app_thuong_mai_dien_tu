@@ -36,4 +36,21 @@ class CartPresenter {
   Future<bool> removeProductFromCart(int productID) async {
     return await api.deleteProductFromCart(productID);
   }
+
+  Future<Map<String, dynamic>> addToCart(
+      {required int userID,
+      required int productID,
+      required int quantity}) async {
+    try {
+      Map<String, dynamic> cart = await api.addToCart(
+        userID: userID,
+        productID: productID,
+        quantity: quantity,
+      );
+      return cart;
+    } catch (e) {
+      log(e.toString());
+      return {};
+    }
+  }
 }

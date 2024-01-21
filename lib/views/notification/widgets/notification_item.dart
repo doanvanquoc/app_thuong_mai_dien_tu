@@ -1,13 +1,24 @@
+import 'package:app_thuong_mai_dien_tu/models/notification.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class NotificationItem extends StatefulWidget {
-  const NotificationItem({super.key});
-
+  const NotificationItem({
+    super.key,
+    required this.notification,
+  });
+  final NotificationCKC notification;
   @override
   State<NotificationItem> createState() => _NotificationItemState();
 }
 
 class _NotificationItemState extends State<NotificationItem> {
+  Map<int, dynamic> lstIcon = {
+    1: const Icon(Icons.person),
+    2: const Icon(Icons.shopping_cart),
+    3: const Icon(Icons.payment),
+    4: const Icon(Icons.delete)
+  };
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +36,7 @@ class _NotificationItemState extends State<NotificationItem> {
             flex: 1,
             child: ClipOval(
               child: Container(
-                height: 50,
+                height: 60,
                 width: 50,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
@@ -33,31 +44,29 @@ class _NotificationItemState extends State<NotificationItem> {
                     end: Alignment.bottomRight,
                     colors: [
                       Color.fromARGB(255, 61, 225, 154),
-                      Color(0xFF01B763)
+                      AppColor.primaryColor,
                     ],
                   ),
                 ),
-                child: const Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
+                child: lstIcon[widget.notification.iconNumb],
               ),
             ),
           ),
           const SizedBox(width: 10),
-          const Expanded(
+          Expanded(
             flex: 5,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Thiết lập tài khoản thành công!",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  widget.notification.title,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "Tài khoản của bạn đã được tạo!",
-                  style: TextStyle(fontSize: 14),
+                  widget.notification.content,
+                  style: const TextStyle(fontSize: 14),
                 ),
               ],
             ),

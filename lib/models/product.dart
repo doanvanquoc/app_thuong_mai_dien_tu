@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 class Product {
   final int productID;
   final String productName;
-  final num price;
+  final int price;
   final String description;
   final int quantity;
   final Company company;
@@ -19,6 +19,7 @@ class Product {
   final int battery;
   final num weight;
   final String postDate;
+  final String? totalSell;
   final List<Image> images;
   Product(
       {required this.productID,
@@ -37,6 +38,7 @@ class Product {
       required this.battery,
       required this.weight,
       required this.postDate,
+      required this.totalSell,
       required this.images});
 
   Product.fromJson(Map<String, dynamic> json)
@@ -56,6 +58,7 @@ class Product {
         battery = json['battery'],
         weight = json['weight'],
         postDate = json['post_date'],
+        totalSell = json['TongBan'],
         images =
             List.from((json['images'] as List).map((e) => Image.fromJson(e)));
 
@@ -77,6 +80,7 @@ class Product {
       'battery': battery,
       'weight': weight,
       'post_date': postDate,
+      'TongBan': totalSell,
       'images': images.map((e) => e.toJson()).toList(),
     };
   }
