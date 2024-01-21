@@ -40,12 +40,12 @@ class CartPresenter {
   Future<Map<String, dynamic>> addToCart(
       {required int userID,
       required int productID,
-      required int quanlity}) async {
+      required int quantity}) async {
     try {
       Map<String, dynamic> cart = await api.addToCart(
         userID: userID,
         productID: productID,
-        quanlity: quanlity,
+        quantity: quantity,
       );
       return cart;
     } catch (e) {

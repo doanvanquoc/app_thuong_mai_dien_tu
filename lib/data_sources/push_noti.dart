@@ -58,6 +58,7 @@ class PushNoti {
                 // other properties...
               ),
             ));
+        log('on message');
       }
     });
     FirebaseMessaging.onMessageOpenedApp.listen((event) {

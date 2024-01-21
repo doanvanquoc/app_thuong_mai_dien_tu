@@ -25,13 +25,13 @@ class OrderAPI {
       return [];
     }
   }
+
   Future<Order?> createOrder(int userID) async {
     try {
       final res = await dio.post('${APIConfig.API_URL}/order/create',
           data: jsonEncode({'id': userID}));
 
       if (res.statusCode == 200) {
-        log(res.data['order'].toString());
         return Order.fromJson(res.data['order']);
       } else {
         log('Lỗi khi tạo đơn hàng: ${res.statusCode}');

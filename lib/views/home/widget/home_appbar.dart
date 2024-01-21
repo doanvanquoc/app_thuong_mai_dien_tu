@@ -1,4 +1,3 @@
-
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/views/notification/notification_view.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,7 @@ class HomeAppbar extends StatelessWidget {
               fit: BoxFit.cover,
             )),
       ),
-      title: const Text('Welcome2,'),
+      title: const Text('Welcome,'),
       subtitle: Text(
         user.fullname,
         style: const TextStyle(

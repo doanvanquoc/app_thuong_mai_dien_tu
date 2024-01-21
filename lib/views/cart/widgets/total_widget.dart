@@ -95,7 +95,7 @@ class TotalWidget extends StatelessWidget {
                     ));
                   }
                 },
-                content: 'Thanh toán'),
+                content: 'Đặt hàng'),
           ),
         ],
       ),

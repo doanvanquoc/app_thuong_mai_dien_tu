@@ -6,6 +6,7 @@ import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/banner_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/company_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/home_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/product_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_appbar.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_new_product.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_popular_product.dart';
@@ -14,7 +15,7 @@ import 'package:app_thuong_mai_dien_tu/views/home/widget/search_box.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key,required this.user});
+  const HomePage({super.key, required this.user});
   final User user;
 
   @override
@@ -23,7 +24,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final allCompany = Company(companyID: 0, companyName: 'Tất cả');
-  List<Product> products = [];
+  List<Product> latestProduct = [];
+  List<Product> popularProduct = [];
   List<Company> companies = [];
   List<MyBanner.Banner> banners = [
     MyBanner.Banner(
@@ -40,7 +42,14 @@ class _HomePageState extends State<HomePage> {
     HomePresenter.instance.getLatestProduct().then((value) {
       if (mounted) {
         setState(() {
-          products = value;
+          latestProduct = value;
+        });
+      }
+    });
+    ProductPresenter.instance.getBestSellingProduct(10).then((value) {
+      if (mounted) {
+        setState(() {
+          popularProduct = value;
         });
       }
     });
@@ -78,19 +87,23 @@ class _HomePageState extends State<HomePage> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                HomeAppbar(user: widget.user,),
+                HomeAppbar(
+                  user: widget.user,
+                ),
                 const SizedBox(height: 24),
                 const SearchBox(),
                 const SizedBox(height: 24),
                 HomeSlider(banners: banners),
                 const SizedBox(height: 19),
                 HomeNewProduct(
-                  products: products,
+                  user: widget.user,
+                  products: latestProduct,
                   companies: companies,
                 ),
                 const SizedBox(height: 19),
                 HomePopularProduct(
-                  products: products,
+                  user: widget.user,
+                  products: popularProduct,
                   companies: companies,
                 )
               ],
