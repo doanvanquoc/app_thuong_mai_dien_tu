@@ -10,16 +10,59 @@ class ProductAPI {
 
   final dio = Dio();
 
-  Future<List<Product>> getLatestProduct() async {
+  Future<List<Product>> getLatestProduct(int? limit) async {
+    String url;
+    if (limit != null) {
+      url = '${APIConfig.API_URL}/product/latest?limit=$limit';
+    } else {
+      url = '${APIConfig.API_URL}/product/latest';
+    }
     List<Product> products = [];
     try {
-      final res = await dio.get('${APIConfig.API_URL}/product/latest');
+      final res = await dio.get(url);
       products =
           (res.data['data'] as List).map((e) => Product.fromJson(e)).toList();
       return products;
     } catch (e) {
       log('Lỗi product dòng 21: $e');
       return [];
+    }
+  }
+
+  Future<List<Product>> getBestSellingProduct(int? limit) async {
+    String url;
+    if (limit != null) {
+      url = '${APIConfig.API_URL}/product/best-sell?limit=$limit';
+    } else {
+      url = '${APIConfig.API_URL}/product/best-sell';
+    }
+    List<Product> products = [];
+    try {
+      final res = await dio.get(url);
+      products =
+          (res.data['data'] as List).map((e) => Product.fromJson(e)).toList();
+      return products;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<Product>> getBestSellingProductByCompanyID(
+      int? limit, int companyID) async {
+    String url;
+    if (limit != null) {
+      url = '${APIConfig.API_URL}/product/best-sell/$companyID?limit=$limit';
+    } else {
+      url = '${APIConfig.API_URL}/product/best-sell/$companyID';
+    }
+    List<Product> products = [];
+    try {
+      final res = await dio.get(url);
+      products =
+          (res.data['data'] as List).map((e) => Product.fromJson(e)).toList();
+      return products;
+    } catch (e) {
+      rethrow;
     }
   }
 

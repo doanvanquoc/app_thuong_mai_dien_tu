@@ -124,13 +124,13 @@ class _DetailChangeState extends State<DetailChange> {
                 Map<String, dynamic> result = await cartPresenter.addToCart(
                     userID: 1,
                     productID: widget.product.productID,
-                    quanlity: count);
+                    quantity: count);
                 log(result.entries.last.toString());
                 NotificationPresenter.addNotification(
                   2,
                   DateTime.now(),
                   'Giỏ hàng!',
-                  'Thêm vào giỏ hàng thàn công',
+                  'Thêm vào giỏ hàng thành công',
                 );
                 NotificationPresenter.getNotification();
                 // ignore: use_build_context_synchronously

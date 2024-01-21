@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({super.key, required this.product});
+  const ProductItem({super.key, required this.product, this.onTap});
   final Product product;
+  final Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -52,9 +53,9 @@ class ProductItem extends StatelessWidget {
                       border: Border.all(color: AppColor.primaryColor),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Text(
-                      '3000 đã bán',
-                      style: TextStyle(color: AppColor.primaryColor),
+                    child: Text(
+                      '${product.totalSell} đã bán',
+                      style: const TextStyle(color: AppColor.primaryColor),
                     ),
                   )
                 ],
@@ -70,7 +71,7 @@ class ProductItem extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            const HomeAddToCart(),
+            HomeAddToCart(onTap: onTap),
           ],
         ),
       ),

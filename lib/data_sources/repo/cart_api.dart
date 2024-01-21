@@ -14,7 +14,6 @@ class CartAPI {
   Future<List<Cart>> getCartDetailsByUserID(int userID) async {
     try {
       final res = await dio.get('${APIConfig.API_URL}/cart/$userID');
-      log(res.data.toString());
       if (res.statusCode == 200 && res.data['data'] is List) {
         log(res.data['data'][0]['product'].toString());
         return (res.data['data'] as List).map((e) {
@@ -38,7 +37,6 @@ class CartAPI {
         '${APIConfig.API_URL}/cart/update',
         data: jsonEncode({'cartID': cartID, 'quantity': quantity}),
       );
-      log(response.data['code'].toString());
       if (response.statusCode == 200 && response.data['code'] == 1) {
         return true;
       } else {
@@ -68,14 +66,14 @@ class CartAPI {
   Future<Map<String, dynamic>> addToCart(
       {required int userID,
       required int productID,
-      required int quanlity}) async {
+      required int quantity}) async {
     try {
       final res = await dio.post(
         '${APIConfig.API_URL}/cart/add',
         data: {
           'userID': userID,
           'productID': productID,
-          'quantity': quanlity,
+          'quantity': quantity,
         },
       );
       if (res.statusCode == 200) {

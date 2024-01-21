@@ -8,7 +8,11 @@ class AddressPresenter {
   final api = AddressAPI.instance;
 
   Future<List<Address>> getUserAddresses(int userID) async {
-    return await api.getUserAddresses(userID);
+    try {
+      return await api.getUserAddresses(userID);
+    } catch (e) {
+      return [];
+    }
   }
 
   Future<bool> addNewAddress(int userID, String address) async {

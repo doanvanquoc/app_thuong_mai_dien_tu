@@ -13,7 +13,7 @@ class Order {
       : orderID = json['orderID'],
         totalPrice = json['total_price'],
         orderDate = json['order_date'],
-        userID = 1,
+        userID = json['userID'],
         status = Status.fromJson(json['status']),
         orderDetails = List.from(
             (json['orderDetails'] as List).map((e) => OrderDetail.fromJson(e)));

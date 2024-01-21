@@ -19,12 +19,32 @@ class ProductPresenter {
     }
   }
 
-  Future<List<Product>> getLatestProduct() async {
+  Future<List<Product>> getLatestProduct([int? limit]) async {
     try {
-      List<Product> products = await api.getLatestProduct();
+      List<Product> products = await api.getLatestProduct(limit);
       return products;
     } catch (e) {
       log(e.toString());
+      return [];
+    }
+  }
+
+  Future<List<Product>> getBestSellingProduct([int? limit]) async {
+    try {
+      List<Product> products = await api.getBestSellingProduct(limit);
+      return products;
+    } catch (e) {
+      log('Lỗi prod: dòng 37 - $e');
+      return [];
+    }
+  }
+
+  Future<List<Product>> getBestSellingProductByCompanyID(int companyID, [int? limit]) async {
+    try {
+      List<Product> products = await api.getBestSellingProductByCompanyID(limit, companyID);
+      return products;
+    } catch (e) {
+      log('Lỗi prod: dòng 47 - $e');
       return [];
     }
   }

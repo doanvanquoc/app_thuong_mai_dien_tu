@@ -82,8 +82,7 @@ class _EditAccountState extends State<EditAccount> {
       notiPhoneNumber = '';
       notiName = '';
 
-      log(
-          'Name: ${name.text}; Date: ${dateTime.text}; Phone: ${phoneNumber.text}; sex: ${gender.text}; Email: ${email.text}');
+      log('Name: ${name.text}; Date: ${dateTime.text}; Phone: ${phoneNumber.text}; sex: ${gender.text}; Email: ${email.text}');
       final UserAPI userApi = UserAPI.instance;
       final result = await userApi.updateUser(
         userId: widget.user.userID,
@@ -133,8 +132,9 @@ class _EditAccountState extends State<EditAccount> {
         // ignore: use_build_context_synchronously
         notiEmail = 'Email đã tồn tại trong hệ thống!';
       }
-    }else{
-      notiAcconut(context, 'Cập nhật thất bại!', 'Vui lòng nhập thông tin muốn cập nhật');
+    } else {
+      notiAcconut(context, 'Cập nhật thất bại!',
+          'Vui lòng nhập thông tin muốn cập nhật');
     }
     setState(() {});
   }
@@ -143,14 +143,6 @@ class _EditAccountState extends State<EditAccount> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              size: 30,
-            )),
         title: const Text(
           'Chỉnh sửa thông tin',
           style: TextStyle(
@@ -164,6 +156,17 @@ class _EditAccountState extends State<EditAccount> {
         children: [
           const SizedBox(
             height: 20,
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Text(
+              'Họ và tên',
+              style: TextStyle(
+                color: Color(0xFF212121),
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
           MyTextFile(
             name:
@@ -182,6 +185,17 @@ class _EditAccountState extends State<EditAccount> {
                   ),
                 )
               : const SizedBox(),
+          const Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Text(
+              'Ngày sinh',
+              style: TextStyle(
+                color: Color(0xFF212121),
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: DateTimeBirthDay(
@@ -202,6 +216,17 @@ class _EditAccountState extends State<EditAccount> {
                   ),
                 )
               : const SizedBox(),
+          const Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Text(
+              'Email',
+              style: TextStyle(
+                color: Color(0xFF212121),
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
           MyTextFile(
             name: widget.user.email == '' ? 'Email' : widget.user.email,
             iconLeft: null,
@@ -218,6 +243,17 @@ class _EditAccountState extends State<EditAccount> {
                   ),
                 )
               : const SizedBox(),
+          const Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Text(
+              'Số điện thoại',
+              style: TextStyle(
+                color: Color(0xFF212121),
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
           MyTextFile(
             name: widget.user.phoneNumber == ''
                 ? 'Số điện thoại'
@@ -236,6 +272,17 @@ class _EditAccountState extends State<EditAccount> {
                   ),
                 )
               : const SizedBox(),
+          const Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Text(
+              'Giới tính',
+              style: TextStyle(
+                color: Color(0xFF212121),
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 10, right: 10, top: 10.0),
             child: Gender(
@@ -254,7 +301,7 @@ class _EditAccountState extends State<EditAccount> {
                 )
               : const SizedBox(),
           const SizedBox(
-            height: 20,
+            height: 30,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),

@@ -9,9 +9,9 @@ class HomePresenter {
 
   final api = ProductAPI.instance;
 
-  Future<List<Product>> getLatestProduct() async {
+  Future<List<Product>> getLatestProduct([int? limit]) async {
     try {
-      List<Product> products = await api.getLatestProduct();
+      List<Product> products = await api.getLatestProduct(limit);
       return products;
     } catch (e) {
       log(e.toString());
