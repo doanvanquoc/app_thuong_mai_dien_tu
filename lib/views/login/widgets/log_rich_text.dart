@@ -1,10 +1,8 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class RichTextLog extends StatefulWidget {
-  RichTextLog({Key? key, required this.question, required this.name, required this.onTap})
-      : super(key: key);
+  RichTextLog({super.key, required this.question, required this.name, required this.onTap});
 
   String question;
   String name;

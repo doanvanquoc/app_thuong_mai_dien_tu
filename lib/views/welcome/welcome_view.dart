@@ -4,7 +4,7 @@ import 'package:app_thuong_mai_dien_tu/views/welcome/widgets/content.dart';
 import 'package:flutter/material.dart';
 
 class Welcome extends StatefulWidget {
-  const Welcome({Key? key}) : super(key: key);
+  const Welcome({super.key});
 
   @override
   State<Welcome> createState() => _WelcomeState();
@@ -70,16 +70,15 @@ class _WelcomeState extends State<Welcome> {
                       fontFamily: 'Sarabun',
                       fontWeight: FontWeight.w600,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 const SizedBox(height: 80),
                 if (i != 0)
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        contents.length - 1,
-                        (index) => buildDot(index + 1, context),
-                      ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      contents.length - 1,
+                      (index) => buildDot(index + 1, context),
                     ),
                   ),
                 const SizedBox(height: 20),

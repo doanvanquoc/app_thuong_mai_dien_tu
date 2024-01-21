@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:app_thuong_mai_dien_tu/models/address.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/address_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/address/add_address.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/address_widget.dart';
@@ -15,28 +18,11 @@ class AddressView extends StatefulWidget {
 }
 
 class _AddressViewState extends State<AddressView> {
-  List<Address> addresses = [
-    Address(
-      name: 'Nhà',
-      street: '65 Huỳnh Thúc Kháng, Quận 1',
-      isDefault: true,
-    ),
-    Address(
-      name: 'Công ty',
-      street: '652/37 Cộng Hòa, P13, Tân Bình',
-      isDefault: false,
-    ),
-    Address(
-      name: 'Trọ',
-      street: '231/93/5 Dương Bá Trạc, P1, Quận 8',
-      isDefault: false,
-    ),
-    Address(
-      name: 'Một Buổi Sáng',
-      street: '27/4 Cộng Hòa, P4, Tân Bình',
-      isDefault: false,
-    ),
-  ];
+  Future<List<Address>> loadAddresses() async {
+    return await AddressPresenter.instance.getUserAddresses(1);
+  }
+
+  List<Address> addresses = [];
 
   Address? selectedAddress;
   int? selectedAddressIndex;
@@ -44,15 +30,47 @@ class _AddressViewState extends State<AddressView> {
   @override
   void initState() {
     super.initState();
+    loadAddresses().then((loadedAddresses) {
+      setState(() {
+        addresses = loadedAddresses;
+        if (addresses.isNotEmpty) {
+          addresses[0].isDefault = true;
+          for (int i = 1; i < addresses.length; i++) {
+            addresses[i].isDefault = false;
+          }
+        }
+        updateSelectedAddressIndex();
+      });
+    });
+  }
+
+  void updateSelectedAddressIndex() {
     if (widget.selectedAddress != null) {
-      selectedAddressIndex = addresses.indexWhere((address) =>
-          address.name == widget.selectedAddress!.name &&
-          address.street == widget.selectedAddress!.street);
+      selectedAddressIndex = addresses.indexWhere(
+          (address) => address.addressID == widget.selectedAddress!.addressID);
     }
 
     if (selectedAddressIndex == -1 || selectedAddressIndex == null) {
-      selectedAddressIndex =
-          addresses.indexWhere((address) => address.isDefault!);
+      if (addresses.isNotEmpty) {
+        selectedAddressIndex = 0;
+      } else {
+        selectedAddressIndex = null;
+      }
+    }
+  }
+
+    void addNewAddress(String street) async {
+    bool isSuccess = await AddressPresenter.instance.addNewAddress(1, street);
+
+    if (isSuccess) {
+      loadAddresses().then((loadedAddresses) {
+        setState(() {
+          addresses = loadedAddresses;
+          selectedAddressIndex = addresses.length - 1;
+        });
+      });
+    } else {
+      log('Thêm thất bại');
     }
   }
 
@@ -81,9 +99,8 @@ class _AddressViewState extends State<AddressView> {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 24),
                 child: AddressItem(
-                  name: address.name,
-                  isDefault: address.isDefault!,
-                  street: address.street,
+                  addressID: address.addressID,
+                  address: address.address,
                   isIcon: false,
                   isRadioButton: true,
                   isSelected: selectedAddressIndex != null &&
@@ -93,6 +110,7 @@ class _AddressViewState extends State<AddressView> {
                       selectedAddressIndex = index;
                     });
                   },
+                  isDefault: address.isDefault,
                 ),
               );
             }),
@@ -125,12 +143,5 @@ class _AddressViewState extends State<AddressView> {
         },
       ),
     );
-  }
-
-  void addNewAddress(String name, String street) {
-    setState(() {
-      addresses.add(Address(name: name, street: street, isDefault: false));
-      selectedAddressIndex = addresses.length - 1;
-    });
   }
 }

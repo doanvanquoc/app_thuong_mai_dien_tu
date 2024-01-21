@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:app_thuong_mai_dien_tu/models/cart.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/prod_of_e_invoice_widget.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +7,20 @@ import 'package:flutter/services.dart';
 class EInvoiceView extends StatelessWidget {
   const EInvoiceView({
     super.key,
-    required this.products,
+    required this.cartProducts,
     required this.orderDateTime,
     required this.eCode,
+    required this.ship,
+    required this.totalPrice,
+    required this.totalBill,
   });
 
-  final List<Product> products;
+  final List<Cart> cartProducts;
   final String orderDateTime;
   final String eCode;
+  final int ship;
+  final int totalPrice;
+  final int totalBill;
 
   @override
   Widget build(BuildContext context) {
@@ -41,17 +46,17 @@ class EInvoiceView extends StatelessWidget {
           child: Column(
             children: [
               ListView.builder(
-                itemCount: products.length,
+                itemCount: cartProducts.length,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  Product product = products[index];
+                  Cart product = cartProducts[index];
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: ProductOfInvoiceWidget(
-                      image: 'assets/images/iphone15_3.png',
-                      name: 'Iphone 14',
-                      qty: '${product.quantity}',
+                      image: product.product.images[0].imagePath,
+                      name: product.product.productName,
+                      qty: product.quantity.toString(),
                     ),
                   );
                 },
@@ -73,7 +78,7 @@ class EInvoiceView extends StatelessWidget {
                     )
                   ],
                 ),
-                child: const Column(
+                child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +88,7 @@ class EInvoiceView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Giá',
                             style: TextStyle(
                               color: Color(0xFF616161),
@@ -91,11 +96,11 @@ class EInvoiceView extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '31.900.000đ',
+                            Product.formatPrice(totalPrice.toString()),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF424242),
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -103,13 +108,13 @@ class EInvoiceView extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Phí giao hàng',
                             style: TextStyle(
                               color: Color(0xFF616161),
@@ -117,11 +122,11 @@ class EInvoiceView extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '50.000đ',
+                            Product.formatPrice(ship.toString()),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF424242),
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -129,15 +134,15 @@ class EInvoiceView extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(height: 10),
-                      Divider(),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
+                      const Divider(),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Tổng cộng',
                             style: TextStyle(
                               color: Color(0xFF34C582),
@@ -145,11 +150,11 @@ class EInvoiceView extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '31.950.000đ',
+                            Product.formatPrice(totalBill.toString()),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF34C582),
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -303,16 +308,16 @@ class EInvoiceView extends StatelessWidget {
     );
   }
 
-  String generateOrderCode() {
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    Random random = Random();
+  // String generateOrderCode() {
+  //   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  //   Random random = Random();
 
-    String letterPart = String.fromCharCodes(Iterable.generate(
-        2, (_) => letters.codeUnitAt(random.nextInt(letters.length))));
+  //   String letterPart = String.fromCharCodes(Iterable.generate(
+  //       2, (_) => letters.codeUnitAt(random.nextInt(letters.length))));
 
-    String numberPart =
-        Iterable.generate(10, (_) => random.nextInt(10).toString()).join('');
+  //   String numberPart =
+  //       Iterable.generate(10, (_) => random.nextInt(10).toString()).join('');
 
-    return letterPart + numberPart;
-  }
+  //   return letterPart + numberPart;
+  // }
 }

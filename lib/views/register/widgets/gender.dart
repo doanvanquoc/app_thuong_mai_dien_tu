@@ -1,19 +1,25 @@
+import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
+import 'package:app_thuong_mai_dien_tu/views/register/widgets/itemgender.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class Gender extends StatefulWidget {
-  const Gender({Key? key}) : super(key: key);
+  Gender({super.key, required this.controller, required this.selectedGender});
+
+  final TextEditingController controller;
+  String selectedGender;
 
   @override
   State<Gender> createState() => _GenderState();
 }
 
 class _GenderState extends State<Gender> {
-  String dropdownValue = 'Nam';
+  int stateButton = -1;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      padding: const EdgeInsets.only(left: 45, top: 4, bottom: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
         border: Border.all(
@@ -25,37 +31,73 @@ class _GenderState extends State<Gender> {
       child: Row(
         children: [
           Expanded(
-            child: DropdownButton<String>(
-              value: dropdownValue,
-              icon: const Icon(Icons.arrow_drop_down_rounded, size: 45),
-              underline: null,
-              isExpanded: true,
-              style: const TextStyle(color: Colors.black, fontSize: 16),
-              onChanged: (String? newValue) {
-                setState(() {
-                  dropdownValue = newValue!;
-                });
-              },
-              items: <String>['Nam', 'Nữ', 'Khác'].map<DropdownMenuItem<String>>(
-                (String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 35),
-                          child: Text(value),
+            child: Text(
+              widget.controller.text.isNotEmpty
+                  ? widget.controller.text
+                  : widget.selectedGender,
+              style: TextStyle(
+                color: widget.controller.text.isNotEmpty
+                    ? Colors.black
+                    : Colors.grey,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Text(
+                          'Chọn giới tính',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                      ItemGender(
+                        onTap: (selectedGender) {
+                          setState(() {
+                            widget.selectedGender = selectedGender;
+                          });
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 15),
+                        child: MyButton(
+                            onTap: () {
+                              _updateGender();
+                              Navigator.pop(context);
+                            },
+                            content: 'Xác nhận'),
+                      ),
+                    ],
                   );
                 },
-              ).toList(),
+              );
+            },
+            icon: const Icon(
+              Icons.edit_outlined,
+              color: Colors.black,
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _updateGender() {
+    if (widget.selectedGender.isNotEmpty) {
+      setState(() {
+        widget.controller.text = widget.selectedGender;
+      });
+    }
   }
 }

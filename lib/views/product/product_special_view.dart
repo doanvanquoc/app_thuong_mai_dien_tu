@@ -1,27 +1,26 @@
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/company_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/product_presenter.dart';
 
 import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
 import 'package:app_thuong_mai_dien_tu/views/product/widgets/product_option.dart';
 import 'package:flutter/material.dart';
 
-class ProductSpecial extends StatefulWidget {
-  const ProductSpecial({
+class NewProduct extends StatefulWidget {
+  const NewProduct({
     super.key,
     required this.nameTab,
     required this.lstCategory,
-    required this.lstProduct,
   });
   final String nameTab;
   final List<Company> lstCategory;
-  final List<Product> lstProduct;
 
   @override
-  State<ProductSpecial> createState() => _ProductSpecialState();
+  State<NewProduct> createState() => _NewProductState();
 }
 
-class _ProductSpecialState extends State<ProductSpecial> {
+class _NewProductState extends State<NewProduct> {
   String checkCategory = "";
   List<Product> productCompanies = [];
   int id = -1;
@@ -42,7 +41,7 @@ class _ProductSpecialState extends State<ProductSpecial> {
     CompanyAPI.instance.getCompanyId(value).then((valueId) {
       setState(() {
         id = valueId;
-        searchsCompanies(id, widget.lstProduct, productCompanies);
+        searchsCompanies(id, productCompanies, productCompanies);
       });
     });
   }
@@ -78,8 +77,11 @@ class _ProductSpecialState extends State<ProductSpecial> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    productCompanies.addAll(widget.lstProduct);
+    ProductPresenter.instance.getLatestProduct().then((value) {
+      setState(() {
+        productCompanies = value;
+      });
+    });
   }
 }

@@ -1,10 +1,11 @@
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/models/image.dart';
+import 'package:intl/intl.dart';
 
 class Product {
   final int productID;
   final String productName;
-  final num price;
+  final int price;
   final String description;
   final int quantity;
   final Company company;
@@ -18,7 +19,8 @@ class Product {
   final int battery;
   final num weight;
   final String postDate;
-  final List<ImageP> images;
+  final String? totalSell;
+  final List<Image> images;
   Product(
       {required this.productID,
       required this.productName,
@@ -36,6 +38,7 @@ class Product {
       required this.battery,
       required this.weight,
       required this.postDate,
+      required this.totalSell,
       required this.images});
 
   Product.fromJson(Map<String, dynamic> json)
@@ -55,6 +58,41 @@ class Product {
         battery = json['battery'],
         weight = json['weight'],
         postDate = json['post_date'],
+        totalSell = json['TongBan'],
         images =
-            List.from((json['images'] as List).map((e) => ImageP.fromJson(e)));
+            List.from((json['images'] as List).map((e) => Image.fromJson(e)));
+
+  Map<String, dynamic> toJson() {
+    return {
+      'productID': productID,
+      'product_name': productName,
+      'price': price,
+      'description': description,
+      'quantity': quantity,
+      'company': company.toJson(),
+      'screen_size': screenSize,
+      'os': os,
+      'cpu': cpu,
+      'ram': ram,
+      'internal_storage': internalStorage,
+      'main_cam_resolution': mainCamResolution,
+      'front_cam_resolution': frontCamResolution,
+      'battery': battery,
+      'weight': weight,
+      'post_date': postDate,
+      'TongBan': totalSell,
+      'images': images.map((e) => e.toJson()).toList(),
+    };
+  }
+
+  static String formatPrice(String price) {
+    num priceNum = num.parse(price);
+    final numberFormat = NumberFormat('#,##0', 'vi_VN');
+    return '${numberFormat.format(priceNum)}đ';
+  }
+
+  static int parsePrice(String price) {
+    String numericString = price.replaceAll('đ', '').replaceAll('.', '');
+    return int.tryParse(numericString) ?? 0;
+  }
 }

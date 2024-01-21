@@ -18,7 +18,7 @@ class CompanyAPI {
           (res.data['data'] as List).map((e) => Company.fromJson(e)).toList();
       return companies;
     } catch (e) {
-      log(e.toString());
+      log('Lỗi company: $e');
       return [];
     }
   }

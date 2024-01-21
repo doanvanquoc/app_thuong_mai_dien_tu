@@ -1,6 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/company_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
-import 'package:app_thuong_mai_dien_tu/models/history_search.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/models/review.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/company_presenter.dart';
@@ -14,7 +13,6 @@ import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_history.dart'
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_not_fond_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_suggest.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -34,7 +32,7 @@ class _SearchPageState extends State<SearchPage> {
 //lấy data
   final productPresenter = ProductPresenter.instance;
   final companyPresenter = CompanyPresenter.instance;
-  final reviewPresenter = ReviewPresenter.instanse;
+  final reviewPresenter = ReviewPresenter.instance;
   List<Product> products = [];
   List<Company> companies = [];
   List<Review> reviews = [];

@@ -1,8 +1,11 @@
-class ImageP {
+class Image {
   final String imagePath;
-  ImageP({
+  Image({
     required this.imagePath,
   });
 
-  ImageP.fromJson(Map<String, dynamic> json) : imagePath = json['image_path'];
+  Image.fromJson(Map<String, dynamic> json) : imagePath = json['image_path'];
+  Map<String, dynamic> toJson() {
+    return {'image_path': imagePath};
+  }
 }

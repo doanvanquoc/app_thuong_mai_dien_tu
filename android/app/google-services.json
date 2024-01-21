@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "286788760304",
+    "project_id": "ckc-pushnotification",
+    "storage_bucket": "ckc-pushnotification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286788760304:android:f36b43e1ef0faa6c0e4835",
+        "android_client_info": {
+          "package_name": "com.example.app_thuong_mai_dien_tu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoiDh1-d2Jt1OD5JbMhZ6Zvr_ZWL79EO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

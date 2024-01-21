@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class MyTextPass extends StatefulWidget {
   const MyTextPass({
-    Key? key,
+    super.key,
     required this.name,
     required this.iconLeft,
     required this.controller,
-  }) : super(key: key);
+  });
 
   final String name;
   final Icon? iconLeft;
@@ -83,11 +83,11 @@ class _MyTextPassState extends State<MyTextPass> {
                 },
                 icon: lock
                     ? Icon(
-                        Icons.lock_outlined,
+                        Icons.visibility_off_outlined,
                         color: isIconRightPressed ? Colors.green : Colors.black,
                       )
                     : Icon(
-                        Icons.lock_open_outlined,
+                        Icons.visibility_outlined,
                         color: isIconRightPressed ? Colors.green : Colors.black,
                       ),
               ),

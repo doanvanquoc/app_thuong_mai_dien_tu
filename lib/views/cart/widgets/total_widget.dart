@@ -1,12 +1,22 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:app_thuong_mai_dien_tu/models/cart.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/checkout_view.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TotalWidget extends StatelessWidget {
-  const TotalWidget({super.key, required this.products});
+  TotalWidget({
+    super.key,
+    this.products,
+    required this.totalPrice,
+  });
 
-  final List<Product> products;
+  List<Cart>? products;
+  final String totalPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +45,10 @@ class TotalWidget extends StatelessWidget {
           ]),
       child: Row(
         children: [
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Tổng cộng',
                 style: TextStyle(
                   color: Color(0xFF757575),
@@ -46,10 +56,10 @@ class TotalWidget extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               Text(
-                '15.000.000đ',
-                style: TextStyle(
+                totalPrice.toString(),
+                style: const TextStyle(
                   color: Color(0xFF212121),
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
@@ -60,14 +70,32 @@ class TotalWidget extends StatelessWidget {
           const SizedBox(width: 32),
           Expanded(
             child: MyButton(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CheckoutView(products: products)),
-                  );
+                onTap: () async {
+                  var connectivityResult =
+                      await (Connectivity().checkConnectivity());
+                  if (connectivityResult != ConnectivityResult.none) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CheckoutView(
+                                products: products!,
+                                totalPrice: Product.parsePrice(totalPrice),
+                              )),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Lỗi kết nối'),
+                      backgroundColor: Colors.red,
+                      behavior: SnackBarBehavior.floating,
+                      margin:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                      ),
+                    ));
+                  }
                 },
-                content: 'Thanh toán'),
+                content: 'Đặt hàng'),
           ),
         ],
       ),

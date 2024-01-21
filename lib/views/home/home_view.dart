@@ -1,7 +1,12 @@
-import 'package:app_thuong_mai_dien_tu/data_sources/repo/company_api.dart';
-import 'package:app_thuong_mai_dien_tu/data_sources/repo/product_api.dart';
+// ignore: library_prefixes
+import 'package:app_thuong_mai_dien_tu/models/banner.dart' as MyBanner;
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/banner_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/company_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/home_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/product_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_appbar.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_new_product.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_popular_product.dart';
@@ -10,40 +15,66 @@ import 'package:app_thuong_mai_dien_tu/views/home/widget/search_box.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.user});
+  final User user;
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final productAPI = ProductAPI.instance;
-  final companyAPI = CompanyAPI.instance;
-  List<Product> products = [];
+  final allCompany = Company(companyID: 0, companyName: 'Tất cả');
+  List<Product> latestProduct = [];
+  List<Product> popularProduct = [];
   List<Company> companies = [];
+  List<MyBanner.Banner> banners = [
+    MyBanner.Banner(
+        bannerID: 1,
+        image:
+            'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705678734/banners/syhintfcmcuwavqqx3la.png'),
+    MyBanner.Banner(
+        bannerID: 2,
+        image:
+            'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705678737/banners/pbzvhznki50whobpjm5g.png')
+  ];
   @override
   void initState() {
-    productAPI.getLatestProduct().then((value) {
-      setState(() {
-        products = value;
-      });
+    HomePresenter.instance.getLatestProduct().then((value) {
+      if (mounted) {
+        setState(() {
+          latestProduct = value;
+        });
+      }
+    });
+    ProductPresenter.instance.getBestSellingProduct(10).then((value) {
+      if (mounted) {
+        setState(() {
+          popularProduct = value;
+        });
+      }
     });
 
-    companyAPI.getAllCompany().then((value) {
-      setState(() {
-        companies = value;
-      });
+    CompanyPresenter.instance.getAllCompany().then((value) {
+      if (mounted) {
+        setState(() {
+          companies = value;
+          companies.insert(0, allCompany);
+        });
+      }
     });
+
+    BannerPresenter.instance.getBanners().then((value) {
+      if (mounted) {
+        setState(() {
+          banners = value;
+        });
+      }
+    });
+
     super.initState();
   }
 
   int currentIndex = 0;
-  List<String> banners = [
-    'https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/infinix-sliding-th122.jpg',
-    'https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/infinix-sliding-th122.jpg',
-    'https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/infinix-sliding-th122.jpg',
-    'https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/infinix-sliding-th122.jpg',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -56,19 +87,23 @@ class _HomePageState extends State<HomePage> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const HomeAppbar(),
+                HomeAppbar(
+                  user: widget.user,
+                ),
                 const SizedBox(height: 24),
                 const SearchBox(),
                 const SizedBox(height: 24),
                 HomeSlider(banners: banners),
                 const SizedBox(height: 19),
                 HomeNewProduct(
-                  products: products,
+                  user: widget.user,
+                  products: latestProduct,
                   companies: companies,
                 ),
                 const SizedBox(height: 19),
                 HomePopularProduct(
-                  products: products,
+                  user: widget.user,
+                  products: popularProduct,
                   companies: companies,
                 )
               ],

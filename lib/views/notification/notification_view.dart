@@ -1,9 +1,7 @@
-import 'package:app_thuong_mai_dien_tu/models/notification.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/notification_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/review_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/views/notification/widgets/notification_item.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});

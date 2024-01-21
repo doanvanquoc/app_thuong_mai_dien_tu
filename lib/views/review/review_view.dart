@@ -5,6 +5,7 @@ import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_not_fond_view
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
+// ignore: must_be_immutable
 class ReviewPage extends StatefulWidget {
   ReviewPage({super.key, required this.reviews, required this.avgRating});
   final List<Review> reviews;

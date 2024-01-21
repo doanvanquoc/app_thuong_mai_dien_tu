@@ -10,4 +10,7 @@ class Company {
   Company.fromJson(Map<String, dynamic> json)
       : companyID = json['companyID'],
         companyName = json['company_name'];
+  Map<String, dynamic> toJson() {
+    return {'companyID': companyID, 'company_name': companyName};
+  }
 }

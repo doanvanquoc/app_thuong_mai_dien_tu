@@ -1,12 +1,20 @@
-import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/models/cart.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/e_invoice_view.dart';
-import 'package:app_thuong_mai_dien_tu/views/order/order_tracking_view.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-Future openDialog(BuildContext context, String title, String detail,
-    List<Product> products, String formatDate, String eCode) {
+Future openDialog(
+  BuildContext context,
+  String title,
+  String detail,
+  List<Cart> products,
+  String formatDate,
+  String eCode,
+  int ship,
+  int totalPrice,
+  int totalBill,
+) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -49,23 +57,28 @@ Future openDialog(BuildContext context, String title, String detail,
             MyButton(
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const OrderTrackingPage(),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (_) {
+                       
+                  //     },
+                  //   ),
+                  // );
                 },
                 content: 'Theo dõi đơn hàng'),
             const SizedBox(height: 20),
             MyButton(
-              onTap: () {
+              onTap: () async {
                 Navigator.pop(context);
-                Navigator.of(context).push(MaterialPageRoute(
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => EInvoiceView(
-                    products: products,
+                    cartProducts: products,
                     orderDateTime: formatDate,
                     eCode: eCode,
+                    ship: ship,
+                    totalPrice: totalPrice,
+                    totalBill: totalBill,
                   ),
                 ));
               },

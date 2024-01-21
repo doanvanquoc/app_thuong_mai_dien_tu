@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 
 Future openDialog(BuildContext context, String title, String detail) {
   return showDialog(
+    barrierDismissible: false,
     context: context,
     builder: (context) => AlertDialog(
       content: Container(
