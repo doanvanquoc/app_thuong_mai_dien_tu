@@ -88,11 +88,11 @@ class Product {
   static String formatPrice(String price) {
     num priceNum = num.parse(price);
     final numberFormat = NumberFormat('#,##0', 'vi_VN');
-    return '${numberFormat.format(priceNum)}đ';
+    return '${numberFormat.format(priceNum)} VNĐ';
   }
 
   static int parsePrice(String price) {
-    String numericString = price.replaceAll('đ', '').replaceAll('.', '');
+    String numericString = price.replaceAll('VNĐ', '').replaceAll('.', '');
     return int.tryParse(numericString) ?? 0;
   }
 }

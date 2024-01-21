@@ -5,20 +5,20 @@ class LoginLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          width: 70,
-          height: 120,
-          decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(1000),
-            ),
-          ),
-          child: const Image(image: AssetImage("assets/images/logo.png")),
+        SizedBox(
+          width: 90,
+          height: 90,
+          // decoration: ShapeDecoration(
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(1000),
+          //   ),
+          // ),
+          child: Image(image: AssetImage("assets/images/logo.png")),
         ),
-        const Align(
+        Align(
           alignment: Alignment.center,
           child: Text(
             'CKCPhoneStore',

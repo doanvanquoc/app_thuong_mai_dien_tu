@@ -29,7 +29,7 @@ class EInvoiceView extends StatelessWidget {
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         title: const Text(
-          'Hóa đơn điện tử',
+          'Thông tin hóa đơn',
           style: TextStyle(
             color: Color(0xFF212121),
           ),

@@ -61,7 +61,7 @@ Future openDialog(
                   //   context,
                   //   MaterialPageRoute(
                   //     builder: (_) {
-                       
+
                   //     },
                   //   ),
                   // );
@@ -71,18 +71,20 @@ Future openDialog(
             MyButton(
               onTap: () async {
                 Navigator.pop(context);
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => EInvoiceView(
-                    cartProducts: products,
-                    orderDateTime: formatDate,
-                    eCode: eCode,
-                    ship: ship,
-                    totalPrice: totalPrice,
-                    totalBill: totalBill,
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => EInvoiceView(
+                      cartProducts: products,
+                      orderDateTime: formatDate,
+                      eCode: eCode,
+                      ship: ship,
+                      totalPrice: totalPrice,
+                      totalBill: totalBill,
+                    ),
                   ),
-                ));
+                );
               },
-              content: 'Xem hóa đơn điện tử',
+              content: 'Xem thông tin hóa đơn',
               backgroundColor: const Color(0xffE6F8EF),
               textColor: const Color(0xff01B763),
             ),

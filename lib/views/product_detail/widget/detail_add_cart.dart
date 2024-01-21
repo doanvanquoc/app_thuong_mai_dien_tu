@@ -20,7 +20,7 @@ class _AddCartDetailState extends State<AddCartDetail> {
       right: 0,
       left: 0,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         height: 64,
         color: const Color.fromARGB(255, 255, 255, 255),
         width: double.infinity,
@@ -37,7 +37,7 @@ class _AddCartDetailState extends State<AddCartDetail> {
                     style: TextStyle(fontSize: 12),
                   ),
                   Text(
-                    '${widget.product.price}',
+                    '${widget.product.price} VNĐ',
                     style: const TextStyle(
                         fontSize: 24, fontWeight: FontWeight.bold),
                   ),

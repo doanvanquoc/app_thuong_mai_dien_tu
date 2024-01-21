@@ -62,7 +62,7 @@ class ProductItem extends StatelessWidget {
               ),
             ),
             Text(
-              NumberFormat.currency(locale: 'vi_VN', symbol: 'VND')
+              NumberFormat.currency(locale: 'vi_VN', symbol: 'VNĐ')
                   .format(product.price),
               style: const TextStyle(
                 fontSize: 16,

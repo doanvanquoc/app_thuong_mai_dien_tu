@@ -67,7 +67,7 @@ class TotalWidget extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(width: 32),
+          const SizedBox(width: 15),
           Expanded(
             child: MyButton(
                 onTap: () async {

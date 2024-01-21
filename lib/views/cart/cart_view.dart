@@ -265,7 +265,7 @@ class _CartViewState extends State<CartView> {
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         leading: Image.asset(
-          'assets/images/vector.png',
+          'assets/images/logo.png',
           scale: 2,
         ),
         title: const Text(

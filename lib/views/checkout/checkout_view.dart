@@ -299,7 +299,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         'assets/animations/error.json',
                         width: 180,
                         height: 180,
-                        frameRate: const FrameRate(100),
+                        frameRate: FrameRate(100),
                       ),
                       const SizedBox(height: 32),
                       const Text(
