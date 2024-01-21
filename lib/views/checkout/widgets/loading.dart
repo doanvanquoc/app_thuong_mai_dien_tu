@@ -49,12 +49,14 @@ Future openDialog(BuildContext context, String title, String detail,
             MyButton(
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const OrderPage(),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (_) {
+                       
+                  //     },
+                  //   ),
+                  // );
                 },
                 content: 'Theo dõi đơn hàng'),
             const SizedBox(height: 20),

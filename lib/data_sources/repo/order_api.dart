@@ -10,11 +10,11 @@ class OrderAPI {
 
   final dio = Dio();
 
-  Future<List<Order>> getUserOrders() async {
+  Future<List<Order>> getUserOrders(userID) async {
     List<Order> orders = [];
     try {
-      final res = await dio.get('${APIConfig.API_URL}/order/1');
-      log('Gọi API get orders');
+      final res = await dio.get('${APIConfig.API_URL}/order/$userID');
+      log('Gọi API get orders: $userID');
       orders =
           (res.data['data'] as List).map((e) => Order.fromJson(e)).toList();
 

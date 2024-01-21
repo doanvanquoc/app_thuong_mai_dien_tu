@@ -1,4 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/resources/widgets/empty_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/cart/widgets/cart_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/cart/widgets/total_widget.dart';
 import 'package:flutter/material.dart';
@@ -95,32 +96,9 @@ class _CartViewState extends State<CartView> {
                 child: TotalWidget(products: cartProducts),
               )
             ])
-          : Center(
-              child: Column(
-                children: [
-                  const SizedBox(height: 110),
-                  Image.asset('assets/images/empty.png'),
-                  const SizedBox(height: 40),
-                  const Text(
-                    'Giỏ hàng của bạn đang trống',
-                    style: TextStyle(
-                      color: Color(0xFF212121),
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      height: 2.2,
-                    ),
-                  ),
-                  const Text(
-                    'Bạn chưa thêm gì cả!',
-                    style: TextStyle(
-                      color: Color(0xFF212121),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          : const EmptyView(
+              text1: 'Giỏ hàng của bạn đang trống',
+              text2: 'Bạn chưa thêm gì cả'),
     );
   }
 }

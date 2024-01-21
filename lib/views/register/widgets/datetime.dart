@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DateTimeBirthDay extends StatefulWidget {
-  const DateTimeBirthDay({Key? key, required this.controller}) : super(key: key);
-
+  const DateTimeBirthDay(
+      {Key? key, required this.controller, required this.datetime})
+      : super(key: key);
+  final String datetime;
   final TextEditingController controller;
 
   @override
@@ -26,11 +28,28 @@ class _DateTimeBirthDayState extends State<DateTimeBirthDay> {
       });
     });
 
-    _selectedDate = DateTime.now();
+    // Parse the initial date and set the selected date with a default if parsing fails
+    if (widget.datetime != 'Ngày sinh') {
+      try {
+        DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(widget.datetime);
+        _selectedDate = _validateDate(parsedDate);
+      } catch (e) {
+        print('Parsing initial date error: $e');
+        _selectedDate = _validateDate(DateTime.now());
+      }
+    } else {
+      _selectedDate = _validateDate(DateTime.now());
+    }
+  }
 
-    // Kiểm tra xem có ngày đã chọn từ trước hay không
-    if (widget.controller.text.isNotEmpty) {
-      _selectedDate = DateFormat('dd/MM/yyyy').parse(widget.controller.text);
+  DateTime _validateDate(DateTime date) {
+    // Ensure the date is within the specified range
+    if (date.isBefore(DateTime(1900, 1, 1))) {
+      return DateTime(1900, 1, 1);
+    } else if (date.isAfter(DateTime(2023, 12, 31))) {
+      return DateTime(2023, 12, 31);
+    } else {
+      return date;
     }
   }
 
@@ -49,14 +68,14 @@ class _DateTimeBirthDayState extends State<DateTimeBirthDay> {
           height: MediaQuery.of(context).copyWith().size.height / 3,
           child: CupertinoDatePicker(
             initialDateTime: _selectedDate,
-            minimumYear: 1800,
-            maximumYear: 2024,
+            minimumYear: 1900,
+            maximumYear: 2023,
             mode: CupertinoDatePickerMode.date,
             onDateTimeChanged: (DateTime newDate) {
               final ngayDaDinhDang = DateFormat('dd/MM/yyyy').format(newDate);
               setState(() {
                 widget.controller.text = ngayDaDinhDang;
-                _selectedDate = newDate; // Cập nhật ngày đã chọn
+                _selectedDate = newDate;
               });
             },
           ),
@@ -87,7 +106,7 @@ class _DateTimeBirthDayState extends State<DateTimeBirthDay> {
             child: Text(
               widget.controller.text.isNotEmpty
                   ? widget.controller.text
-                  : 'Ngày sinh',
+                  : widget.datetime,
               style: TextStyle(
                 color: widget.controller.text.isNotEmpty
                     ? Colors.black

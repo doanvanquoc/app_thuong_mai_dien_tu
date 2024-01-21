@@ -98,8 +98,8 @@ class _AccountState extends State<Account> {
         title: const Text(
           'Tài khoản',
           style: TextStyle(
+            color: Color(0xFF212121),
             fontFamily: 'Sarabun',
-            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -267,9 +267,8 @@ class _AccountState extends State<Account> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF424242),
-                fontSize: 22,
                 fontFamily: 'Sarabun',
-                fontWeight: FontWeight.w700,
+                fontSize: 16,
               ),
             ),
             const SizedBox(

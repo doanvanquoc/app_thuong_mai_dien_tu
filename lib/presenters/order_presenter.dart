@@ -9,9 +9,9 @@ class OrderPresenter {
 
   final api = OrderAPI.instance;
 
-  Future<List<Order>> getUserOrders() async {
+  Future<List<Order>> getUserOrders(userID) async {
     try {
-      List<Order> orders = await api.getUserOrders();
+      List<Order> orders = await api.getUserOrders(userID);
       return orders;
     } catch (e) {
       log(e.toString());

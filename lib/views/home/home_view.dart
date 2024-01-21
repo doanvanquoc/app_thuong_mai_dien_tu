@@ -1,6 +1,7 @@
 import 'package:app_thuong_mai_dien_tu/models/banner.dart' as MyBanner;
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/banner_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/company_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/home_presenter.dart';
@@ -12,7 +13,8 @@ import 'package:app_thuong_mai_dien_tu/views/home/widget/search_box.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key,required this.user});
+  final User user;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -75,7 +77,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const HomeAppbar(),
+                HomeAppbar(user: widget.user,),
                 const SizedBox(height: 24),
                 const SearchBox(),
                 const SizedBox(height: 24),

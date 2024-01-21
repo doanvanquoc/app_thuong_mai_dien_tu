@@ -70,6 +70,7 @@ class _WelcomeState extends State<Welcome> {
                       fontFamily: 'Sarabun',
                       fontWeight: FontWeight.w600,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 const SizedBox(height: 80),
                 if (i != 0)

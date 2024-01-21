@@ -8,11 +8,22 @@ class OrderLocal {
   OrderLocal._internal();
   static final OrderLocal instance = OrderLocal._internal();
 
+  Future<void> savePreUserID(int userID) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setInt('preUser', userID);
+  }
+
+  Future<int?> getPreUserID() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final userID = pref.getInt('preUser');
+    return userID;
+  }
+
   Future<void> saveListOrderToLocal(List<Order> orders) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     List<String> ordersJson =
         orders.map((e) => jsonEncode(e.toJson())).toList();
-    pref.setStringList('orders', ordersJson);
+    await pref.setStringList('orders', ordersJson);
   }
 
   Future<List<Order>?> loadListOrderFromLocal() async {

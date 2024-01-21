@@ -47,6 +47,8 @@ class _MyTextFileState extends State<MyTextFile> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: TextField(
+        keyboardType: TextInputType.emailAddress,
+        textInputAction: TextInputAction.next,
         controller: widget.controller,
         focusNode: _focusNode,
         obscureText: false,

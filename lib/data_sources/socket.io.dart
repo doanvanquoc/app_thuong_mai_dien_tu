@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:app_thuong_mai_dien_tu/data_sources/local/order_local.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/order_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/socket_presenter.dart';
 import 'package:flutter/material.dart';
@@ -33,21 +34,25 @@ class SocketManager {
 
     // Lắng nghe sự kiện từ server và cập nhật trạng thái thông qua Provider
     _socket.on('order_updated', (data) async {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      final curUserID = pref.getInt('curUser');
+      if (data != curUserID) {
+        log('data: $data - cur: $curUserID');
+        return;
+      }
       log('Nhận được tín hiệu vũ trụ từ server');
-      SharedPreferences.getInstance().then(
-        (instance) {
-          final token = instance.getString('fcmToken');
-          log('Dòng 40 order view: $token');
-          _socket.emit('updated_order_ui', token);
-        },
-      );
-      final orders = await OrderPresenter.instance.getUserOrders();
+      final token = pref.getString('fcmToken');
+      log('Token cua phone: $token');
+      _socket.emit('updated_order_ui', token);
+      final orders = await OrderPresenter.instance.getUserOrders(curUserID);
       final orderStatus1 =
           orders.where((element) => element.status.statusID == 1).toList();
       final orderStatus2 =
           orders.where((element) => element.status.statusID == 2).toList();
       final orderStatus3 =
           orders.where((element) => element.status.statusID == 3).toList();
+
+      OrderLocal.instance.saveListOrderToLocal(orders);
 
       // ignore: use_build_context_synchronously
       Provider.of<SocketPresenter>(_context, listen: false)
