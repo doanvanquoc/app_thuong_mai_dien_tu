@@ -7,7 +7,7 @@ import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/cart_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
-import 'package:app_thuong_mai_dien_tu/views/product/product_special_view.dart';
+import 'package:app_thuong_mai_dien_tu/views/product_detail/product/product_special_view.dart';
 import 'package:flutter/material.dart';
 
 class HomeNewProduct extends StatelessWidget {

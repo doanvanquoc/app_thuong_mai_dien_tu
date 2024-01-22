@@ -4,7 +4,7 @@ import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/product_presenter.dart';
 
 import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
-import 'package:app_thuong_mai_dien_tu/views/product/widgets/product_option.dart';
+import 'package:app_thuong_mai_dien_tu/views/product_detail/product/widgets/product_option.dart';
 import 'package:flutter/material.dart';
 
 class NewProduct extends StatefulWidget {
