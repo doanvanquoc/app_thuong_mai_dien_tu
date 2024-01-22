@@ -26,7 +26,7 @@ class CheckoutView extends StatefulWidget {
   });
 
   final List<Cart> products;
-  final int totalPrice;
+  final int totalPrice; 
   final User user;
 
   @override
