@@ -7,9 +7,11 @@ class ReviewOption extends StatefulWidget {
     super.key,
     required this.lst,
     required this.onTap,
+    this.check,
   });
   final List lst;
   Function onTap;
+  bool? check;
   @override
   State<ReviewOption> createState() => _ReviewOptionState();
 }
@@ -19,6 +21,10 @@ class _ReviewOptionState extends State<ReviewOption> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.check!) {
+      selectedIndex = -1;
+      widget.check = false;
+    }
     return SizedBox(
       height: 44,
       child: Column(
@@ -32,16 +38,15 @@ class _ReviewOptionState extends State<ReviewOption> {
                 itemBuilder: (_, index) {
                   return GestureDetector(
                     onTap: () {
-                      widget.onTap(widget.lst[index]);
-                      if(mounted){
-                        setState(() {
+                      setState(() {
                         if (selectedIndex == index) {
                           selectedIndex = -1;
+                          widget.onTap('-1');
                         } else {
                           selectedIndex = index;
+                          widget.onTap(widget.lst[index]);
                         }
                       });
-                      }
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 12),

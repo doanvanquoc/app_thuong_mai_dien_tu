@@ -163,18 +163,16 @@ class _SearchPageState extends State<SearchPage> {
         id = valueId;
       });
     });
-    print(nameCompany);
   }
 
   String nameSort = '';
   void checkSort(String sort) {
     setState(() {
       nameSort = sort;
-      print(nameSort);
     });
   }
 
-  String star = '';
+  String star = '-1';
   void checkRate(String rate) {
     setState(() {
       star = rate;
@@ -191,47 +189,88 @@ class _SearchPageState extends State<SearchPage> {
     String rating = '',
   }) async {
     productsSearch.clear();
-    print(nameSort);
-    if (categoryID == -1) {
+    if (id == -1 && star == '-1') {
+      //khi nsx và dánh giá ko chọn
       if (nameSort == 'Mới nhất') {
-        productsSearch.addAll(productsLatest);
+        // productsSearch.addAll(productsLatest);
+        for (var element in productsLatest) {
+          if ((element.price >= int.parse("${priceFrom}000000") &&
+              element.price <= int.parse("${priceTo}000000"))) {
+            productsSearch.add(element);
+          }
+        }
+        nameSort = '';
         return;
       }
       if (nameSort == 'Phổ biến') {
-        productsSearch.addAll(productsSelling);
+        for (var element in productsSelling) {
+          if ((element.price >= int.parse("${priceFrom}000000") &&
+              element.price <= int.parse("${priceTo}000000"))) {
+            productsSearch.add(element);
+          }
+        }
+        nameSort = '';
+        return;
+      }
+    }
+    //Lấy sản phẩm mới nhất
+    if (nameSort == 'Mới nhất') {
+      productsAll.clear();
+      productsAll.addAll(productsLatest);
+    } else if (nameSort == 'Phổ biến') {
+      productsAll.clear();
+      productsAll.addAll(productsSelling);
+    }
+    //khi đánh giá đc chọn
+    if (star != '-1') {
+      if (categoryID == -1) {
+        // và nsx ko chọn
+        for (var element in productsAll) {
+          await ReviewPresenter.instance
+              .getProductStar(element, rating)
+              .then((value) {
+            setState(() {
+              check = value;
+            });
+          });
+          setState(() {
+            if (check &&
+                (element.price >= int.parse("${priceFrom}000000") &&
+                    element.price <= int.parse("${priceTo}000000"))) {
+              productsSearch.add(element);
+            }
+            id = -1; //reset giá trị option đang chọn
+            nameSort = '';
+          });
+        }
+        return;
+      } else {
+        for (var element in productsAll) {
+          await ReviewPresenter.instance
+              .getProductStar(element, rating)
+              .then((value) {
+            setState(() {
+              check = value;
+            });
+          });
+          setState(() {
+            if (check &&
+                (element.company.companyID == categoryID) &&
+                (element.price >= int.parse("${priceFrom}000000") &&
+                    element.price <= int.parse("${priceTo}000000"))) {
+              productsSearch.add(element);
+            }
+            id = -1; //reset giá trị option đang chọn
+            nameSort = '';
+          });
+        }
         return;
       }
     }
 
-    if (nameSort == 'Mới nhất') {
-      await productPresenter.getLatestProduct().then((value) {
-        setState(() {
-          productsLatest = value;
-          productsAll.clear();
-          productsAll.addAll(productsLatest);
-        });
-      });
-    } else if (nameSort == 'Phổ biến') {
-      await productPresenter.getBestSellingProduct(10).then((value) {
-        setState(() {
-          productsSelling = value;
-          productsAll.clear();
-          productsAll.addAll(productsSelling);
-        });
-      });
-    }
-
+    //khi cả ba đc chọn
     for (var element in productsAll) {
-      // await ReviewPresenter.instance
-      //     .getProductStar(element, rating)
-      //     .then((value) {
-      //   setState(() {
-      //     check = value;
-      //   });
-      // });
       setState(() {
-        print(check);
-
         if ((element.company.companyID == categoryID) &&
             (element.price >= int.parse("${priceFrom}000000") &&
                 element.price <= int.parse("${priceTo}000000"))) {
@@ -265,6 +304,7 @@ class _SearchPageState extends State<SearchPage> {
             checkResultSearch: true);
       }
       id = -1; //reset giá trị option đang chọn
+      star = '-1';
     });
   }
 
