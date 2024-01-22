@@ -112,10 +112,10 @@ class _AccountState extends State<Account> {
                 ? 'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg'
                 : widget.user.avatar,
             onImageSelected: (File? image) {
-              if(mounted){
+              if (mounted) {
                 setState(() async {
-                updateUserAvatar(image);
-              });
+                  updateUserAvatar(image);
+                });
               }
             },
           ),
@@ -191,7 +191,7 @@ class _AccountState extends State<Account> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => const AddressView(),
+                  builder: (_) => AddressView(user: widget.user),
                 ),
               );
             },
@@ -213,7 +213,7 @@ class _AccountState extends State<Account> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) =>  NotificationPage(user: widget.user),
+                  builder: (_) => NotificationPage(user: widget.user),
                 ),
               );
             },

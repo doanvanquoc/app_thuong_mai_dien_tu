@@ -72,14 +72,15 @@ class _CheckoutViewState extends State<CheckoutView> {
   }
 
   Future<List<Address>> loadAddresses() async {
-    return await AddressPresenter.instance.getUserAddresses(1);
+    return await AddressPresenter.instance.getUserAddresses(widget.user.userID);
   }
 
   void selectAddress() async {
     final Address? result = await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => AddressView(selectedAddress: selectedAddress)),
+          builder: (context) =>
+              AddressView(selectedAddress: selectedAddress, user: widget.user)),
     );
 
     if (result != null) {

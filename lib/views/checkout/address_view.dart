@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:app_thuong_mai_dien_tu/models/address.dart';
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/address_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
@@ -10,9 +11,10 @@ import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/comfirm_widget.dar
 import 'package:flutter/material.dart';
 
 class AddressView extends StatefulWidget {
-  const AddressView({super.key, this.selectedAddress});
+  const AddressView({super.key, this.selectedAddress, required this.user});
 
   final Address? selectedAddress;
+  final User user;
 
   @override
   State<AddressView> createState() => _AddressViewState();
@@ -20,7 +22,7 @@ class AddressView extends StatefulWidget {
 
 class _AddressViewState extends State<AddressView> {
   Future<List<Address>> loadAddresses() async {
-    return await AddressPresenter.instance.getUserAddresses(1);
+    return await AddressPresenter.instance.getUserAddresses(widget.user.userID);
   }
 
   List<Address> addresses = [];
@@ -32,17 +34,17 @@ class _AddressViewState extends State<AddressView> {
   void initState() {
     super.initState();
     loadAddresses().then((loadedAddresses) {
-      if(mounted){
+      if (mounted) {
         setState(() {
-        addresses = loadedAddresses;
-        if (addresses.isNotEmpty) {
-          addresses[0].isDefault = true;
-          for (int i = 1; i < addresses.length; i++) {
-            addresses[i].isDefault = false;
+          addresses = loadedAddresses;
+          if (addresses.isNotEmpty) {
+            addresses[0].isDefault = true;
+            for (int i = 1; i < addresses.length; i++) {
+              addresses[i].isDefault = false;
+            }
           }
-        }
-        updateSelectedAddressIndex();
-      });
+          updateSelectedAddressIndex();
+        });
       }
     });
   }
@@ -62,16 +64,17 @@ class _AddressViewState extends State<AddressView> {
     }
   }
 
-    void addNewAddress(String name, String address) async {
-    bool isSuccess = await AddressPresenter.instance.addNewAddress(1, name, address);
+  void addNewAddress(String name, String address) async {
+    bool isSuccess = await AddressPresenter.instance
+        .addNewAddress(widget.user.userID, name, address);
 
     if (isSuccess) {
       loadAddresses().then((loadedAddresses) {
-        if(mounted){
+        if (mounted) {
           setState(() {
-          addresses = loadedAddresses;
-          selectedAddressIndex = addresses.length - 1;
-        });
+            addresses = loadedAddresses;
+            selectedAddressIndex = addresses.length - 1;
+          });
         }
       });
     } else {
@@ -112,10 +115,10 @@ class _AddressViewState extends State<AddressView> {
                   isSelected: selectedAddressIndex != null &&
                       index == selectedAddressIndex,
                   onSelected: () {
-                    if(mounted){
+                    if (mounted) {
                       setState(() {
-                      selectedAddressIndex = index;
-                    });
+                        selectedAddressIndex = index;
+                      });
                     }
                   },
                   isDefault: address.isDefault,
