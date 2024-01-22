@@ -209,8 +209,6 @@ class _SearchPageState extends State<SearchPage> {
         products.addAll(productsLatest);
       }
 
-      lstSearch.clear();
-
       for (var element in products) {
         if ((element.company.companyID == categoryID) &&
             (element.price >= int.parse("${priceFrom}000000") &&
@@ -222,7 +220,7 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  //dat hang
+  //ap dung
   void applyOption() {
     if (mounted) {
       setState(() {

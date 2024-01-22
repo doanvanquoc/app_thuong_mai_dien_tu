@@ -126,17 +126,16 @@ class _DetailChangeState extends State<DetailChange> {
                   return;
                 }
                 Map<String, dynamic> result = await cartPresenter.addToCart(
-                    userID: 1,
+                    userID: NotificationPresenter.userID,
                     productID: widget.product.productID,
                     quantity: count);
                 log(result.entries.last.toString());
-                NotificationPresenter.addNotification(
-                  2,
-                  DateTime.now(),
-                  'Giỏ hàng!',
-                  'Thêm vào giỏ hàng thành công',
-                );
-                NotificationPresenter.getNotification();
+
+                NotificationPresenter.addNotificationServer(
+                    "Giỏ hàng",
+                    "Thêm vào giỏ hàng thành công",
+                    NotificationPresenter.userID);
+                // NotificationPresenter.notificationBox.clear();
                 // ignore: use_build_context_synchronously
                 Navigator.pop(context);
               },

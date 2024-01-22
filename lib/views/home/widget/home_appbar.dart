@@ -30,7 +30,7 @@ class HomeAppbar extends StatelessWidget {
         icon: const Icon(Icons.notifications_none),
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (_) => const NotificationPage()));
+              MaterialPageRoute(builder: (_) => NotificationPage(user: user)));
         },
         iconSize: 30,
       ),
