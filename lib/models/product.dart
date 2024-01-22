@@ -19,9 +19,10 @@ class Product {
   final int battery;
   final num weight;
   final String postDate;
-  final String? totalSell;
+  final String totalSell;
+  final num avgRating;
   final List<Image> images;
-  Product(
+  Product(this.avgRating,
       {required this.productID,
       required this.productName,
       required this.price,
@@ -58,7 +59,8 @@ class Product {
         battery = json['battery'],
         weight = json['weight'],
         postDate = json['post_date'],
-        totalSell = json['TongBan'],
+        totalSell = json['TongBan'] ?? '0',
+        avgRating = json['avg_rating'] ?? 0,
         images =
             List.from((json['images'] as List).map((e) => Image.fromJson(e)));
 
@@ -81,6 +83,7 @@ class Product {
       'weight': weight,
       'post_date': postDate,
       'TongBan': totalSell,
+      'avg_rating': avgRating,
       'images': images.map((e) => e.toJson()).toList(),
     };
   }

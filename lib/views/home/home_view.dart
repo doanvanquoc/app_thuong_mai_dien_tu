@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   void initState() {
-    HomePresenter.instance.getLatestProduct().then((value) {
+    HomePresenter.instance.getLatestProduct(5).then((value) {
       if (mounted) {
         setState(() {
           latestProduct = value;

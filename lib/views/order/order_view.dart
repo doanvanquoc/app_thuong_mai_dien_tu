@@ -38,6 +38,7 @@ class _OrderPageState extends State<OrderPage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Text(
             'Đơn hàng',
           ),
@@ -109,11 +110,25 @@ class _OrderPageState extends State<OrderPage> {
                         socketPresenter.orderStatus3.isNotEmpty
                             ? ListView.builder(
                                 itemCount: socketPresenter.orderStatus3.length,
-                                itemBuilder: (context, index) => OrderITem(
-                                  order: socketPresenter.orderStatus3[index],
-                                  action: 'Đánh giá',
-                                  onTap: () => showRating(context,
-                                      socketPresenter.orderStatus3[index]),
+                                itemBuilder: (context, index) =>
+                                    GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => OrderDetailPage(
+                                          order: socketPresenter
+                                              .orderStatus3[index],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: OrderITem(
+                                    order: socketPresenter.orderStatus3[index],
+                                    action: 'Đánh giá',
+                                    onTap: () => showRating(context,
+                                        socketPresenter.orderStatus3[index]),
+                                  ),
                                 ),
                               )
                             : const EmptyView(

@@ -2,13 +2,16 @@ import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
+import 'package:app_thuong_mai_dien_tu/views/home/widget/home_all_popular_product.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_list_category.dart';
-import 'package:app_thuong_mai_dien_tu/views/product/product_special_view.dart';
 import 'package:flutter/material.dart';
 
 class HomePopularProduct extends StatelessWidget {
   const HomePopularProduct(
-      {super.key, required this.products, required this.companies, required this.user});
+      {super.key,
+      required this.products,
+      required this.companies,
+      required this.user});
   final List<Product> products;
   final List<Company> companies;
   final User user;
@@ -32,10 +35,8 @@ class HomePopularProduct extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => NewProduct(
-                    nameTab: 'Phổ biến nhất',
-                    lstCategory: companies,
-                  ),
+                  builder: (_) =>
+                      HomeAllPopularProduct(companies: companies, user: user),
                 ),
               ),
               child: const Text(
@@ -50,7 +51,11 @@ class HomePopularProduct extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
-        HomeListCategory(companies: companies, products: products, user: user,),
+        HomeListCategory(
+          companies: companies,
+          products: products,
+          user: user,
+        ),
         // const SizedBox(height: 10),
         // SizedBox(
         //   height: MediaQuery.of(context).size.height / 1.4,

@@ -29,6 +29,16 @@ class ProductPresenter {
     }
   }
 
+   Future<List<Product>> getProductByReviewUser(int userID) async {
+    try {
+      List<Product> products = await api.getProductByReviewUser(userID);
+      return products;
+    } catch (e) {
+      log(e.toString());
+      return [];
+    }
+  }
+
   Future<List<Product>> getBestSellingProduct([int? limit]) async {
     try {
       List<Product> products = await api.getBestSellingProduct(limit);
@@ -45,6 +55,16 @@ class ProductPresenter {
       return products;
     } catch (e) {
       log('Lỗi prod: dòng 47 - $e');
+      return [];
+    }
+  }
+
+  Future<List<Product>> getLatestProductByCompanyID(int companyID) async {
+    try {
+      List<Product> products = await api.getLatestProductByCompanyID(companyID);
+      return products;
+    } catch (e) {
+      log('Lỗi prod: dòng 67 - $e');
       return [];
     }
   }

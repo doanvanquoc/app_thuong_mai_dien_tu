@@ -79,6 +79,32 @@ class ProductAPI {
     }
   }
 
+  Future<List<Product>> getLatestProductByCompanyID(int id) async {
+    List<Product> products = [];
+    try {
+      final res = await dio.get('${APIConfig.API_URL}/product/latest/$id');
+      products =
+          (res.data['data'] as List).map((e) => Product.fromJson(e)).toList();
+      return products;
+    } catch (e) {
+      log('Lỗi product dòng 34: $e');
+      return [];
+    }
+  }
+
+  Future<List<Product>> getProductByReviewUser(int userID) async {
+    List<Product> products = [];
+    try {
+      final res = await dio.get('${APIConfig.API_URL}/product/review/$userID');
+      products =
+          (res.data['data'] as List).map((e) => Product.fromJson(e)).toList();
+      return products;
+    } catch (e) {
+      log('Lỗi product dòng 92 $e');
+      return [];
+    }
+  }
+
   Future<List<Product>> getAllProduct() async {
     List<Product> products = [];
     try {
