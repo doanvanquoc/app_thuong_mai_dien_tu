@@ -1,5 +1,4 @@
-import 'package:app_thuong_mai_dien_tu/models/cart.dart';
-import 'package:app_thuong_mai_dien_tu/models/order_detail.dart';
+import 'package:app_thuong_mai_dien_tu/models/order.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
@@ -12,14 +11,17 @@ Future openDialog(
   BuildContext context,
   String title,
   String detail,
-  List<OrderDetail> orderDetails,
   String formatDate,
   int ship,
-  String eCode,
-  int totalPrice,
-  int totalBill,
-  User user,
+  Order order,
+  // List<OrderDetail> orderDetails,
+  // String eCode,
+  // int totalPrice,
+  // int totalBill,
+  // User user,
 ) {
+  User? user;
+  user!.userID = order.userID;
   return showDialog(
     barrierDismissible: false,
     context: context,
@@ -82,12 +84,12 @@ Future openDialog(
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => EInvoiceView(
-                      orderDetails: orderDetails,
+                      orderDetails: order.orderDetails,
                       orderDateTime: formatDate,
-                      eCode: eCode,
+                      eCode: order.orderID.toString(),
                       ship: ship,
-                      totalPrice: totalPrice,
-                      totalBill: totalBill,
+                      totalPrice: order.totalPrice,
+                      totalBill: order.totalPrice + ship,
                     ),
                   ),
                 );

@@ -299,13 +299,9 @@ class _CheckoutViewState extends State<CheckoutView> {
               context,
               'Đặt hàng thành công!',
               'Đơn hàng của bạn sẽ sớm được vận chuyển',
-              order.orderDetails,
               formatDate(DateTime.now()),
               ship,
-              order.orderID.toString(),
-              order.totalPrice,
-              order.totalPrice + ship,
-              widget.user,
+              order,
             );
           } else {
             showDialog(
