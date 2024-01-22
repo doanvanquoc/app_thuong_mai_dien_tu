@@ -1,4 +1,4 @@
-import 'package:app_thuong_mai_dien_tu/models/cart.dart';
+import 'package:app_thuong_mai_dien_tu/models/order_detail.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/e_invoice_view.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +8,11 @@ Future openDialog(
   BuildContext context,
   String title,
   String detail,
-  List<Cart> products,
+  //List<Cart> products,
+  List<OrderDetail> orderDetails,
   String formatDate,
-  String eCode,
   int ship,
+  String eCode,
   int totalPrice,
   int totalBill,
 ) {
@@ -74,7 +75,7 @@ Future openDialog(
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => EInvoiceView(
-                      cartProducts: products,
+                      orderDetails: orderDetails,
                       orderDateTime: formatDate,
                       eCode: eCode,
                       ship: ship,

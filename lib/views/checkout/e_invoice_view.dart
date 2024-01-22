@@ -1,4 +1,4 @@
-import 'package:app_thuong_mai_dien_tu/models/cart.dart';
+import 'package:app_thuong_mai_dien_tu/models/order_detail.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/prod_of_e_invoice_widget.dart';
 import 'package:flutter/material.dart';
@@ -7,20 +7,22 @@ import 'package:flutter/services.dart';
 class EInvoiceView extends StatelessWidget {
   const EInvoiceView({
     super.key,
-    required this.cartProducts,
+    //required this.cartProducts,
     required this.orderDateTime,
     required this.eCode,
     required this.ship,
     required this.totalPrice,
     required this.totalBill,
+    required this.orderDetails,
   });
 
-  final List<Cart> cartProducts;
+  //final List<Cart> cartProducts;
   final String orderDateTime;
   final String eCode;
   final int ship;
   final int totalPrice;
   final int totalBill;
+  final List<OrderDetail> orderDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -46,17 +48,17 @@ class EInvoiceView extends StatelessWidget {
           child: Column(
             children: [
               ListView.builder(
-                itemCount: cartProducts.length,
+                itemCount: orderDetails.length,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  Cart product = cartProducts[index];
+                  OrderDetail detail = orderDetails[index];
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: ProductOfInvoiceWidget(
-                      image: product.product.images[0].imagePath,
-                      name: product.product.productName,
-                      qty: product.quantity.toString(),
+                      image: detail.product.images[0].imagePath,
+                      name: detail.product.productName,
+                      qty: detail.quantity.toString(),
                     ),
                   );
                 },

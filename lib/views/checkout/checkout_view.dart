@@ -271,16 +271,29 @@ class _CheckoutViewState extends State<CheckoutView> {
           final order = await OrderPresenter.instance.createOrder(userID);
 
           if (order != null) {
+            // openDialog(
+            //   context,
+            //   'Đặt hàng thành công!',
+            //   'Đơn hàng của bạn sẽ sớm được vận chuyển',
+            //   order.orderDetails,
+            //   //widget.products,
+            //   formatDate(DateTime.now()),
+            //   //order.orderID.toString(),
+            //   ship,
+            //   widget.totalPrice,
+            //   //totalBill,
+            // );
             openDialog(
               context,
               'Đặt hàng thành công!',
               'Đơn hàng của bạn sẽ sớm được vận chuyển',
-              widget.products,
+              order.orderDetails,
               formatDate(DateTime.now()),
-              order.orderID.toString(),
               ship,
-              widget.totalPrice,
-              totalBill,
+              order.orderID
+                  .toString(),
+              order.totalPrice,
+              order.totalPrice + ship,
             );
           } else {
             showDialog(
