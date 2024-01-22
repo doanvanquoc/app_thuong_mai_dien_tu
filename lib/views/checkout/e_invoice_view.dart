@@ -1,6 +1,7 @@
-import 'dart:math';
-
+import 'package:app_thuong_mai_dien_tu/models/order.dart';
+import 'package:app_thuong_mai_dien_tu/models/order_detail.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/prod_of_e_invoice_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,14 +9,13 @@ import 'package:flutter/services.dart';
 class EInvoiceView extends StatelessWidget {
   const EInvoiceView({
     super.key,
-    required this.products,
-    required this.orderDateTime,
-    required this.eCode,
+    //required this.cartProducts,
+    required this.ship, required this.order,
   });
 
-  final List<Product> products;
-  final String orderDateTime;
-  final String eCode;
+  //final List<Cart> cartProducts;
+  final int ship;
+  final Order order;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +24,9 @@ class EInvoiceView extends StatelessWidget {
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         title: const Text(
-          'Hóa đơn điện tử',
+          'Thông tin hóa đơn',
           style: TextStyle(
-            color: Color(0xFF212121),
+            color: AppColor.secondaryColor,
           ),
         ),
       ),
@@ -41,17 +41,17 @@ class EInvoiceView extends StatelessWidget {
           child: Column(
             children: [
               ListView.builder(
-                itemCount: products.length,
+                itemCount: order.orderDetails.length,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  Product product = products[index];
+                  OrderDetail detail = order.orderDetails[index];
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: ProductOfInvoiceWidget(
-                      image: 'assets/images/iphone15_3.png',
-                      name: 'Iphone 14',
-                      qty: '${product.quantity}',
+                      image: detail.product.images[0].imagePath,
+                      name: detail.product.productName,
+                      qty: detail.quantity.toString(),
                     ),
                   );
                 },
@@ -73,7 +73,7 @@ class EInvoiceView extends StatelessWidget {
                     )
                   ],
                 ),
-                child: const Column(
+                child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +83,7 @@ class EInvoiceView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Giá',
                             style: TextStyle(
                               color: Color(0xFF616161),
@@ -91,25 +91,25 @@ class EInvoiceView extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '31.900.000đ',
+                            Product.formatPrice(order.totalPrice.toString()),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
-                              color: Color(0xFF424242),
+                            style: const TextStyle(
+                              color: AppColor.secondaryColor,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
                           )
                         ],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Phí giao hàng',
                             style: TextStyle(
                               color: Color(0xFF616161),
@@ -117,27 +117,27 @@ class EInvoiceView extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '50.000đ',
+                            Product.formatPrice(ship.toString()),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
-                              color: Color(0xFF424242),
+                            style: const TextStyle(
+                              color: AppColor.secondaryColor,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
                           )
                         ],
                       ),
-                      SizedBox(height: 10),
-                      Divider(),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
+                      const Divider(),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Tổng cộng',
                             style: TextStyle(
                               color: Color(0xFF34C582),
@@ -145,11 +145,11 @@ class EInvoiceView extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '31.950.000đ',
+                            Product.formatPrice((order.totalPrice + ship).toString()),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF34C582),
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -199,7 +199,7 @@ class EInvoiceView extends StatelessWidget {
                             'COD',
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                              color: Color(0xFF424242),
+                              color: AppColor.secondaryColor,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -222,10 +222,10 @@ class EInvoiceView extends StatelessWidget {
                           ),
                           const Expanded(child: SizedBox()),
                           Text(
-                            orderDateTime,
+                            order.orderDate,
                             textAlign: TextAlign.right,
                             style: const TextStyle(
-                              color: Color(0xFF424242),
+                              color: AppColor.secondaryColor,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -253,10 +253,10 @@ class EInvoiceView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                eCode,
+                                '#${order.orderID}',
                                 textAlign: TextAlign.right,
                                 style: const TextStyle(
-                                  color: Color(0xFF424242),
+                                  color: AppColor.secondaryColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -265,7 +265,7 @@ class EInvoiceView extends StatelessWidget {
                               IconButton(
                                 icon: const Icon(Icons.file_copy_outlined),
                                 onPressed: () {
-                                  Clipboard.setData(ClipboardData(text: eCode))
+                                  Clipboard.setData(ClipboardData(text: '#${order.orderID}'))
                                       .then((_) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -303,16 +303,16 @@ class EInvoiceView extends StatelessWidget {
     );
   }
 
-  String generateOrderCode() {
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    Random random = Random();
+  // String generateOrderCode() {
+  //   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  //   Random random = Random();
 
-    String letterPart = String.fromCharCodes(Iterable.generate(
-        2, (_) => letters.codeUnitAt(random.nextInt(letters.length))));
+  //   String letterPart = String.fromCharCodes(Iterable.generate(
+  //       2, (_) => letters.codeUnitAt(random.nextInt(letters.length))));
 
-    String numberPart =
-        Iterable.generate(10, (_) => random.nextInt(10).toString()).join('');
+  //   String numberPart =
+  //       Iterable.generate(10, (_) => random.nextInt(10).toString()).join('');
 
-    return letterPart + numberPart;
-  }
+  //   return letterPart + numberPart;
+  // }
 }

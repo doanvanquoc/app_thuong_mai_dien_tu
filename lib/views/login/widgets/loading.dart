@@ -1,8 +1,10 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 Future openDialog(BuildContext context, String title, String detail) {
   return showDialog(
+    barrierDismissible: false,
     context: context,
     builder: (context) => AlertDialog(
       content: Container(
@@ -20,7 +22,7 @@ Future openDialog(BuildContext context, String title, String detail) {
               title,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 24,
                 fontFamily: 'Sarabun',
                 fontWeight: FontWeight.w700,
@@ -30,7 +32,7 @@ Future openDialog(BuildContext context, String title, String detail) {
               detail,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 16,
                 fontFamily: 'Sarabun',
                 fontWeight: FontWeight.w400,

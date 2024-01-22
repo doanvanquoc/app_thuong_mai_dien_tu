@@ -1,17 +1,20 @@
+import 'package:app_thuong_mai_dien_tu/models/order.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
+import 'package:app_thuong_mai_dien_tu/resources/untils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class OrderITem extends StatelessWidget {
   const OrderITem(
       {super.key,
-      required this.status,
       this.isShow = true,
       this.onTap,
-      this.action = 'Theo dõi'});
+      this.action = 'Theo dõi',
+      required this.order});
   final Function()? onTap;
-  final String status;
   final bool isShow;
   final String action;
+  final Order order;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,8 +30,8 @@ class OrderITem extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: Image.network(
-              'https://cdn.hoanghamobile.com/i/preview/Uploads/2022/09/08/2222.png',
+            child: CachedNetworkImage(
+              imageUrl: order.orderDetails[0].product.images[0].imagePath,
               fit: BoxFit.cover,
             ),
           ),
@@ -39,19 +42,32 @@ class OrderITem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Iphone 15 Pro Max 8G/ 128GB - VN',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                RichText(
+                  text: TextSpan(
+                    text: order.orderDetails[0].product.productName,
+                    style: const TextStyle(color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: order.orderDetails.length > 1
+                            ? ' ( +${order.orderDetails.length - 1} sản phẩm )'
+                            : '',
+                        style: const TextStyle(
+                          color: AppColor.primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 5),
-                const Text(
-                  'SL: 1',
-                  style: TextStyle(
+                Text(
+                  'SL: ${order.orderDetails[0].quantity}',
+                  style: const TextStyle(
                     color: Colors.black45,
                   ),
                 ),
                 Chip(
-                  label: Text(status),
+                  label: Text(order.status.status),
                   backgroundColor: AppColor.primaryColor.withOpacity(0.2),
                   labelStyle: const TextStyle(
                     color: AppColor.primaryColor,
@@ -66,9 +82,10 @@ class OrderITem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      '38.000.000đ',
-                      style: TextStyle(
+                    Text(
+                      AppUntil.formatCurrency(
+                          order.orderDetails[0].product.price),
+                      style: const TextStyle(
                         color: AppColor.primaryColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,

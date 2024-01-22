@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/company_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
-import 'package:app_thuong_mai_dien_tu/models/product.dart';
 
 class CompanyPresenter {
   CompanyPresenter._internal();
@@ -17,6 +16,15 @@ class CompanyPresenter {
     } catch (e) {
       log(e.toString());
       return [];
+    }
+  }
+
+  Future<int> getCompanyId(value) async {
+    try {
+      return await api.getCompanyId(value);
+    } catch (e) {
+      log(e.toString());
+      return -1;
     }
   }
 }

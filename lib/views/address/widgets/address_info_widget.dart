@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AddAddressWidget extends StatelessWidget {
@@ -6,11 +7,13 @@ class AddAddressWidget extends StatelessWidget {
     required this.title,
     required this.content,
     required this.controller,
+    required this.focusNode,
   });
 
   final String title;
   final String content;
   final TextEditingController controller;
+  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,7 @@ class AddAddressWidget extends StatelessWidget {
             Text(
               title,
               style: const TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
@@ -37,6 +40,7 @@ class AddAddressWidget extends StatelessWidget {
             const SizedBox(height: 10),
             TextFormField(
               controller: controller,
+              focusNode: focusNode,
               clipBehavior: Clip.antiAlias,
               cursorColor: const Color(0xff01B763),
               decoration: InputDecoration(

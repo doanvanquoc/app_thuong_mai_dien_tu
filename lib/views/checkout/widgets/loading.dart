@@ -1,13 +1,23 @@
-import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/models/order.dart';
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
+import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/e_invoice_view.dart';
-import 'package:app_thuong_mai_dien_tu/views/order/order_tracking_view.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-Future openDialog(BuildContext context, String title, String detail,
-    List<Product> products, String formatDate, String eCode) {
+Future openDialog(
+  BuildContext context,
+  String title,
+  String detail,
+  String formatDate,
+  int ship,
+  Order order,
+  User user,
+) {
   return showDialog(
+    barrierDismissible: false,
     context: context,
     builder: (context) => AlertDialog(
       shape: RoundedRectangleBorder(
@@ -30,7 +40,7 @@ Future openDialog(BuildContext context, String title, String detail,
               title,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
               ),
@@ -40,7 +50,7 @@ Future openDialog(BuildContext context, String title, String detail,
               detail,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
               ),
@@ -49,27 +59,32 @@ Future openDialog(BuildContext context, String title, String detail,
             MyButton(
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(
+                  Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const OrderTrackingPage(),
+                      builder: (_) => MyNavBar(
+                        user: user,
+                        index: 2,
+                      ),
                     ),
+                    (router) => false,
                   );
                 },
                 content: 'Theo dõi đơn hàng'),
             const SizedBox(height: 20),
             MyButton(
-              onTap: () {
+              onTap: () async {
                 Navigator.pop(context);
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => EInvoiceView(
-                    products: products,
-                    orderDateTime: formatDate,
-                    eCode: eCode,
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => EInvoiceView(
+                      ship: ship,
+                      order: order,
+                    ),
                   ),
-                ));
+                );
               },
-              content: 'Xem hóa đơn điện tử',
+              content: 'Xem thông tin hóa đơn',
               backgroundColor: const Color(0xffE6F8EF),
               textColor: const Color(0xff01B763),
             ),

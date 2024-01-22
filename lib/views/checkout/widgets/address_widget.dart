@@ -1,10 +1,12 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AddressItem extends StatelessWidget {
   const AddressItem({
     super.key,
+    this.addressID,
     required this.name,
-    required this.street,
+    required this.address,
     required this.isIcon,
     required this.isRadioButton,
     this.isSelected = true,
@@ -12,13 +14,14 @@ class AddressItem extends StatelessWidget {
     this.isDefault = false,
   });
 
+  final int? addressID;
   final String name;
-  final String street;
+  final String address;
   final bool isIcon;
   final bool isRadioButton;
   final bool isSelected;
   final VoidCallback? onSelected;
-  final bool isDefault;
+  final bool? isDefault;
 
   @override
   Widget build(BuildContext context) {
@@ -88,15 +91,15 @@ class AddressItem extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          name,
+                          name.toString(),
                           style: const TextStyle(
-                            color: Color(0xFF212121),
+                            color: AppColor.secondaryColor,
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                         const SizedBox(width: 8),
-                        if (isDefault)
+                        if (isDefault != null && isDefault == true)
                           Container(
                             width: 67,
                             height: 25,
@@ -120,7 +123,7 @@ class AddressItem extends StatelessWidget {
                     ),
                     Flexible(
                       child: Text(
-                        street,
+                        address,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Color(0xFF616161),

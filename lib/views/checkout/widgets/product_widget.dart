@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -46,7 +47,7 @@ class _ProductWidgetState extends State<ProductWidget> {
             height: 120,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(widget.image),
+                image: NetworkImage(widget.image),
                 fit: BoxFit.fill,
               ),
             ),
@@ -64,7 +65,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                     softWrap: true,
                     overflow: TextOverflow.visible,
                     style: const TextStyle(
-                      color: Color(0xFF212121),
+                      color: AppColor.secondaryColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                     ),
@@ -74,7 +75,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                 SizedBox(
                   width: double.infinity,
                   child: Text(
-                    widget.price,
+                    widget.price.toString(),
                     style: const TextStyle(
                       color: Color(0xFF01B763),
                       fontSize: 16,

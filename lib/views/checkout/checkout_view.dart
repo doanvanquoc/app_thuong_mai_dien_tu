@@ -1,46 +1,42 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:math';
 
+import 'package:app_thuong_mai_dien_tu/data_sources/socket.io.dart';
 import 'package:app_thuong_mai_dien_tu/models/address.dart';
+import 'package:app_thuong_mai_dien_tu/models/cart.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/address_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/order_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/address_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/address_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/comfirm_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/loading.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/product_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CheckoutView extends StatefulWidget {
-  const CheckoutView({super.key, required this.products});
+  const CheckoutView({
+    super.key,
+    required this.products,
+    required this.totalPrice,
+    required this.user,
+  });
 
-  final List<Product> products;
+  final List<Cart> products;
+  final int totalPrice;
+  final User user;
 
   @override
   State<CheckoutView> createState() => _CheckoutViewState();
 }
 
 class _CheckoutViewState extends State<CheckoutView> {
-  List<Address> addresses = [
-    Address(
-      name: 'Nhà',
-      street: '65 Huỳnh Thúc Kháng, Quận 1',
-      isDefault: true,
-    ),
-    Address(
-      name: 'Công ty',
-      street: '652/37 Cộng Hòa, P13, Tân Bình',
-      isDefault: false,
-    ),
-    Address(
-      name: 'Trọ',
-      street: '231/93/5 Dương Bá Trạc, P1, Quận 8',
-      isDefault: false,
-    ),
-    Address(
-      name: 'Một Buổi Sáng',
-      street: '27/4 Cộng Hòa, P4, Tân Bình',
-      isDefault: false,
-    ),
-  ];
+  List<Address> addresses = [];
   Address? selectedAddress;
 
   String formatDate(DateTime dateTime) {
@@ -60,14 +56,46 @@ class _CheckoutViewState extends State<CheckoutView> {
     return letter + number;
   }
 
+  int ship = 50000;
+
   @override
   void initState() {
     super.initState();
-    selectedAddress = Address.getDefaultAddress(addresses);
+    loadAddresses().then((loadedAddresses) {
+      if (mounted) {
+        setState(() {
+          addresses = loadedAddresses;
+          selectedAddress = Address.getDefaultAddress(addresses);
+        });
+      }
+    });
+  }
+
+  Future<List<Address>> loadAddresses() async {
+    return await AddressPresenter.instance.getUserAddresses(1);
+  }
+
+  void selectAddress() async {
+    final Address? result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => AddressView(selectedAddress: selectedAddress)),
+    );
+
+    if (result != null) {
+      if (mounted) {
+        setState(() {
+          selectedAddress = result;
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    //int totalPriceParse = int.parse(widget.totalPrice);
+    int totalBill = widget.totalPrice + ship;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -75,7 +103,7 @@ class _CheckoutViewState extends State<CheckoutView> {
         title: const Text(
           'Đặt hàng',
           style: TextStyle(
-            color: Color(0xFF212121),
+            color: AppColor.secondaryColor,
           ),
         ),
       ),
@@ -90,7 +118,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               const Text(
                 'Địa chỉ giao hàng',
                 style: TextStyle(
-                  color: Color(0xFF212121),
+                  color: AppColor.secondaryColor,
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
@@ -98,9 +126,10 @@ class _CheckoutViewState extends State<CheckoutView> {
               const SizedBox(height: 24),
               if (selectedAddress != null)
                 AddressItem(
+                  addressID: selectedAddress!.addressID!,
+                  isDefault: selectedAddress!.isDefault,
                   name: selectedAddress!.name,
-                  isDefault: selectedAddress!.isDefault!,
-                  street: selectedAddress!.street,
+                  address: selectedAddress!.address,
                   isIcon: true,
                   isRadioButton: false,
                   onSelected: () {
@@ -112,7 +141,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               const Text(
                 'Danh sách sản phẩm',
                 style: TextStyle(
-                  color: Color(0xFF212121),
+                  color: AppColor.secondaryColor,
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
@@ -127,9 +156,10 @@ class _CheckoutViewState extends State<CheckoutView> {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 24),
                     child: ProductWidget(
-                      image: 'assets/images/iphone15_3.png',
-                      name: 'product.name',
-                      price: ' product.price',
+                      image: product.product.images[0].imagePath,
+                      name: product.product.productName,
+                      price:
+                          Product.formatPrice(product.product.price.toString()),
                       qty: product.quantity,
                     ),
                   );
@@ -151,7 +181,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                     )
                   ],
                 ),
-                child: const Column(
+                child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,7 +191,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Giá',
                             style: TextStyle(
                               color: Color(0xFF616161),
@@ -169,25 +199,25 @@ class _CheckoutViewState extends State<CheckoutView> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '31.900.000đ',
+                            Product.formatPrice(widget.totalPrice.toString()),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
-                              color: Color(0xFF424242),
+                            style: const TextStyle(
+                              color: AppColor.secondaryColor,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
                           )
                         ],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Phí giao hàng',
                             style: TextStyle(
                               color: Color(0xFF616161),
@@ -195,27 +225,27 @@ class _CheckoutViewState extends State<CheckoutView> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '50.000đ',
+                            Product.formatPrice(ship.toString()),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
-                              color: Color(0xFF424242),
+                            style: const TextStyle(
+                              color: AppColor.secondaryColor,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
                           )
                         ],
                       ),
-                      SizedBox(height: 20),
-                      Divider(),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
+                      const Divider(),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Tổng',
                             style: TextStyle(
                               color: Color(0xFF34C582),
@@ -223,11 +253,11 @@ class _CheckoutViewState extends State<CheckoutView> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Text(
-                            '31.950.000đ',
+                            Product.formatPrice(totalBill.toString()),
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF34C582),
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -243,39 +273,85 @@ class _CheckoutViewState extends State<CheckoutView> {
       ),
       bottomNavigationBar: ComfirmWidget(
         content: 'Đặt hàng',
-        onTap: () {
-          DateTime now = DateTime.now();
-          String formattedDate = formatDate(now);
-
-          String eCode = generateOrderCode();
-          openDialog(
-            context,
-            'Đặt hàng thành công!',
-            'Đơn hàng của bạn sẽ sớm được vận chuyển',
-            widget.products,
-            formattedDate,
-            eCode,
-          );
+        onTap: () async {
+          // DateTime now = DateTime.now();
+          // String formattedDate = formatDate(now);
+          // String eCode = generateOrderCode();
+          final pref = await SharedPreferences.getInstance();
+          int userID = pref.getInt('curUser')!;
+          final order = await OrderPresenter.instance.createOrder(userID);
+          print('Log ktra socket: $userID');
+          if (order != null) {
+            // openDialog(
+            //   context,
+            //   'Đặt hàng thành công!',
+            //   'Đơn hàng của bạn sẽ sớm được vận chuyển',
+            //   order.orderDetails,
+            //   //widget.products,
+            //   formatDate(DateTime.now()),
+            //   //order.orderID.toString(),
+            //   ship,
+            //   widget.totalPrice,
+            //   //totalBill,
+            // );
+            SocketManager().emitEvent('add_order', userID);
+            openDialog(
+              context,
+              'Đặt hàng thành công!',
+              'Đơn hàng của bạn sẽ sớm được vận chuyển',
+              formatDate(DateTime.now()),
+              ship,
+              order,
+              widget.user,
+            );
+          } else {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(44),
+                ),
+                content: Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Lottie.asset(
+                        'assets/animations/error.json',
+                        width: 180,
+                        height: 180,
+                        frameRate: FrameRate(100),
+                      ),
+                      const SizedBox(height: 32),
+                      const Text(
+                        'Đặt hàng thất bại',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppColor.secondaryColor,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Có lỗi trong quá trình đặt hàng. Vui lòng thử lại sau ít phút!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppColor.secondaryColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
         },
       ),
     );
-  }
-
-  void selectAddress() async {
-    final Address? result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AddressView(selectedAddress: selectedAddress),
-      ),
-    );
-
-    if (result != null) {
-      setState(() {
-        selectedAddress = result;
-        if (!addresses.contains(selectedAddress)) {
-          addresses.add(selectedAddress!);
-        }
-      });
-    }
   }
 }

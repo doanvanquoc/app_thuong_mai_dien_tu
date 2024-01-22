@@ -1,10 +1,13 @@
+// ignore: library_prefixes
+import 'package:app_thuong_mai_dien_tu/models/banner.dart' as MyBanner;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeSlider extends StatefulWidget {
   const HomeSlider({super.key, required this.banners});
-  final List<String> banners;
+  final List<MyBanner.Banner> banners;
 
   @override
   State<HomeSlider> createState() => _HomeSliderState();
@@ -23,17 +26,19 @@ class _HomeSliderState extends State<HomeSlider> {
             autoPlayInterval: const Duration(seconds: 2),
             enlargeCenterPage: true,
             onPageChanged: (index, reason) {
-              setState(() {
+              if(mounted){
+                setState(() {
                 activedIndex = index;
               });
+              }
             },
           ),
           itemCount: widget.banners.length,
           itemBuilder: (context, index, realIndex) {
             return ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                widget.banners[index],
+              child: CachedNetworkImage(
+                imageUrl: widget.banners[index].image,
                 fit: BoxFit.cover,
               ),
             );

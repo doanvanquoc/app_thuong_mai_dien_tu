@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ class CartWidget extends StatefulWidget {
     required this.qty,
     required this.onQuantityChanged,
     this.isDel = true,
+    required this.onDelete,
   });
 
   final String image;
@@ -18,6 +20,7 @@ class CartWidget extends StatefulWidget {
   final String price;
   int qty;
   final Function(int) onQuantityChanged;
+  final Function onDelete;
   final bool isDel;
 
   @override
@@ -26,9 +29,11 @@ class CartWidget extends StatefulWidget {
 
 class _CartWidgetState extends State<CartWidget> {
   void updateQuantity(int newQuantity) {
-    setState(() {
+    if(mounted){
+      setState(() {
       widget.qty = newQuantity;
     });
+    }
     widget.onQuantityChanged(newQuantity);
   }
 
@@ -58,7 +63,7 @@ class _CartWidgetState extends State<CartWidget> {
             height: 120,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(widget.image),
+                image: NetworkImage(widget.image),
                 fit: BoxFit.fill,
               ),
             ),
@@ -76,7 +81,7 @@ class _CartWidgetState extends State<CartWidget> {
                     softWrap: true,
                     overflow: TextOverflow.visible,
                     style: const TextStyle(
-                      color: Color(0xFF212121),
+                      color: AppColor.secondaryColor,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -192,6 +197,7 @@ class _CartWidgetState extends State<CartWidget> {
   void showDeleteConfirmation(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isDismissible: true,
       builder: (BuildContext context) {
         return Container(
           height: 425,
@@ -224,7 +230,7 @@ class _CartWidgetState extends State<CartWidget> {
               const Text(
                 'Xóa khỏi giỏ hàng?',
                 style: TextStyle(
-                  color: Color(0xFF212121),
+                  color: AppColor.secondaryColor,
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
                 ),
@@ -239,6 +245,7 @@ class _CartWidgetState extends State<CartWidget> {
                 qty: widget.qty,
                 onQuantityChanged: widget.onQuantityChanged,
                 isDel: false,
+                onDelete: widget.onDelete,
               ),
               const SizedBox(height: 17),
               const Divider(thickness: 0.5),
@@ -259,13 +266,24 @@ class _CartWidgetState extends State<CartWidget> {
                     ),
                   ),
                   const SizedBox(width: 30),
-                  Expanded(child: MyButton(onTap: () {}, content: 'Xóa')),
+                  Expanded(
+                    child: MyButton(
+                        onTap: () {
+                          widget.onDelete();
+                          Navigator.pop(context);
+                        },
+                        content: 'Xóa'),
+                  ),
                 ],
               )
             ],
           ),
         );
       },
-    );
+    ).then((value) {
+      if (widget.qty == 0) {
+        updateQuantity(++widget.qty);
+      }
+    });
   }
 }

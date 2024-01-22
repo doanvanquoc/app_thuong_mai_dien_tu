@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:app_thuong_mai_dien_tu/data_sources/api_url.dart';
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
-import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:dio/dio.dart';
 
 class CompanyAPI {
@@ -22,5 +21,15 @@ class CompanyAPI {
       log('Lỗi company: $e');
       return [];
     }
+  }
+
+  Future<int> getCompanyId(value) async {
+    List<Company> companies = await getAllCompany();
+    for (var element in companies) {
+      if (element.companyName == value) {
+        return element.companyID;
+      }
+    }
+    return -1;
   }
 }

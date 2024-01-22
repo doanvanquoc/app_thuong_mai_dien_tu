@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ProductOfInvoiceWidget extends StatelessWidget {
@@ -38,7 +39,7 @@ class ProductOfInvoiceWidget extends StatelessWidget {
             height: 60,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(image),
+                image: NetworkImage(image),
                 fit: BoxFit.fill,
               ),
             ),
@@ -56,7 +57,7 @@ class ProductOfInvoiceWidget extends StatelessWidget {
                     softWrap: true,
                     overflow: TextOverflow.visible,
                     style: const TextStyle(
-                      color: Color(0xFF212121),
+                      color: AppColor.secondaryColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       height: 1.1,

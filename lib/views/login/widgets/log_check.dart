@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CheckLogin extends StatefulWidget {
@@ -32,9 +33,11 @@ class _CheckLoginState extends State<CheckLogin> {
           fillColor: MaterialStateProperty.resolveWith(getColor),
           value: isChecked,
           onChanged: (bool? value) {
-            setState(() {
+            if(mounted){
+              setState(() {
               isChecked = value!;
             });
+            }
           },
           shape: RoundedRectangleBorder(
             side: const BorderSide(
@@ -48,7 +51,7 @@ class _CheckLoginState extends State<CheckLogin> {
         const Text(
           'Ghi nhớ đăng nhập',
           style: TextStyle(
-            color: Color(0xFF212121),
+            color: AppColor.secondaryColor,
             fontSize: 20,
             fontFamily: 'Sarabun',
             fontWeight: FontWeight.w600,
