@@ -34,7 +34,7 @@ class _CartViewState extends State<CartView> {
   }
 
   Future<void> loadCartProducts({bool forceUpdate = false}) async {
-    int userID = 1;
+    int userID = widget.user.userID;
     List<Cart> loadedCartProducts = [];
 
     try {
@@ -45,15 +45,17 @@ class _CartViewState extends State<CartView> {
               await CartPresenter.instance.getCartDetails(userID);
           final cartData =
               jsonEncode(loadedCartProducts.map((e) => e.toJson()).toList());
-          await SharedPreferencesPresenter.setCartData(cartData);
+          await SharedPreferencesPresenter.setCartData(cartData, userID);
         } else {
-          final cartDataString = await SharedPreferencesPresenter.getCartData();
+          final cartDataString =
+              await SharedPreferencesPresenter.getCartData(userID);
           if (cartDataString != null && cartDataString.isNotEmpty) {
             loadedCartProducts = decodeCartData(cartDataString);
           }
         }
       } else {
-        final cartDataString = await SharedPreferencesPresenter.getCartData();
+        final cartDataString =
+            await SharedPreferencesPresenter.getCartData(userID);
         if (cartDataString != null && cartDataString.isNotEmpty) {
           loadedCartProducts = decodeCartData(cartDataString);
         }
@@ -67,7 +69,8 @@ class _CartViewState extends State<CartView> {
     } catch (e) {
       log('Error calling API: $e');
       if (!forceUpdate) {
-        final cartDataString = await SharedPreferencesPresenter.getCartData();
+        final cartDataString =
+            await SharedPreferencesPresenter.getCartData(userID);
         if (cartDataString != null && cartDataString.isNotEmpty) {
           loadedCartProducts = decodeCartData(cartDataString);
           if (mounted) {
@@ -143,17 +146,16 @@ class _CartViewState extends State<CartView> {
   void saveCartData() async {
     List<Map<String, dynamic>> modifiedCartData = [];
     for (var cartItem in cartProducts) {
-      var userID = cartItem.userID ?? 1;
       var modifiedCartItem = {
         'cartID': cartItem.cartID,
-        'userID': userID,
+        'userID': cartItem.userID,
         'product': cartItem.product.toJson(),
         'quantity': cartItem.quantity,
       };
       modifiedCartData.add(modifiedCartItem);
     }
     final cartData = jsonEncode(modifiedCartData);
-    await SharedPreferencesPresenter.setCartData(cartData);
+    await SharedPreferencesPresenter.setCartData(cartData, widget.user.userID);
   }
 
   void updateProductQuantity(int cartIndex, int newQuantity) async {

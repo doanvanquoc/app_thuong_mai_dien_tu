@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:app_thuong_mai_dien_tu/data_sources/local/order_local.dart';
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
@@ -112,10 +113,10 @@ class _AccountState extends State<Account> {
                 ? 'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg'
                 : widget.user.avatar,
             onImageSelected: (File? image) {
-              if(mounted){
+              if (mounted) {
                 setState(() async {
-                updateUserAvatar(image);
-              });
+                  updateUserAvatar(image);
+                });
               }
             },
           ),
@@ -213,7 +214,7 @@ class _AccountState extends State<Account> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) =>  NotificationPage(user: widget.user),
+                  builder: (_) => NotificationPage(user: widget.user),
                 ),
               );
             },
@@ -320,6 +321,7 @@ class _AccountState extends State<Account> {
 
   Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    OrderLocal.instance.savePreUserID(widget.user.userID);
     prefs.remove('auth_token');
     prefs.setBool('is_logged_out', true);
   }
