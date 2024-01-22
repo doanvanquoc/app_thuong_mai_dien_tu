@@ -192,7 +192,7 @@ class _AccountState extends State<Account> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => const AddressView(),
+                  builder: (_) => AddressView(user: widget.user),
                 ),
               );
             },
