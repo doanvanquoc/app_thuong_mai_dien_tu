@@ -305,6 +305,7 @@ class _SearchPageState extends State<SearchPage> {
       }
       id = -1; //reset giá trị option đang chọn
       star = '-1';
+      print(productsSearch.length);
     });
   }
 

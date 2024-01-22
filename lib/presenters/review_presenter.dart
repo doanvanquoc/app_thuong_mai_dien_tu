@@ -51,7 +51,8 @@ class ReviewPresenter {
           fullname: 'Tran Anh Quan',
           birthday: '2003-06-27',
           phoneNumber: '038878052',
-          avatar: 'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705850923/user-avatar/itfncdi2ogsitiidweb3.jpg',
+          avatar:
+              'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705850923/user-avatar/itfncdi2ogsitiidweb3.jpg',
           sex: 'Nam');
       return Review(
           reviewID: 1,
@@ -90,7 +91,10 @@ class ReviewPresenter {
     try {
       List<Review> reviews = await getReviewByIdProduct(product.productID);
 
-      if (ReviewPresenter.avgRating(reviews).toStringAsFixed(0).toString() ==
+      if (ReviewPresenter.avgRating(reviews)
+              .floor()
+              .toStringAsFixed(0)
+              .toString() ==
           star) {
         print("object");
         return true;

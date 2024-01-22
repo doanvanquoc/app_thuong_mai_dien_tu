@@ -28,27 +28,32 @@ class _ReviewPageState extends State<ReviewPage> {
   ];
 
   List<Review> reviewByRating = [];
-
-  //lọc theo sao
-  void checkOption(value) {
-    if(mounted){
-      setState(() {
-      reviewByRating.clear();
-      checkRate = value;
-      for (var element in widget.reviews) {
-        if (element.rating.toString() == value) {
-          reviewByRating.add(element);
-        }
-      }
-      if (value == 'Tất cả') reviewByRating.addAll(widget.reviews);
-    });
-    }
-  }
+  List<Review> reviewEmpty = [];
 
   @override
   void initState() {
     reviewByRating.addAll(widget.reviews.reversed);
     super.initState();
+  }
+
+  //lọc theo sao
+  void checkOption(value) {
+    print(value);
+    if (mounted) {
+      setState(() {
+        reviewByRating.clear();
+        checkRate = value;
+        for (var element in widget.reviews) {
+          if (element.rating.toString() == value) {
+            reviewEmpty.add(element);
+          }
+        }
+
+        reviewByRating.addAll(reviewEmpty.reversed);
+        reviewEmpty.clear();
+        if (value == 'Tất cả') reviewByRating.addAll(widget.reviews.reversed);
+      });
+    }
   }
 
   @override
@@ -70,7 +75,7 @@ class _ReviewPageState extends State<ReviewPage> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            ReviewOption(lst: ratelst, onTap: checkOption),
+            ReviewOption(lst: ratelst, onTap: checkOption, check: false),
             Expanded(
               child: reviewByRating.isNotEmpty
                   ? ListView.builder(
