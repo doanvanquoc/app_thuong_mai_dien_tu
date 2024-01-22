@@ -48,11 +48,9 @@ class _SearchPageState extends State<SearchPage> {
     print(products.length);
 
     companyPresenter.getAllCompany().then((value) {
-      if (mounted) {
-        setState(() {
-          companies = value;
-        });
-      }
+      setState(() {
+        companies = value;
+      });
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -68,23 +66,19 @@ class _SearchPageState extends State<SearchPage> {
 
   void getAllProduct() {
     productPresenter.getAllProduct().then((value) {
-      if (mounted) {
-        setState(() {
-          products = value;
-        });
-      }
+      setState(() {
+        products = value;
+      });
     });
   }
 
   void productLatest() {
     productPresenter.getLatestProduct().then((value) {
-      if (mounted) {
-        setState(() {
-          productsSearch = value;
-          productsLatest = value;
-          productsSearch.addAll(productsLatest);
-        });
-      }
+      setState(() {
+        productsSearch.clear();
+        productsLatest = value;
+        productsSearch.addAll(productsLatest);
+      });
     });
   }
 
@@ -93,23 +87,19 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void deletedAll() {
-    if (mounted) {
-      setState(() {
-        HistorySearchPresenter.historiesBox.clear();
-        historyLstReversed.clear();
-        historyLst.clear();
-      });
-    }
+    setState(() {
+      HistorySearchPresenter.historiesBox.clear();
+      historyLstReversed.clear();
+      historyLst.clear();
+    });
   }
 
   void deletedItem(int index) {
-    if (mounted) {
-      setState(() {
-        HistorySearchPresenter.historiesBox.deleteAt(index);
-        HistorySearchPresenter.loadHistoryLocal(
-            historyLst: historyLst, historyLstReversed: historyLstReversed);
-      });
-    }
+    setState(() {
+      HistorySearchPresenter.historiesBox.deleteAt(index);
+      HistorySearchPresenter.loadHistoryLocal(
+          historyLst: historyLst, historyLstReversed: historyLstReversed);
+    });
   }
 
 //ẩn hiện page
@@ -148,12 +138,10 @@ class _SearchPageState extends State<SearchPage> {
 
   //lay khoang gia
   void priceFromTo(from, to) {
-    if (mounted) {
-      setState(() {
-        priceFrom = from;
-        priceTo = to;
-      });
-    }
+    setState(() {
+      priceFrom = from;
+      priceTo = to;
+    });
   }
 
   //lấy id option
@@ -161,22 +149,18 @@ class _SearchPageState extends State<SearchPage> {
   String nameSort = '';
   Future<void> checkOption(String nameCompany) async {
     CompanyAPI.instance.getCompanyId(nameCompany).then((valueId) {
-      if(mounted){
-        setState(() {
+      setState(() {
         id = valueId;
       });
-      }
     });
     print(nameCompany);
   }
 
   void checkSort(String sort) {
-   if(mounted){
-     setState(() {
+    setState(() {
       nameSort = sort;
       print(nameSort);
     });
-   }
   }
 
   //Tim theo bộ lọc
@@ -185,25 +169,21 @@ class _SearchPageState extends State<SearchPage> {
     String rating = '',
     required List<Product> lstSearch,
   }) {
-    if(mounted){
-      setState(() {
+    setState(() {
+      lstSearch.clear();
       if (nameSort == 'Mới nhất') {
         productPresenter.getLatestProduct().then((value) {
-          if(mounted) {
-            setState(() {
+          setState(() {
             productsLatest = value;
           });
-          }
         });
         products.clear();
         products.addAll(productsLatest);
       } else if (nameSort == 'Phổ biến') {
         productPresenter.getBestSellingProduct(10).then((value) {
-          if(mounted){
-            setState(() {
+          setState(() {
             productsLatest = value;
           });
-          }
         });
         products.clear();
         products.addAll(productsLatest);
@@ -217,33 +197,31 @@ class _SearchPageState extends State<SearchPage> {
         }
       }
     });
-    }
   }
 
   //ap dung
   void applyOption() {
-    if (mounted) {
-      setState(() {
-        searchsCompanies(categoryID: id, lstSearch: productsSearch);
-        searchTextController.text = '';
-        reslutSearchTextController = '';
-        if (productsSearch.isEmpty) {
-          checkSearch(
-              checkNotDataPage: true,
-              checkHistory: false,
-              checkDataPage: false,
-              checkResultSearch: true);
-        } else {
-          reslutSearchTextController = 'theo bộ lọc';
-          checkSearch(
-              checkNotDataPage: false,
-              checkHistory: false,
-              checkDataPage: true,
-              checkResultSearch: true);
-        }
-        id = -1; //reset giá trị option đang chọn
-      });
-    }
+    setState(() {
+      searchsCompanies(categoryID: id, lstSearch: productsSearch);
+      searchTextController.text = '';
+      reslutSearchTextController = '';
+
+      if (productsSearch.isEmpty) {
+        checkSearch(
+            checkNotDataPage: true,
+            checkHistory: false,
+            checkDataPage: false,
+            checkResultSearch: true);
+      } else {
+        reslutSearchTextController = 'theo bộ lọc';
+        checkSearch(
+            checkNotDataPage: false,
+            checkHistory: false,
+            checkDataPage: true,
+            checkResultSearch: true);
+      }
+      id = -1; //reset giá trị option đang chọn
+    });
   }
 
   @override
@@ -263,19 +241,16 @@ class _SearchPageState extends State<SearchPage> {
                 onTap: () {
                   //Khi nhấn vào textfile thì lich su hien ra
                   getAllProduct();
-                 if(mounted){
-                   setState(() {
+                  setState(() {
                     checkSearch(
                         checkNotDataPage: false,
                         checkHistory: true,
                         checkDataPage: false,
                         checkResultSearch: false);
                   });
-                 }
                 },
                 onSubmitted: (value) {
-                  if(mounted){
-                    setState(() {
+                  setState(() {
                     //nhan enter nhan data
                     if (value.isEmpty) {
                       productLatest();
@@ -308,11 +283,9 @@ class _SearchPageState extends State<SearchPage> {
                         historyLst: historyLst,
                         historyLstReversed: historyLstReversed);
                   });
-                  }
                 },
                 onChanged: (value) {
-                  if(mounted){
-                    setState(() {
+                  setState(() {
                     if (value.isEmpty) {
                       productsSearch.clear();
                       checkSuggest = false;
@@ -325,7 +298,6 @@ class _SearchPageState extends State<SearchPage> {
                       checkSuggest = false;
                     }
                   });
-                  }
                 },
                 controller: searchTextController,
                 decoration: InputDecoration(
@@ -339,8 +311,7 @@ class _SearchPageState extends State<SearchPage> {
                   filled: true,
                   prefixIcon: IconButton(
                     onPressed: () {
-                      if(mounted){
-                        setState(() {
+                      setState(() {
                         reslutSearchTextController = searchTextController.text;
                         if (reslutSearchTextController.isEmpty) {
                           reslutSearchTextController = "mới nhất";
@@ -372,7 +343,6 @@ class _SearchPageState extends State<SearchPage> {
                             historyLstReversed: historyLstReversed);
                         focusNode.unfocus();
                       });
-                      }
                     },
                     icon: const Icon(
                       Icons.search,

@@ -1,4 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/product_detail/widget/detail_item_specificatioin.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +29,7 @@ class _DetailSpecificationsState extends State<DetailSpecifications> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
+                color: AppColor.secondaryColor,
               ),
             ),
           ),

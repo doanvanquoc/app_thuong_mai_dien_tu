@@ -36,7 +36,11 @@ class _FilterOptionState extends State<FilterOption> {
         children: [
           Text(
             widget.nameOption,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: AppColor.secondaryColor,
+            ),
           ),
           const SizedBox(height: 10),
           Expanded(

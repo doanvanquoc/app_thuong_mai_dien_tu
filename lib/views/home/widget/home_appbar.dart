@@ -1,4 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/notification/notification_view.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,12 @@ class HomeAppbar extends StatelessWidget {
               fit: BoxFit.cover,
             )),
       ),
-      title: const Text('Welcome,'),
+      title: const Text(
+        'Welcome,',
+        style: TextStyle(
+          color: AppColor.secondaryColor,
+        ),
+      ),
       subtitle: Text(
         user.fullname,
         style: const TextStyle(

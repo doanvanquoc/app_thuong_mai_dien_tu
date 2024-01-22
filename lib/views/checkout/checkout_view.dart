@@ -9,6 +9,7 @@ import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/address_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/order_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/address_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/address_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/comfirm_widget.dart';
@@ -55,7 +56,7 @@ class _CheckoutViewState extends State<CheckoutView> {
     return letter + number;
   }
 
-  int ship = 123456;
+  int ship = 50000;
 
   @override
   void initState() {
@@ -102,7 +103,7 @@ class _CheckoutViewState extends State<CheckoutView> {
         title: const Text(
           'Đặt hàng',
           style: TextStyle(
-            color: Color(0xFF212121),
+            color: AppColor.secondaryColor,
           ),
         ),
       ),
@@ -117,7 +118,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               const Text(
                 'Địa chỉ giao hàng',
                 style: TextStyle(
-                  color: Color(0xFF212121),
+                  color: AppColor.secondaryColor,
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
@@ -127,6 +128,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                 AddressItem(
                   addressID: selectedAddress!.addressID!,
                   isDefault: selectedAddress!.isDefault,
+                  name: selectedAddress!.name,
                   address: selectedAddress!.address,
                   isIcon: true,
                   isRadioButton: false,
@@ -139,7 +141,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               const Text(
                 'Danh sách sản phẩm',
                 style: TextStyle(
-                  color: Color(0xFF212121),
+                  color: AppColor.secondaryColor,
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
@@ -202,7 +204,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                             Product.formatPrice(widget.totalPrice.toString()),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
-                              color: Color(0xFF424242),
+                              color: AppColor.secondaryColor,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -228,7 +230,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                             Product.formatPrice(ship.toString()),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
-                              color: Color(0xFF424242),
+                              color: AppColor.secondaryColor,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -280,18 +282,31 @@ class _CheckoutViewState extends State<CheckoutView> {
           final order = await OrderPresenter.instance.createOrder(userID);
           print('Log ktra socket: $userID');
           if (order != null) {
+            // openDialog(
+            //   context,
+            //   'Đặt hàng thành công!',
+            //   'Đơn hàng của bạn sẽ sớm được vận chuyển',
+            //   order.orderDetails,
+            //   //widget.products,
+            //   formatDate(DateTime.now()),
+            //   //order.orderID.toString(),
+            //   ship,
+            //   widget.totalPrice,
+            //   //totalBill,
+            // );
             SocketManager().emitEvent('add_order', userID);
             openDialog(
-                context,
-                'Đặt hàng thành công!',
-                'Đơn hàng của bạn sẽ sớm được vận chuyển',
-                widget.products,
-                formatDate(DateTime.now()),
-                order.orderID.toString(),
-                ship,
-                widget.totalPrice,
-                totalBill,
-                widget.user);
+              context,
+              'Đặt hàng thành công!',
+              'Đơn hàng của bạn sẽ sớm được vận chuyển',
+              order.orderDetails,
+              formatDate(DateTime.now()),
+              ship,
+              order.orderID.toString(),
+              order.totalPrice,
+              order.totalPrice + ship,
+              widget.user,
+            );
           } else {
             showDialog(
               context: context,
@@ -316,7 +331,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         'Đặt hàng thất bại',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Color(0xFF212121),
+                          color: AppColor.secondaryColor,
                           fontSize: 24,
                           fontWeight: FontWeight.w700,
                         ),
@@ -326,7 +341,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         'Có lỗi trong quá trình đặt hàng. Vui lòng thử lại sau ít phút!',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Color(0xFF212121),
+                          color: AppColor.secondaryColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
                         ),

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
@@ -10,6 +8,8 @@ import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_logo.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_rich_text.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/register_view.dart';
+import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
@@ -134,7 +134,7 @@ class _LoginState extends State<Login> {
               const SizedBox(height: 50),
               const LoginLogo(),
               const Text(
-                'Đăng nhập tài khoản',
+                'Đăng Nhập Tài Khoản',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
               const SizedBox(height: 40),

@@ -1,6 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/models/review.dart';
-import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/review_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/home/widget/home_add_to_cart.dart';
@@ -58,7 +57,10 @@ class _ProductItemState extends State<ProductItem> {
             const SizedBox(height: 10),
             Text(
               widget.product.productName,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: AppColor.secondaryColor,
+              ),
               textAlign: TextAlign.center,
             ),
             Padding(
@@ -69,9 +71,19 @@ class _ProductItemState extends State<ProductItem> {
                     Icons.star_border,
                     color: AppColor.primaryColor,
                   ),
-                  Text(widget.product.avgRating.toStringAsFixed(1)),
+                  Text(
+                    widget.product.avgRating.toStringAsFixed(1),
+                    style: const TextStyle(
+                      color: AppColor.secondaryColor,
+                    ),
+                  ),
                   const SizedBox(width: 5),
-                  const Text('|'),
+                  const Text(
+                    '|',
+                    style: TextStyle(
+                      color: AppColor.secondaryColor,
+                    ),
+                  ),
                   const SizedBox(width: 5),
                   Container(
                     padding: const EdgeInsets.all(6),
