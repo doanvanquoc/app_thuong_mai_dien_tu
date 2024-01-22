@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
 import 'package:app_thuong_mai_dien_tu/views/account/widgets/notification_account.dart';
@@ -146,7 +147,7 @@ class _EditAccountState extends State<EditAccount> {
         title: const Text(
           'Chỉnh sửa thông tin',
           style: TextStyle(
-            color: Color(0xFF212121),
+            color: AppColor.secondaryColor,
             fontFamily: 'Sarabun',
             height: 0.05,
           ),
@@ -162,7 +163,7 @@ class _EditAccountState extends State<EditAccount> {
             child: Text(
               'Họ và tên',
               style: TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
@@ -190,7 +191,7 @@ class _EditAccountState extends State<EditAccount> {
             child: Text(
               'Ngày sinh',
               style: TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
@@ -221,7 +222,7 @@ class _EditAccountState extends State<EditAccount> {
             child: Text(
               'Email',
               style: TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
@@ -248,7 +249,7 @@ class _EditAccountState extends State<EditAccount> {
             child: Text(
               'Số điện thoại',
               style: TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
@@ -277,7 +278,7 @@ class _EditAccountState extends State<EditAccount> {
             child: Text(
               'Giới tính',
               style: TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),

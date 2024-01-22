@@ -34,7 +34,10 @@ class _ReviewContentState extends State<ReviewContent> {
                 SizedBox(width: 12),
                 Text(
                   "Avatar",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: AppColor.secondaryColor,
+                  ),
                 ),
               ],
             ),
@@ -70,10 +73,13 @@ class _ReviewContentState extends State<ReviewContent> {
         const SizedBox(height: 12),
         Text(
           widget.review.content,
-          style: const TextStyle(fontSize: 12),
+          style: const TextStyle(fontSize: 12, color: AppColor.secondaryColor),
         ),
         const SizedBox(height: 12),
-        Text(ReviewPresenter.converDate(widget.review.reviewDate))
+        Text(
+          ReviewPresenter.converDate(widget.review.reviewDate),
+          style: const TextStyle(color: AppColor.secondaryColor),
+        )
       ],
     );
   }

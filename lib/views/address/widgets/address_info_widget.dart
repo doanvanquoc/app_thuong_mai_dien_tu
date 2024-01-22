@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AddAddressWidget extends StatelessWidget {
@@ -31,7 +32,7 @@ class AddAddressWidget extends StatelessWidget {
             Text(
               title,
               style: const TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),

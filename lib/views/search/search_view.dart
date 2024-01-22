@@ -201,205 +201,208 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-        ),
-        body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Column(
-            children: [
-              TextField(
-                focusNode: focusNode,
-                onTap: () {
-                  setState(() {
-                    productsSearch = [];
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+      ),
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Column(
+          children: [
+            TextField(
+              focusNode: focusNode,
+              onTap: () {
+                setState(() {
+                  productsSearch = [];
+                  checkSearch(
+                      checkNotDataPage: false,
+                      checkHistory: true,
+                      checkDataPage: false,
+                      checkResultSearch: false);
+                });
+              },
+              onSubmitted: (value) {
+                setState(() {
+                  if (value.isEmpty) {
+                    productLatest();
+                    reslutSearchTextController = 'mới nhất';
                     checkSearch(
                         checkNotDataPage: false,
-                        checkHistory: true,
+                        checkHistory: false,
+                        checkDataPage: true,
+                        checkResultSearch: true);
+                    return;
+                  }
+                  reslutSearchTextController = value;
+                  if (checkSameData(value)) {
+                    checkSearch(
+                        checkNotDataPage: false,
+                        checkHistory: false,
+                        checkDataPage: true,
+                        checkResultSearch: true);
+                  } else {
+                    checkSearch(
+                        checkNotDataPage: true,
+                        checkHistory: false,
                         checkDataPage: false,
-                        checkResultSearch: false);
-                  });
-                },
-                onSubmitted: (value) {
-                  setState(() {
-                    if (value.isEmpty) {
-                      productLatest();
-                      reslutSearchTextController = 'mới nhất';
-                      checkSearch(
-                          checkNotDataPage: false,
-                          checkHistory: false,
-                          checkDataPage: true,
-                          checkResultSearch: true);
-                      return;
-                    }
-                    reslutSearchTextController = value;
-                    if (checkSameData(value)) {
-                      checkSearch(
-                          checkNotDataPage: false,
-                          checkHistory: false,
-                          checkDataPage: true,
-                          checkResultSearch: true);
-                    } else {
-                      checkSearch(
-                          checkNotDataPage: true,
-                          checkHistory: false,
-                          checkDataPage: false,
-                          checkResultSearch: true);
-                    }
-                    HistorySearchPresenter.addHistoryLocal(
-                        value: value,
-                        historyLst: historyLst,
-                        historyLstReversed: historyLstReversed);
-                  });
-                },
-                onChanged: (value) {
-                  setState(() {});
-                },
-                controller: searchTextController,
-                decoration: InputDecoration(
-                  hintText: 'Tìm kiếm...',
-                  hintStyle: const TextStyle(color: Colors.grey),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
-                  ),
-                  fillColor: Colors.grey.shade200,
-                  filled: true,
-                  prefixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        reslutSearchTextController = searchTextController.text;
-                        if (reslutSearchTextController.isEmpty) {
-                          reslutSearchTextController = "mới nhất";
-                          productLatest();
-                          focusNode.unfocus();
-                          checkSearch(
-                              checkNotDataPage: false,
-                              checkHistory: false,
-                              checkDataPage: true,
-                              checkResultSearch: true);
-                          return;
-                        }
-                        if (checkSameData(searchTextController.text)) {
-                          checkSearch(
-                              checkNotDataPage: false,
-                              checkHistory: false,
-                              checkDataPage: true,
-                              checkResultSearch: true);
-                        } else {
-                          checkSearch(
-                              checkNotDataPage: true,
-                              checkHistory: false,
-                              checkDataPage: false,
-                              checkResultSearch: true);
-                        }
-                        HistorySearchPresenter.addHistoryLocal(
-                            value: reslutSearchTextController,
-                            historyLst: historyLst,
-                            historyLstReversed: historyLstReversed);
+                        checkResultSearch: true);
+                  }
+                  HistorySearchPresenter.addHistoryLocal(
+                      value: value,
+                      historyLst: historyLst,
+                      historyLstReversed: historyLstReversed);
+                });
+              },
+              onChanged: (value) {
+                setState(() {});
+              },
+              controller: searchTextController,
+              decoration: InputDecoration(
+                hintText: 'Tìm kiếm...',
+                hintStyle: const TextStyle(color: Colors.grey),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide.none,
+                ),
+                fillColor: Colors.grey.shade200,
+                filled: true,
+                prefixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      reslutSearchTextController = searchTextController.text;
+                      if (reslutSearchTextController.isEmpty) {
+                        reslutSearchTextController = "mới nhất";
+                        productLatest();
                         focusNode.unfocus();
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.search,
-                      color: Colors.grey,
+                        checkSearch(
+                            checkNotDataPage: false,
+                            checkHistory: false,
+                            checkDataPage: true,
+                            checkResultSearch: true);
+                        return;
+                      }
+                      if (checkSameData(searchTextController.text)) {
+                        checkSearch(
+                            checkNotDataPage: false,
+                            checkHistory: false,
+                            checkDataPage: true,
+                            checkResultSearch: true);
+                      } else {
+                        checkSearch(
+                            checkNotDataPage: true,
+                            checkHistory: false,
+                            checkDataPage: false,
+                            checkResultSearch: true);
+                      }
+                      HistorySearchPresenter.addHistoryLocal(
+                          value: reslutSearchTextController,
+                          historyLst: historyLst,
+                          historyLstReversed: historyLstReversed);
+                      focusNode.unfocus();
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                  ),
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadiusDirectional.vertical(
+                                top: Radius.circular(40))),
+                        context: context,
+                        builder: (_) {
+                          return SearchFilter(
+                            checkOptioin: checkOption,
+                            applyOption: applyOption,
+                            priceFT: priceFromTo,
+                          );
+                        });
+                  },
+                  icon: const Icon(
+                    Icons.filter_frames_rounded,
+                    color: AppColor.primaryColor,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Visibility(
+              visible: checkResultSearch,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(
+                          text: "Kết quả tìm kiếm",
+                          style: const TextStyle(
+                              color: AppColor.secondaryColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                          children: [
+                            TextSpan(
+                              text: productsSearch.isNotEmpty
+                                  ? ' "$reslutSearchTextController"'
+                                  : '',
+                              style: const TextStyle(
+                                  color: AppColor.primaryColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ]),
                     ),
                   ),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      showModalBottomSheet(
-                          isScrollControlled: true,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadiusDirectional.vertical(
-                                  top: Radius.circular(40))),
-                          context: context,
-                          builder: (_) {
-                            return SearchFilter(
-                              checkOptioin: checkOption,
-                              applyOption: applyOption,
-                              priceFT: priceFromTo,
-                            );
-                          });
-                    },
-                    icon: const Icon(
-                      Icons.filter_frames_rounded,
+                  Text(
+                    "${productsSearch.length} kết quả",
+                    style: const TextStyle(
                       color: AppColor.primaryColor,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+            Visibility(
+              visible: checkHistory,
+              child: Expanded(
+                child: SearchHistory(
+                  historyLst: historyLstReversed,
+                  onTapHistory: onTapHistory,
+                  deletedAll: deletedAll,
+                  deletedItem: deletedItem,
                 ),
               ),
-              const SizedBox(height: 24),
-              Visibility(
-                visible: checkResultSearch,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: RichText(
-                        text: TextSpan(
-                            text: "Kết quả tìm kiếm",
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                            children: [
-                              TextSpan(
-                                text: productsSearch.isNotEmpty
-                                    ? ' "$reslutSearchTextController"'
-                                    : '',
-                                style: const TextStyle(
-                                    color: AppColor.primaryColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ]),
-                      ),
-                    ),
-                    Text(
-                      "${productsSearch.length} kết quả",
-                      style: const TextStyle(
-                        color: AppColor.primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+            ),
+            Visibility(
+              visible: checkNotDataPage,
+              child: SearchNotFound(
+                reslutSearchTextController: reslutSearchTextController,
               ),
-              const SizedBox(height: 24),
-              Visibility(
-                  visible: checkHistory,
-                  child: Expanded(
-                    child: SearchHistory(
-                      historyLst: historyLstReversed,
-                      onTapHistory: onTapHistory,
-                      deletedAll: deletedAll,
-                      deletedItem: deletedItem,
+            ),
+            Visibility(
+              visible: checkDataPage,
+              child: Expanded(
+                child: GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1 / 2.2,
                     ),
-                  )),
-              Visibility(
-                  visible: checkNotDataPage,
-                  child: SearchNotFound(
-                    reslutSearchTextController: reslutSearchTextController,
-                  )),
-              Visibility(
-                visible: checkDataPage,
-                child: Expanded(
-                  child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1 / 2.2,
-                      ),
-                      itemCount: productsSearch.length,
-                      itemBuilder: (_, index) {
-                        return ProductItem(product: productsSearch[index]);
-                      }),
-                ),
-              )
-            ],
-          ),
-        ));
+                    itemCount: productsSearch.length,
+                    itemBuilder: (_, index) {
+                      return ProductItem(product: productsSearch[index]);
+                    }),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -273,7 +273,7 @@ class _CartViewState extends State<CartView> {
         title: const Text(
           'Giỏ hàng',
           style: TextStyle(
-            color: Color(0xFF212121),
+            color: AppColor.secondaryColor,
           ),
         ),
       ),

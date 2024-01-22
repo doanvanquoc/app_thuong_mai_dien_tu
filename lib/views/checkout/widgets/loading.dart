@@ -2,6 +2,7 @@ import 'package:app_thuong_mai_dien_tu/models/cart.dart';
 import 'package:app_thuong_mai_dien_tu/models/order_detail.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/e_invoice_view.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ Future openDialog(
               title,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
               ),
@@ -53,7 +54,7 @@ Future openDialog(
               detail,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
               ),

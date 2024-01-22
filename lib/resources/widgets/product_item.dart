@@ -32,7 +32,10 @@ class ProductItem extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               product.productName,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: AppColor.secondaryColor,
+              ),
               textAlign: TextAlign.center,
             ),
             Padding(
@@ -43,9 +46,19 @@ class ProductItem extends StatelessWidget {
                     Icons.star_border,
                     color: AppColor.primaryColor,
                   ),
-                  Text(product.avgRating.toStringAsFixed(1)),
+                  Text(
+                    product.avgRating.toStringAsFixed(1),
+                    style: const TextStyle(
+                      color: AppColor.secondaryColor,
+                    ),
+                  ),
                   const SizedBox(width: 5),
-                  const Text('|'),
+                  const Text(
+                    '|',
+                    style: TextStyle(
+                      color: AppColor.secondaryColor,
+                    ),
+                  ),
                   const SizedBox(width: 5),
                   Container(
                     padding: const EdgeInsets.all(6),

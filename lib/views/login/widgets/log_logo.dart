@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class LoginLogo extends StatelessWidget {
@@ -23,7 +24,7 @@ class LoginLogo extends StatelessWidget {
           child: Text(
             'CKCPhoneStore',
             style: TextStyle(
-              color: Color(0xFF212121),
+              color: AppColor.secondaryColor,
               fontSize: 30,
               fontFamily: 'Sarabun',
               fontWeight: FontWeight.w700,

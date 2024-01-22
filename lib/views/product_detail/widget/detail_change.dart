@@ -74,6 +74,7 @@ class _DetailChangeState extends State<DetailChange> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  color: AppColor.secondaryColor,
                 ),
               ),
               const SizedBox(width: 20),

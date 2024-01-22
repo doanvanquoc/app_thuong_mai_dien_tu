@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/address/widgets/address_info_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/comfirm_widget.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class _AddAddressViewState extends State<AddAddressView> {
         title: const Text(
           'Thêm địa chỉ mới',
           style: TextStyle(
-            color: Color(0xFF212121),
+            color: AppColor.secondaryColor,
             fontSize: 24,
             fontWeight: FontWeight.w700,
           ),

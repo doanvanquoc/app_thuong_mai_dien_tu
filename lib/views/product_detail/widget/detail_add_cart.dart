@@ -34,12 +34,18 @@ class _AddCartDetailState extends State<AddCartDetail> {
                 children: [
                   const Text(
                     'Tổng cộng',
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColor.secondaryColor,
+                    ),
                   ),
                   Text(
                     '${widget.product.price} VNĐ',
                     style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
+                      color: AppColor.secondaryColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),

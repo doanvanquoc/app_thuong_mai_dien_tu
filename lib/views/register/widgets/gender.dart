@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/widgets/itemgender.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +59,7 @@ class _GenderState extends State<Gender> {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
+                            color: AppColor.secondaryColor,
                           ),
                         ),
                       ),

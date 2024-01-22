@@ -1,4 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/models/review.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/review/widgets/review_content.dart';
 import 'package:app_thuong_mai_dien_tu/views/review/widgets/review_option.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,11 @@ class _ReviewPageState extends State<ReviewPage> {
         surfaceTintColor: Colors.transparent,
         title: Text(
           "${widget.avgRating(widget.reviews).toStringAsFixed(1)} (${widget.reviews.length} đánh giá)",
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: AppColor.secondaryColor,
+          ),
         ),
       ),
       body: Padding(

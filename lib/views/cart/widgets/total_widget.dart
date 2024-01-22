@@ -3,6 +3,7 @@
 import 'package:app_thuong_mai_dien_tu/models/cart.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/checkout_view.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -63,7 +64,7 @@ class TotalWidget extends StatelessWidget {
               Text(
                 totalPrice.toString(),
                 style: const TextStyle(
-                  color: Color(0xFF212121),
+                  color: AppColor.secondaryColor,
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
                 ),

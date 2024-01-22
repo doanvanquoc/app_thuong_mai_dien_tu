@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
@@ -177,7 +178,7 @@ class _AccountInformationState extends State<AccountInformation> {
         title: const Text(
           'Thông tin tài khoản',
           style: TextStyle(
-            color: Color(0xFF212121),
+            color: AppColor.secondaryColor,
             fontSize: 24,
             fontFamily: 'Sarabun',
             fontWeight: FontWeight.w700,

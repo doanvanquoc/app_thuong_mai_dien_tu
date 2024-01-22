@@ -40,7 +40,10 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                     child: Text(
                       widget.product.productName,
                       style: const TextStyle(
-                          fontSize: 28, fontWeight: FontWeight.bold),
+                        color: AppColor.secondaryColor,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -82,7 +85,8 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                     child: Text(
                       //toStringAsFixed(1) --> làm tròn
                       '${ReviewPresenter.avgRating(widget.review).toStringAsFixed(1)} (${widget.review.length} đánh giá)',
-                      style: const TextStyle(fontSize: 14),
+                      style: const TextStyle(
+                          fontSize: 14, color: AppColor.secondaryColor),
                     ),
                   )
                 ],
@@ -92,13 +96,18 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                 padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
                 child: Text(
                   "Mô tả",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColor.secondaryColor,
+                  ),
                 ),
               ),
               Text(
                 widget.product.description,
                 style: const TextStyle(
                   fontSize: 16,
+                  color: AppColor.secondaryColor,
                 ),
                 textAlign: TextAlign.justify,
               ),

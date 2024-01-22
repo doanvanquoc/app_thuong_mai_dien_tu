@@ -9,6 +9,7 @@ import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/address_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/order_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/address_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/address_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/comfirm_widget.dart';
@@ -98,7 +99,7 @@ class _CheckoutViewState extends State<CheckoutView> {
         title: const Text(
           'Đặt hàng',
           style: TextStyle(
-            color: Color(0xFF212121),
+            color: AppColor.secondaryColor,
           ),
         ),
       ),
@@ -113,7 +114,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               const Text(
                 'Địa chỉ giao hàng',
                 style: TextStyle(
-                  color: Color(0xFF212121),
+                  color: AppColor.secondaryColor,
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
@@ -136,7 +137,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               const Text(
                 'Danh sách sản phẩm',
                 style: TextStyle(
-                  color: Color(0xFF212121),
+                  color: AppColor.secondaryColor,
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
@@ -199,7 +200,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                             Product.formatPrice(widget.totalPrice.toString()),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
-                              color: Color(0xFF424242),
+                              color: AppColor.secondaryColor,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -225,7 +226,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                             Product.formatPrice(ship.toString()),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
-                              color: Color(0xFF424242),
+                              color: AppColor.secondaryColor,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -326,7 +327,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         'Đặt hàng thất bại',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Color(0xFF212121),
+                          color: AppColor.secondaryColor,
                           fontSize: 24,
                           fontWeight: FontWeight.w700,
                         ),
@@ -336,7 +337,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         'Có lỗi trong quá trình đặt hàng. Vui lòng thử lại sau ít phút!',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Color(0xFF212121),
+                          color: AppColor.secondaryColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
                         ),
