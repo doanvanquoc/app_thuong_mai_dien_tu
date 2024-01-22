@@ -23,14 +23,14 @@ class ReviewAPI {
       rethrow;
     }
   }
-  
+
   Future<List<Review>> getReviewByIdProduct(int id) async {
-    List<Review> companies = [];
+    List<Review> reviews = [];
     try {
       final res = await dio.get('${APIConfig.API_URL}/review/$id');
-      companies =
+      reviews =
           (res.data['data'] as List).map((e) => Review.fromJson(e)).toList();
-      return companies;
+      return reviews;
     } catch (e) {
       log(e.toString());
       return [];

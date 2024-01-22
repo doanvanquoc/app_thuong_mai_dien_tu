@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 // ignore: library_prefixes
 import 'package:app_thuong_mai_dien_tu/models/image.dart' as MyImage;
+
 class SlideShowProduct extends StatefulWidget {
   const SlideShowProduct({super.key, required this.img});
   final List<MyImage.Image> img;
@@ -54,6 +55,7 @@ class _SlideShowProductState extends State<SlideShowProduct> {
               ),
             ),
           ),
+          const SizedBox(height: 10),
           buildIndicator(),
         ],
       ),

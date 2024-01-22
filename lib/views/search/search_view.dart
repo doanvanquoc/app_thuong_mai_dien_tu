@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/company_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
@@ -33,7 +35,7 @@ class _SearchPageState extends State<SearchPage> {
   final productPresenter = ProductPresenter.instance;
   final companyPresenter = CompanyPresenter.instance;
   final reviewPresenter = ReviewPresenter.instance;
-  List<Product> products = [];
+  List<Product> productsAll = [];
   List<Company> companies = [];
   List<Review> reviews = [];
 
@@ -44,9 +46,11 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   void initState() {
-    getAllProduct();
-    print(products.length);
-
+    productPresenter.getAllProduct().then((value) {
+      setState(() {
+        productsAll = value;
+      });
+    });
     companyPresenter.getAllCompany().then((value) {
       setState(() {
         companies = value;
@@ -64,16 +68,10 @@ class _SearchPageState extends State<SearchPage> {
 
   List<Product> productsLatest = [];
 
-  void getAllProduct() {
-    productPresenter.getAllProduct().then((value) {
-      setState(() {
-        products = value;
-      });
-    });
-  }
+  void getAllProduct() {}
 
-  void productLatest() {
-    productPresenter.getLatestProduct().then((value) {
+  Future<void> productLatest() async {
+    await productPresenter.getLatestProduct().then((value) {
       setState(() {
         productsSearch.clear();
         productsLatest = value;
@@ -121,7 +119,7 @@ class _SearchPageState extends State<SearchPage> {
   bool checkSameData(value) {
     productsSearch.clear();
 
-    for (var item in products) {
+    for (var item in productsAll) {
       if (item.productName
           .toString()
           .toUpperCase()
@@ -146,9 +144,8 @@ class _SearchPageState extends State<SearchPage> {
 
   //lấy id option
   int id = -1;
-  String nameSort = '';
   Future<void> checkOption(String nameCompany) async {
-    CompanyAPI.instance.getCompanyId(nameCompany).then((valueId) {
+    await CompanyAPI.instance.getCompanyId(nameCompany).then((valueId) {
       setState(() {
         id = valueId;
       });
@@ -156,6 +153,7 @@ class _SearchPageState extends State<SearchPage> {
     print(nameCompany);
   }
 
+  String nameSort = '';
   void checkSort(String sort) {
     setState(() {
       nameSort = sort;
@@ -163,49 +161,67 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  //Tim theo bộ lọc
-  void searchsCompanies({
-    required int categoryID,
-    String rating = '',
-    required List<Product> lstSearch,
-  }) {
+  String star = '';
+  void checkRate(String rate) {
     setState(() {
-      lstSearch.clear();
-      if (nameSort == 'Mới nhất') {
-        productPresenter.getLatestProduct().then((value) {
-          setState(() {
-            productsLatest = value;
-          });
-        });
-        products.clear();
-        products.addAll(productsLatest);
-      } else if (nameSort == 'Phổ biến') {
-        productPresenter.getBestSellingProduct(10).then((value) {
-          setState(() {
-            productsLatest = value;
-          });
-        });
-        products.clear();
-        products.addAll(productsLatest);
-      }
-
-      for (var element in products) {
-        if ((element.company.companyID == categoryID) &&
-            (element.price >= int.parse("${priceFrom}000000") &&
-                element.price <= int.parse("${priceTo}000000"))) {
-          lstSearch.add(element);
-        }
-      }
+      star = rate;
+      print(star);
     });
   }
 
+  bool check = false;
+
+  List<Product> proReview = [];
+  //Tim theo bộ lọc
+  Future<void> searchsCompanies({
+    required int categoryID,
+    String rating = '',
+  }) async {
+    if (nameSort == 'Mới nhất') {
+      await productPresenter.getLatestProduct().then((value) {
+        setState(() {
+          productsLatest = value;
+          productsAll.clear();
+          productsAll.addAll(productsLatest);
+        });
+      });
+    } else if (nameSort == 'Phổ biến') {
+      await productPresenter.getBestSellingProduct(10).then((value) {
+        setState(() {
+          productsLatest = value;
+          productsAll.clear();
+          productsAll.addAll(productsLatest);
+        });
+      });
+    }
+
+    productsSearch.clear();
+    for (var element in productsAll) {
+      await ReviewPresenter.instance
+          .getProductStar(element, rating)
+          .then((value) {
+        setState(() {
+          check = value;
+        });
+      });
+      setState(() {
+        print(check);
+
+        if ((element.company.companyID == categoryID) &&
+            (element.price >= int.parse("${priceFrom}000000") &&
+                element.price <= int.parse("${priceTo}000000"))) {
+          productsSearch.add(element);
+        }
+      });
+    }
+  }
+
   //ap dung
-  void applyOption() {
-    setState(() {
-      searchsCompanies(categoryID: id, lstSearch: productsSearch);
+  Future<void> applyOption() async {
+    setState(() async {
       searchTextController.text = '';
       reslutSearchTextController = '';
-
+      await searchsCompanies(categoryID: id, rating: star);
       if (productsSearch.isEmpty) {
         checkSearch(
             checkNotDataPage: true,
@@ -361,6 +377,7 @@ class _SearchPageState extends State<SearchPage> {
                             return SearchFilter(
                               checkOptioin: checkOption,
                               checkSort: checkSort,
+                              checkRate: checkRate,
                               applyOption: applyOption,
                               priceFT: priceFromTo,
                             );

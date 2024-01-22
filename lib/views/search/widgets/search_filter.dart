@@ -12,11 +12,12 @@ class SearchFilter extends StatefulWidget {
       {super.key,
       required this.checkOptioin,
       required this.checkSort,
+      required this.checkRate,
       required this.applyOption,
       required this.priceFT});
   Function checkOptioin;
   Function checkSort;
-
+  Function checkRate;
   Function applyOption;
   Function priceFT;
   @override
@@ -150,7 +151,7 @@ class _SearchFilterState extends State<SearchFilter> {
                   const SizedBox(height: 16),
                   ReviewOption(
                     lst: ratelst,
-                    onTap: widget.checkOptioin,
+                    onTap: widget.checkRate,
                   ),
                 ],
               ),
