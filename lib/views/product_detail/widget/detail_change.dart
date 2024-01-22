@@ -140,7 +140,8 @@ class _DetailChangeState extends State<DetailChange> {
                 // NotificationPresenter.notificationBox.clear();
 
                 NotificationService().showNotification(
-                    title: "Giỏ hàng", body: "Thêm vào giỏ hàng thành công");
+                    title: "Giỏ hàng",
+                    body: "Thêm vào giỏ hàng thành công"); //thông báo chuông
                 // ignore: use_build_context_synchronously
                 Navigator.pop(context);
               },

@@ -30,9 +30,9 @@ class _ReviewContentState extends State<ReviewContent> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                const Text(
-                  "Avatar",
-                  style: TextStyle(
+                Text(
+                  widget.review.userID.fullname,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: AppColor.secondaryColor,
                   ),
