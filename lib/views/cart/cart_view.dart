@@ -59,18 +59,22 @@ class _CartViewState extends State<CartView> {
         }
       }
 
-      setState(() {
-        cartProducts = loadedCartProducts;
-      });
+      if (mounted) {
+        setState(() {
+          cartProducts = loadedCartProducts;
+        });
+      }
     } catch (e) {
       log('Error calling API: $e');
       if (!forceUpdate) {
         final cartDataString = await SharedPreferencesPresenter.getCartData();
         if (cartDataString != null && cartDataString.isNotEmpty) {
           loadedCartProducts = decodeCartData(cartDataString);
-          setState(() {
-            cartProducts = loadedCartProducts;
-          });
+          if (mounted) {
+            setState(() {
+              cartProducts = loadedCartProducts;
+            });
+          }
         }
       }
     }
@@ -161,9 +165,11 @@ class _CartViewState extends State<CartView> {
       }
 
       if (newQuantity > currentCart.product.quantity) {
-        setState(() {
-          --newQuantity;
-        });
+        if (mounted) {
+          setState(() {
+            --newQuantity;
+          });
+        }
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -184,9 +190,11 @@ class _CartViewState extends State<CartView> {
           .updateCartQuantity(currentCart.cartID, newQuantity);
 
       if (result) {
-        setState(() {
-          currentCart.quantity = newQuantity;
-        });
+        if (mounted) {
+          setState(() {
+            currentCart.quantity = newQuantity;
+          });
+        }
         log('Cập nhật số lượng thành công');
       } else {
         log('Cập nhật số lượng thất bại');
@@ -204,9 +212,11 @@ class _CartViewState extends State<CartView> {
         return;
       }
     } else {
-      setState(() {
-        --newQuantity;
-      });
+      if (mounted) {
+        setState(() {
+          --newQuantity;
+        });
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Lỗi kết nối'),
@@ -277,10 +287,6 @@ class _CartViewState extends State<CartView> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
-        leading: Image.asset(
-          'assets/images/vector.png',
-          scale: 2,
-        ),
         title: const Text(
           'Giỏ hàng',
           style: TextStyle(
@@ -297,83 +303,69 @@ class _CartViewState extends State<CartView> {
         ],
       ),
       body: cartProducts.isNotEmpty
-          ? PopScope(
-              canPop: true,
-              onPopInvoked: (didPop) {
-                log('pop');
-                setState(() {});
+          ? RefreshIndicator(
+              onRefresh: () async {
+                await loadCartProducts(forceUpdate: true);
               },
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  await loadCartProducts(forceUpdate: true);
-                },
-                child: Stack(children: [
-                  ListView.builder(
-                    itemCount: cartProducts.length,
-                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 85),
-                    itemBuilder: (BuildContext context, int index) {
-                      Cart cartProduct = cartProducts[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 24),
-                        child: CartWidget(
-                          image: cartProduct.product.images[0].imagePath,
-                          name: cartProduct.product.productName,
-                          price: Product.formatPrice(
-                              cartProduct.product.price.toString()),
-                          qty: cartProduct.quantity,
-                          onQuantityChanged: (newQuantity) {
-                            updateProductQuantity(index, newQuantity);
-                          },
-                          onDelete: () => removeProductFromCart(index),
-                        ),
-                      );
-                    },
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: TotalWidget(
-                      user: widget.user,
-                      products: cartProducts,
-                      totalPrice: Product.formatPrice(
-                          Product.parsePrice(calculateTotalPrice()).toString()),
-                    ),
-                  )
-                ]),
-              ),
-            )
-          : PopScope(
-              canPop: true,
-              onPopInvoked: (didPop) {
-                log('on pop 2');
-                setState(() {});
-              },
-              child: Center(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 110),
-                    Image.asset('assets/images/empty.png'),
-                    const SizedBox(height: 40),
-                    const Text(
-                      'Giỏ hàng của bạn đang trống',
-                      style: TextStyle(
-                        color: AppColor.secondaryColor,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                        height: 2.2,
+              child: Stack(children: [
+                ListView.builder(
+                  itemCount: cartProducts.length,
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 85),
+                  itemBuilder: (BuildContext context, int index) {
+                    Cart cartProduct = cartProducts[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 24),
+                      child: CartWidget(
+                        image: cartProduct.product.images[0].imagePath,
+                        name: cartProduct.product.productName,
+                        price: Product.formatPrice(
+                            cartProduct.product.price.toString()),
+                        qty: cartProduct.quantity,
+                        onQuantityChanged: (newQuantity) {
+                          updateProductQuantity(index, newQuantity);
+                        },
+                        onDelete: () => removeProductFromCart(index),
                       ),
-                    ),
-                    const Text(
-                      'Bạn chưa thêm gì cả!',
-                      style: TextStyle(
-                        color: AppColor.secondaryColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: TotalWidget(
+                    user: widget.user,
+                    products: cartProducts,
+                    totalPrice: Product.formatPrice(
+                        Product.parsePrice(calculateTotalPrice()).toString()),
+                  ),
+                )
+              ]),
+            )
+          : Center(
+              child: Column(
+                children: [
+                  const SizedBox(height: 110),
+                  Image.asset('assets/images/empty.png'),
+                  const SizedBox(height: 40),
+                  const Text(
+                    'Giỏ hàng của bạn đang trống',
+                    style: TextStyle(
+                      color: AppColor.secondaryColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      height: 2.2,
+                    ),
+                  ),
+                  const Text(
+                    'Bạn chưa thêm gì cả!',
+                    style: TextStyle(
+                      color: AppColor.secondaryColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
               ),
             ),
     );

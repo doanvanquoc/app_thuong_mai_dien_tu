@@ -20,17 +20,20 @@ class _DetailChangeState extends State<DetailChange> {
 
   int count = 1;
   void incrQ(int productQuanlity) {
-    setState(() {
+    if(mounted){
+      setState(() {
       if (count >= productQuanlity) {
         count == productQuanlity;
       } else {
         count++;
       }
     });
+    }
   }
 
   void decrQ() {
-    setState(() {
+    if(mounted){
+      setState(() {
       if (widget.product.quantity == 0) {
         count = 0;
         return;
@@ -41,6 +44,7 @@ class _DetailChangeState extends State<DetailChange> {
         count -= 1;
       }
     });
+    }
   }
 
   @override

@@ -97,7 +97,9 @@ class _RegisterState extends State<Register> {
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
     }
-    setState(() {});
+    if(mounted){
+      setState(() {});
+    }
   }
 
   @override

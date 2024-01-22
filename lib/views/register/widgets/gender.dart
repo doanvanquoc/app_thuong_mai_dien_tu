@@ -63,9 +63,11 @@ class _GenderState extends State<Gender> {
                       ),
                       ItemGender(
                         onTap: (selectedGender) {
-                          setState(() {
+                          if(mounted){
+                            setState(() {
                             widget.selectedGender = selectedGender;
                           });
+                          }
                         },
                       ),
                       Padding(
@@ -95,9 +97,11 @@ class _GenderState extends State<Gender> {
 
   void _updateGender() {
     if (widget.selectedGender.isNotEmpty) {
-      setState(() {
+      if(mounted){
+        setState(() {
         widget.controller.text = widget.selectedGender;
       });
+      }
     }
   }
 }

@@ -1,9 +1,11 @@
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
+
 class Review {
   int reviewID;
   String content;
   String reviewDate;
   int rating;
-  int? userID;
+  User userID;
   int? productID;
 
   Review({
@@ -20,6 +22,6 @@ class Review {
         content = json['content'],
         reviewDate = json['review_date'],
         rating = json['rating'],
-        userID = json['userID'],
+        userID = User.fromJson(json['user']!),
         productID = json['productID'];
 }

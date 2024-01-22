@@ -22,7 +22,8 @@ class CheckoutView extends StatefulWidget {
   const CheckoutView({
     super.key,
     required this.products,
-    required this.totalPrice, required this.user,
+    required this.totalPrice,
+    required this.user,
   });
 
   final List<Cart> products;
@@ -60,10 +61,12 @@ class _CheckoutViewState extends State<CheckoutView> {
   void initState() {
     super.initState();
     loadAddresses().then((loadedAddresses) {
-      setState(() {
-        addresses = loadedAddresses;
-        selectedAddress = Address.getDefaultAddress(addresses);
-      });
+      if (mounted) {
+        setState(() {
+          addresses = loadedAddresses;
+          selectedAddress = Address.getDefaultAddress(addresses);
+        });
+      }
     });
   }
 
@@ -79,9 +82,11 @@ class _CheckoutViewState extends State<CheckoutView> {
     );
 
     if (result != null) {
-      setState(() {
-        selectedAddress = result;
-      });
+      if (mounted) {
+        setState(() {
+          selectedAddress = result;
+        });
+      }
     }
   }
 
@@ -277,17 +282,16 @@ class _CheckoutViewState extends State<CheckoutView> {
           if (order != null) {
             SocketManager().emitEvent('add_order', userID);
             openDialog(
-              context,
-              'Đặt hàng thành công!',
-              'Đơn hàng của bạn sẽ sớm được vận chuyển',
-              widget.products,
-              formatDate(DateTime.now()),
-              order.orderID.toString(),
-              ship,
-              widget.totalPrice,
-              totalBill,
-              widget.user
-            );
+                context,
+                'Đặt hàng thành công!',
+                'Đơn hàng của bạn sẽ sớm được vận chuyển',
+                widget.products,
+                formatDate(DateTime.now()),
+                order.orderID.toString(),
+                ship,
+                widget.totalPrice,
+                totalBill,
+                widget.user);
           } else {
             showDialog(
               context: context,

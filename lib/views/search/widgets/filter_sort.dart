@@ -2,28 +2,42 @@ import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class ReviewOption extends StatefulWidget {
-  ReviewOption({
+class FilterSort extends StatefulWidget {
+  FilterSort({
     super.key,
     required this.lst,
-    required this.onTap,
+    required this.nameOption,
+    required this.checkSort,
+    required this.check,
   });
   final List lst;
-  Function onTap;
+  final String nameOption;
+  Function checkSort;
+  bool check;
+
   @override
-  State<ReviewOption> createState() => _ReviewOptionState();
+  State<FilterSort> createState() => _FilterSortState();
 }
 
-class _ReviewOptionState extends State<ReviewOption> {
+class _FilterSortState extends State<FilterSort> {
   int selectedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
+    if (widget.check) {
+      selectedIndex = -1;
+      widget.check = false;
+    }
     return SizedBox(
-      height: 44,
+      height: 80,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            widget.nameOption,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          const SizedBox(height: 10),
           Expanded(
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -32,15 +46,16 @@ class _ReviewOptionState extends State<ReviewOption> {
                 itemBuilder: (_, index) {
                   return GestureDetector(
                     onTap: () {
-                      widget.onTap(widget.lst[index]);
-                      if(mounted){
+                      if (mounted) {
                         setState(() {
-                        if (selectedIndex == index) {
-                          selectedIndex = -1;
-                        } else {
-                          selectedIndex = index;
-                        }
-                      });
+                          if (selectedIndex == index) {
+                            selectedIndex = -1;
+                            widget.checkSort('');
+                          } else {
+                            selectedIndex = index;
+                            widget.checkSort(widget.lst[index]);
+                          }
+                        });
                       }
                     },
                     child: Container(
@@ -49,31 +64,22 @@ class _ReviewOptionState extends State<ReviewOption> {
                         color: selectedIndex == index
                             ? AppColor.primaryColor
                             : Colors.white,
-                        border:
-                            Border.all(width: 2, color: AppColor.primaryColor),
+                        border: Border.all(
+                          width: 2,
+                          color: AppColor.primaryColor,
+                        ),
                         borderRadius: BorderRadius.circular(100),
                       ),
                       height: 38,
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.star,
-                              color: selectedIndex == index
-                                  ? Colors.white
-                                  : AppColor.primaryColor,
-                            ),
-                            Text(
-                              widget.lst[index],
-                              style: TextStyle(
-                                color: selectedIndex == index
-                                    ? Colors.white
-                                    : AppColor.primaryColor,
-                              ),
-                            ),
-                          ],
+                        child: Text(
+                          widget.lst[index].companyName,
+                          style: TextStyle(
+                            color: selectedIndex == index
+                                ? Colors.white
+                                : AppColor.primaryColor,
+                          ),
                         ),
                       ),
                     ),

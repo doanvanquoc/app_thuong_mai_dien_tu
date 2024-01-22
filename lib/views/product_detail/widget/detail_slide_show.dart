@@ -49,9 +49,11 @@ class _SlideShowProductState extends State<SlideShowProduct> {
                 viewportFraction: 1,
                 height: double.infinity,
                 onPageChanged: ((index, reason) {
-                  setState(() {
+                 if(mounted){
+                   setState(() {
                     activeIndex = index;
                   });
+                 }
                 }),
               ),
             ),
