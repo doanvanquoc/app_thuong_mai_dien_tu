@@ -89,9 +89,11 @@ class _OrderRatingState extends State<OrderRating> {
                 );
               }).toList(),
               onChanged: (value) {
-                setState(() {
+                if(mounted){
+                  setState(() {
                   currentDetailID = value!;
                 });
+                }
               },
             ),
             const SizedBox(height: 12),

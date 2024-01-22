@@ -26,9 +26,11 @@ class _HomeSliderState extends State<HomeSlider> {
             autoPlayInterval: const Duration(seconds: 2),
             enlargeCenterPage: true,
             onPageChanged: (index, reason) {
-              setState(() {
+              if(mounted){
+                setState(() {
                 activedIndex = index;
               });
+              }
             },
           ),
           itemCount: widget.banners.length,

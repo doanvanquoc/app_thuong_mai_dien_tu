@@ -26,7 +26,7 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
     return Positioned(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height / 2.4,
-      bottom: 70,
+      bottom: 80,
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
@@ -40,7 +40,10 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                     child: Text(
                       widget.product.productName,
                       style: const TextStyle(
-                          fontSize: 28, fontWeight: FontWeight.bold),
+                        color: AppColor.secondaryColor,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -55,11 +58,11 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                       borderRadius: BorderRadius.circular(6),
                       color: const Color.fromARGB(255, 212, 249, 232),
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        '1 đã bán',
-                        style: TextStyle(
-                          fontSize: 10,
+                        '${widget.product.totalSell} đã bán ',
+                        style: const TextStyle(
+                          fontSize: 13,
                           color: AppColor.primaryColor,
                         ),
                       ),
@@ -82,7 +85,8 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                     child: Text(
                       //toStringAsFixed(1) --> làm tròn
                       '${ReviewPresenter.avgRating(widget.review).toStringAsFixed(1)} (${widget.review.length} đánh giá)',
-                      style: const TextStyle(fontSize: 14),
+                      style: const TextStyle(
+                          fontSize: 14, color: AppColor.secondaryColor),
                     ),
                   )
                 ],
@@ -92,13 +96,18 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                 padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
                 child: Text(
                   "Mô tả",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColor.secondaryColor,
+                  ),
                 ),
               ),
               Text(
                 widget.product.description,
                 style: const TextStyle(
                   fontSize: 16,
+                  color: AppColor.secondaryColor,
                 ),
                 textAlign: TextAlign.justify,
               ),

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/account/edit_pass_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/account/editaccount_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/account/widgets/button_logout.dart';
@@ -111,9 +112,11 @@ class _AccountState extends State<Account> {
                 ? 'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg'
                 : widget.user.avatar,
             onImageSelected: (File? image) {
-              setState(() async {
+              if(mounted){
+                setState(() async {
                 updateUserAvatar(image);
               });
+              }
             },
           ),
           const SizedBox(
@@ -129,7 +132,7 @@ class _AccountState extends State<Account> {
           ),
           ItemAccount(
             title: 'Chỉnh sửa thông tin',
-            colorr: const Color(0xFF212121),
+            colorr: AppColor.secondaryColor,
             iconLeft: const Icon(
               Icons.person_outline,
               size: 35,
@@ -210,7 +213,7 @@ class _AccountState extends State<Account> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => const NotificationPage(),
+                  builder: (_) =>  NotificationPage(user: widget.user),
                 ),
               );
             },

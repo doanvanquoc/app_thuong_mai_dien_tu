@@ -1,22 +1,25 @@
 import 'package:app_thuong_mai_dien_tu/models/cart.dart';
+import 'package:app_thuong_mai_dien_tu/models/order_detail.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/e_invoice_view.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 Future openDialog(
-    BuildContext context,
-    String title,
-    String detail,
-    List<Cart> products,
-    String formatDate,
-    String eCode,
-    int ship,
-    int totalPrice,
-    int totalBill,
-    User user) {
+  BuildContext context,
+  String title,
+  String detail,
+  List<OrderDetail> orderDetails,
+  String formatDate,
+  int ship,
+  String eCode,
+  int totalPrice,
+  int totalBill,
+  User user,
+) {
   return showDialog(
     barrierDismissible: false,
     context: context,
@@ -41,7 +44,7 @@ Future openDialog(
               title,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
               ),
@@ -51,7 +54,7 @@ Future openDialog(
               detail,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
               ),
@@ -76,18 +79,20 @@ Future openDialog(
             MyButton(
               onTap: () async {
                 Navigator.pop(context);
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => EInvoiceView(
-                    cartProducts: products,
-                    orderDateTime: formatDate,
-                    eCode: eCode,
-                    ship: ship,
-                    totalPrice: totalPrice,
-                    totalBill: totalBill,
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => EInvoiceView(
+                      orderDetails: orderDetails,
+                      orderDateTime: formatDate,
+                      eCode: eCode,
+                      ship: ship,
+                      totalPrice: totalPrice,
+                      totalBill: totalBill,
+                    ),
                   ),
-                ));
+                );
               },
-              content: 'Xem hóa đơn điện tử',
+              content: 'Xem thông tin hóa đơn',
               backgroundColor: const Color(0xffE6F8EF),
               textColor: const Color(0xff01B763),
             ),

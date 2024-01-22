@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/login_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/welcome/widgets/content.dart';
@@ -21,9 +22,11 @@ class _WelcomeState extends State<Welcome> {
         controller: _pageController,
         itemCount: contents.length,
         onPageChanged: (int index) {
-          setState(() {
-            currentIndex = index;
-          });
+          if (mounted) {
+            setState(() {
+              currentIndex = index;
+            });
+          }
         },
         itemBuilder: (_, i) {
           return Padding(
@@ -44,7 +47,7 @@ class _WelcomeState extends State<Welcome> {
                 Text(
                   contents[i].title,
                   style: const TextStyle(
-                    color: Color(0xFF212121),
+                    color: AppColor.secondaryColor,
                     fontSize: 30,
                     fontFamily: 'Sarabun',
                     fontWeight: FontWeight.w700,
@@ -65,7 +68,7 @@ class _WelcomeState extends State<Welcome> {
                   Text(
                     contents[i].discription,
                     style: const TextStyle(
-                      color: Color(0xFF424242),
+                      color: AppColor.secondaryColor,
                       fontSize: 20,
                       fontFamily: 'Sarabun',
                       fontWeight: FontWeight.w600,

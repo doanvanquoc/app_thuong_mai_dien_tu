@@ -1,4 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/notification_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/account/account_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/cart/cart_view.dart';
@@ -38,14 +39,17 @@ class _MyNavBarState extends State<MyNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    NotificationPresenter.userID = widget.user.userID;
     return Scaffold(
       body: pages[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (value) {
-          setState(() {
-            currentIndex = value;
-          });
+          if (mounted) {
+            setState(() {
+              currentIndex = value;
+            });
+          }
         },
         type: BottomNavigationBarType.shifting,
         fixedColor: AppColor.primaryColor,

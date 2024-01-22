@@ -29,9 +29,11 @@ class CartWidget extends StatefulWidget {
 
 class _CartWidgetState extends State<CartWidget> {
   void updateQuantity(int newQuantity) {
-    setState(() {
+    if(mounted){
+      setState(() {
       widget.qty = newQuantity;
     });
+    }
     widget.onQuantityChanged(newQuantity);
   }
 

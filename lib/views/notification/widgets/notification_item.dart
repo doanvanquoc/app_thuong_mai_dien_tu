@@ -13,11 +13,11 @@ class NotificationItem extends StatefulWidget {
 }
 
 class _NotificationItemState extends State<NotificationItem> {
-  Map<int, dynamic> lstIcon = {
-    1: const Icon(Icons.person),
-    2: const Icon(Icons.shopping_cart),
-    3: const Icon(Icons.payment),
-    4: const Icon(Icons.delete)
+  Map<String, dynamic> lstIcon = {
+    'Đăng nhập': const Icon(Icons.person),
+    'Đăng xuất': const Icon(Icons.person),
+    'Thông báo': const Icon(Icons.notifications),
+    'Giỏ hàng': const Icon(Icons.shopping_cart)
   };
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class _NotificationItemState extends State<NotificationItem> {
                     ],
                   ),
                 ),
-                child: lstIcon[widget.notification.iconNumb],
+                child: lstIcon[widget.notification.title],
               ),
             ),
           ),

@@ -1,7 +1,6 @@
-import 'package:app_thuong_mai_dien_tu/models/notifilogin.dart';
-import 'package:flutter/material.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
+
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
+import 'package:app_thuong_mai_dien_tu/models/notifilogin.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
@@ -11,6 +10,8 @@ import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_logo.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/log_rich_text.dart';
 import 'package:app_thuong_mai_dien_tu/views/register/register_view.dart';
+import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
@@ -51,20 +52,26 @@ class _LoginState extends State<Login> {
     );
     try {
       if (userName.text.isEmpty || password.text.isEmpty) {
-        setState(() {
+        if(mounted){
+          setState(() {
           notifications = 'Cần nhập đầy đủ thông tin!';
         });
+        }
       } else {
-        setState(() {
+        if(mounted){
+          setState(() {
           notifications = '';
         });
+        }
 
         final result = await widget.loginUser(userName.text, password.text);
 
         if (result.containsKey('error')) {
-          setState(() {
+          if(mounted){
+            setState(() {
             notifications = result['error'];
           });
+          }
         } else if (result.containsKey('message') && result['message'] == 'OK') {
           final token = result['token'];
           
@@ -103,9 +110,11 @@ class _LoginState extends State<Login> {
             },
           );
         } else {
-          setState(() {
+          if(mounted){
+            setState(() {
             notifications = 'Tài khoản hoặc mật khẩu không chính xác';
           });
+          }
         }
       }
     } finally {
@@ -129,7 +138,7 @@ class _LoginState extends State<Login> {
               const SizedBox(height: 50),
               const LoginLogo(),
               const Text(
-                'Đăng nhập tài khoản',
+                'Đăng Nhập Tài Khoản',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
               const SizedBox(height: 40),

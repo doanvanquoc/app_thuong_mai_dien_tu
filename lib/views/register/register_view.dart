@@ -97,7 +97,9 @@ class _RegisterState extends State<Register> {
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
     }
-    setState(() {});
+    if(mounted){
+      setState(() {});
+    }
   }
 
   @override
@@ -114,7 +116,7 @@ class _RegisterState extends State<Register> {
               const SizedBox(height: 15),
               const LoginLogo(),
               const Text(
-                'Tạo tài khoản',
+                'Tạo Tài Khoản',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
               ),
               const SizedBox(height: 30),
@@ -130,7 +132,7 @@ class _RegisterState extends State<Register> {
                 controller: password,
               ),
               MyTextPass(
-                name: 'Xác Nhận Mật khẩu',
+                name: 'Xác nhận mật khẩu',
                 iconLeft: const Icon(Icons.lock_outlined),
                 controller: rePassword,
               ),

@@ -27,7 +27,9 @@ class NotificationService {
   notificationDetails() {
     print('line 28');
     return const NotificationDetails(
-        android: AndroidNotificationDetails('channelId', 'channelName',
+        android: AndroidNotificationDetails(
+          'channelId', 
+          'channelName',
             importance: Importance.max),
         iOS: DarwinNotificationDetails());
   }

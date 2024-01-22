@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/review_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/review.dart';
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
 
 class ReviewPresenter {
   ReviewPresenter._internal();
@@ -35,13 +36,29 @@ class ReviewPresenter {
     }
   }
 
-  Future<Review> getReviewByIdProductAndUserID(int productID, int userID) async {
+  Future<Review> getReviewByIdProductAndUserID(
+      int productID, int userID) async {
     try {
-      Review review = await api.getReviewByIdProductAndUserID(productID, userID);
+      Review review =
+          await api.getReviewByIdProductAndUserID(productID, userID);
       return review;
     } catch (e) {
       log(e.toString());
-      return Review(reviewID: 1, content: '1', reviewDate: '2003-06-27', rating: 5, userID: userID, productID: productID);
+      User user = User(
+          userID: 1,
+          email: 'amin@gmail.com',
+          fullname: 'Tran Anh Quan',
+          birthday: '2003-06-27',
+          phoneNumber: '038878052',
+          avatar: 'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705850923/user-avatar/itfncdi2ogsitiidweb3.jpg',
+          sex: 'Nam');
+      return Review(
+          reviewID: 1,
+          content: '1',
+          reviewDate: '2003-06-27',
+          rating: 5,
+          userID: user,
+          productID: productID);
     }
   }
 

@@ -64,10 +64,12 @@ class _HomeAllNewProductState extends State<HomeAllNewProduct> {
                           : await ProductPresenter.instance
                               .getLatestProductByCompanyID(
                                   widget.companies[index].companyID);
-                      setState(() {
-                        selectedIndex = index;
-                        newProducts = products;
-                      });
+                      if (mounted) {
+                        setState(() {
+                          selectedIndex = index;
+                          newProducts = products;
+                        });
+                      }
                     },
                     child: CategoryItem(
                         category: widget.companies[index].companyName,

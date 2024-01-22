@@ -33,13 +33,15 @@ class _ReviewOptionState extends State<ReviewOption> {
                   return GestureDetector(
                     onTap: () {
                       widget.onTap(widget.lst[index]);
-                      setState(() {
+                      if(mounted){
+                        setState(() {
                         if (selectedIndex == index) {
                           selectedIndex = -1;
                         } else {
                           selectedIndex = index;
                         }
                       });
+                      }
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 12),

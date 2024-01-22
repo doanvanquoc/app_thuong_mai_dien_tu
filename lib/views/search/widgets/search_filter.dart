@@ -11,9 +11,12 @@ class SearchFilter extends StatefulWidget {
   SearchFilter(
       {super.key,
       required this.checkOptioin,
+      required this.checkSort,
       required this.applyOption,
       required this.priceFT});
   Function checkOptioin;
+  Function checkSort;
+
   Function applyOption;
   Function priceFT;
   @override
@@ -29,17 +32,18 @@ class _SearchFilterState extends State<SearchFilter> {
   @override
   void initState() {
     companyPresenter.getAllCompany().then((value) {
-      setState(() {
+      if(mounted){
+        setState(() {
         companies = value;
       });
+      }
     });
     super.initState();
   }
 
   List<Company> sort = [
-    Company(companyID: 1, companyName: 'Phổ biến'),
-    Company(companyID: 2, companyName: 'Gần nhất'),
-    Company(companyID: 1, companyName: 'Giá cao nhất'),
+    Company(companyID: 1, companyName: 'Mới nhất'),
+    Company(companyID: 2, companyName: 'Phổ biến'),
   ];
 
   List<String> ratelst = [
@@ -70,7 +74,11 @@ class _SearchFilterState extends State<SearchFilter> {
           const Center(
             child: Text(
               "Bộ lọc",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppColor.secondaryColor,
+              ),
             ),
           ),
           const SizedBox(height: 10),
@@ -85,7 +93,7 @@ class _SearchFilterState extends State<SearchFilter> {
                   FilterOption(
                     lst: companies,
                     nameOption: "Phân loại",
-                    onTap: widget.checkOptioin,
+                    checkOptioin: widget.checkOptioin,
                     check: checkrReOrder,
                   ),
                   SizedBox(
@@ -97,7 +105,9 @@ class _SearchFilterState extends State<SearchFilter> {
                         const Text(
                           'Khoảng giá',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: AppColor.secondaryColor),
                         ),
                         const SizedBox(height: 16),
                         Expanded(
@@ -106,16 +116,18 @@ class _SearchFilterState extends State<SearchFilter> {
                               RangeSlider(
                                 mouseCursor: MaterialStateMouseCursor.clickable,
                                 activeColor: AppColor.primaryColor,
-                                min: 3,
+                                min: 1,
                                 max: 100,
                                 values: rangeValues,
                                 onChanged: (value) {
-                                  setState(() {
+                                  if(mounted){
+                                    setState(() {
                                     checkrReOrder = false;
                                     rangeValues = value;
                                     widget.priceFT(rangeValues.start.toInt(),
                                         rangeValues.end.toInt());
                                   });
+                                  }
                                 },
                                 divisions: 100,
                                 labels: RangeLabels(
@@ -125,7 +137,10 @@ class _SearchFilterState extends State<SearchFilter> {
                               ),
                               Text(
                                 'khoảng giá ${rangeValues.start.toInt()} tr -- ${rangeValues.end.toInt()} tr',
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: AppColor.secondaryColor,
+                                ),
                               ),
                             ],
                           ),
@@ -137,13 +152,17 @@ class _SearchFilterState extends State<SearchFilter> {
                   FilterOption(
                     lst: sort,
                     nameOption: "Sắp xếp theo",
-                    onTap: widget.checkOptioin,
+                    checkOptioin: widget.checkSort,
                     check: checkrReOrder,
                   ),
                   const SizedBox(height: 16),
                   const Text(
                     'Đánh giá',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: AppColor.secondaryColor,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   ReviewOption(
@@ -161,10 +180,12 @@ class _SearchFilterState extends State<SearchFilter> {
               Expanded(
                 child: MyButton(
                   onTap: () {
-                    setState(() {
+                    if(mounted){
+                      setState(() {
                       rangeValues = const RangeValues(10, 20);
                       checkrReOrder = true;
                     });
+                    }
                   },
                   content: 'Đặt lại',
                   backgroundColor: const Color(0xFFe4faf0),
@@ -178,6 +199,7 @@ class _SearchFilterState extends State<SearchFilter> {
                       widget.priceFT(
                           rangeValues.start.toInt(), rangeValues.end.toInt());
                       widget.applyOption();
+                      Navigator.pop(context);
                     },
                     content: "Áp dụng"),
               ),

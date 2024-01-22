@@ -24,9 +24,11 @@ class _DateTimeBirthDayState extends State<DateTimeBirthDay> {
     super.initState();
     _focusNode = FocusNode();
     _focusNode.addListener(() {
-      setState(() {
+      if(mounted){
+        setState(() {
         isIconPressed = _focusNode.hasFocus;
       });
+      }
     });
 
     // Parse the initial date and set the selected date with a default if parsing fails
@@ -74,10 +76,12 @@ class _DateTimeBirthDayState extends State<DateTimeBirthDay> {
             mode: CupertinoDatePickerMode.date,
             onDateTimeChanged: (DateTime newDate) {
               final ngayDaDinhDang = DateFormat('dd/MM/yyyy').format(newDate);
-              setState(() {
+              if(mounted){
+                setState(() {
                 widget.controller.text = ngayDaDinhDang;
                 _selectedDate = newDate;
               });
+              }
             },
           ),
         );

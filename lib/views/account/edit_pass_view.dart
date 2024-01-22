@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfilepass.dart';
 import 'package:app_thuong_mai_dien_tu/views/login/widgets/loading.dart';
@@ -31,9 +32,11 @@ class _EditPassState extends State<EditPass> {
     if (oldPassWord.text.isEmpty ||
         newPassWord.text.isEmpty ||
         confirmNewPassWord.text.isEmpty) {
-      setState(() {
+      if(mounted){
+        setState(() {
         notifications = 'Cần nhập đầy đủ thông tin!';
       });
+      }
     } else if (!passwordRegExp.hasMatch(newPassWord.text)) {
       notifications =
           'Mật khẩu ít nhất 8 ký tự, có ít nhất 1 ký tự đặc biệt, 1 chữ hoa và 1 chữ thường!';
@@ -48,9 +51,11 @@ class _EditPassState extends State<EditPass> {
       final result = await userApi.changePass(widget.user.userID, oldPassWord.text, newPassWord.text);
 
       if (result.containsKey('error')) {
-        setState(() {
+        if(mounted){
+          setState(() {
           notifications = result['error'];
         });
+        }
         log(result.toString());
       } else if (result.containsKey('code') && result['code'] == 1) {
         // ignore: use_build_context_synchronously
@@ -75,7 +80,9 @@ class _EditPassState extends State<EditPass> {
         notifications = 'Mật khẩu cũ không chính xác!';
       }
     }
-    setState(() {});
+    if(mounted){
+      setState(() {});
+    }
   }
 
   @override
@@ -93,7 +100,7 @@ class _EditPassState extends State<EditPass> {
         title: const Text(
           'Tạo mật khẩu mới',
           style: TextStyle(
-            color: Color(0xFF212121),
+            color: AppColor.secondaryColor,
             fontFamily: 'Sarabun',
             height: 0.05,
           ),
@@ -110,7 +117,7 @@ class _EditPassState extends State<EditPass> {
             child: Text(
               'Nhập mật khẩu',
               style: TextStyle(
-                color: Color(0xFF212121),
+                color: AppColor.secondaryColor,
                 fontSize: 22,
                 fontFamily: 'Sarabun',
                 fontWeight: FontWeight.w500,
