@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/review_api.dart';
+import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/models/review.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 
@@ -84,4 +85,40 @@ class ReviewPresenter {
     if (currentDate.day - 2 == dateTime.day) return "2 Ngày trước";
     return dateString;
   }
+
+  Future<bool> getProductStar(Product product, String star) async {
+    try {
+      List<Review> reviews = await getReviewByIdProduct(product.productID);
+
+      if (ReviewPresenter.avgRating(reviews).toStringAsFixed(0).toString() ==
+          star) {
+        print("object");
+        return true;
+      }
+      return false;
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
+  }
+  //  Future<List<Product>> getProductStar(
+  //     List<Product> proAll, String star, int categoryID) async {
+  //   List<Product> pro = [];
+  //   List<Review> reviews = [];
+  //   try {
+  //     for (var element in proAll) {
+  //       await getReviewByIdProduct(element.productID).then((value) {
+  //         reviews = value;
+  //         if (ReviewPresenter.avgRating(reviews).toStringAsFixed(0) == star) {
+  //           pro.add(element);
+  //           log(element.toString());
+  //         }
+  //       });
+  //     }
+  //     return pro;
+  //   } catch (e) {
+  //     log(e.toString());
+  //     return [];
+  //   }
+  // }
 }

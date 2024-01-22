@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/cart_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/notification_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/notification_service_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:flutter/material.dart';
@@ -137,6 +138,9 @@ class _DetailChangeState extends State<DetailChange> {
                     "Thêm vào giỏ hàng thành công",
                     NotificationPresenter.userID);
                 // NotificationPresenter.notificationBox.clear();
+
+                NotificationService().showNotification(
+                    title: "Giỏ hàng", body: "Thêm vào giỏ hàng thành công");
                 // ignore: use_build_context_synchronously
                 Navigator.pop(context);
               },

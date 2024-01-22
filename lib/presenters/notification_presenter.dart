@@ -67,4 +67,6 @@ class NotificationPresenter {
     }
     notificationsReversed.addAll(notifications.reversed);
   }
+
+  
 }

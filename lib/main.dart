@@ -3,7 +3,9 @@ import 'package:app_thuong_mai_dien_tu/data_sources/socket.io.dart';
 import 'package:app_thuong_mai_dien_tu/firebase_options.dart';
 import 'package:app_thuong_mai_dien_tu/models/history_search.dart';
 import 'package:app_thuong_mai_dien_tu/models/notification.dart';
-import 'package:app_thuong_mai_dien_tu/models/notifilogin.dart';
+import 'package:app_thuong_mai_dien_tu/models/notifilogin.dart'
+    // ignore: library_prefixes
+    as NotificationQuan;
 import 'package:app_thuong_mai_dien_tu/presenters/socket_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/views/welcome/splash_view.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,7 +17,7 @@ import 'package:provider/provider.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  NotificationService().initNotification();
+  NotificationQuan.NotificationService().initNotification();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await PushNoti.instance.configNotification();
   await Hive.initFlutter();
