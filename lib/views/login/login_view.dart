@@ -1,4 +1,6 @@
+
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
+import 'package:app_thuong_mai_dien_tu/models/notifilogin.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
@@ -72,6 +74,7 @@ class _LoginState extends State<Login> {
           }
         } else if (result.containsKey('message') && result['message'] == 'OK') {
           final token = result['token'];
+          
 
           //Lưu token vào local
           SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -85,6 +88,7 @@ class _LoginState extends State<Login> {
 
           // ignore: use_build_context_synchronously
           Navigator.maybePop(context);
+          NotificationService().showNotification(title: 'Thông báo',body: 'Đăng nhập thành công');
           Future.delayed(Duration.zero, () {
             // ignore: use_build_context_synchronously
             openDialog(
