@@ -100,7 +100,7 @@ class _ProductItemState extends State<ProductItem> {
               ),
             ),
             Text(
-              NumberFormat.currency(locale: 'vi_VN', symbol: 'VND')
+              NumberFormat.currency(locale: 'vi_VN', symbol: 'VNĐ')
                   .format(widget.product.price),
               style: const TextStyle(
                 fontSize: 16,

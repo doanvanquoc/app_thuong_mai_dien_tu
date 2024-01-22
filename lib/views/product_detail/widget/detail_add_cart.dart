@@ -40,7 +40,7 @@ class _AddCartDetailState extends State<AddCartDetail> {
                         style: TextStyle(fontSize: 14),
                       ),
                       Text(
-                        NumberFormat.currency(locale: 'vi_VN', symbol: 'VND')
+                        NumberFormat.currency(locale: 'vi_VN', symbol: 'VNĐ')
                             .format(widget.product.price),
                         style: const TextStyle(
                             fontSize: 21, fontWeight: FontWeight.bold),
