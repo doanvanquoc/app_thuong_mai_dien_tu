@@ -29,6 +29,8 @@ class _SearchFilterState extends State<SearchFilter> {
   List<Company> companies = [];
 
   bool checkrReOrder = false;
+  bool checkrRateOption = false;
+
 
   @override
   void initState() {
@@ -122,8 +124,8 @@ class _SearchFilterState extends State<SearchFilter> {
                                 },
                                 divisions: 100,
                                 labels: RangeLabels(
-                                  rangeValues.start.round().toInt().toString(),
-                                  rangeValues.end.round().toInt().toString(),
+                                  rangeValues.start.toInt().toString(),
+                                  rangeValues.end.toInt().toString(),
                                 ),
                               ),
                               Text(
@@ -152,6 +154,7 @@ class _SearchFilterState extends State<SearchFilter> {
                   ReviewOption(
                     lst: ratelst,
                     onTap: widget.checkRate,
+                    check: checkrRateOption,
                   ),
                 ],
               ),
