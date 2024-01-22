@@ -5,18 +5,29 @@ part 'notification.g.dart';
 @HiveType(typeId: 1)
 class NotificationCKC {
   @HiveField(0)
-  late int iconNumb;
+  final int notificationID;
   @HiveField(1)
-  late DateTime notiDate;
+  final int userID;
   @HiveField(2)
-  late String title;
+  final String notiDate;
   @HiveField(3)
-  late String content;
+  final String title;
+  @HiveField(4)
+  final String content;
 
   NotificationCKC({
-    required this.iconNumb,
+    required this.notificationID,
+    required this.userID,
     required this.notiDate,
     required this.title,
     required this.content,
   });
+
+  NotificationCKC.fromJson(
+    Map<String, dynamic> json,
+  )   : notificationID = json['notificationID'],
+        userID = json['userID'],
+        notiDate = json['notification_date'],
+        title = json['title'],
+        content = json['content'];
 }

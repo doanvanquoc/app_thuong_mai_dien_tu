@@ -12,7 +12,6 @@ class ProductItem extends StatefulWidget {
   const ProductItem({super.key, required this.product, this.onTap});
   final Product product;
   final Function()? onTap;
-
   @override
   State<ProductItem> createState() => _ProductItemState();
 }
@@ -72,7 +71,12 @@ class _ProductItemState extends State<ProductItem> {
                     Icons.star_border,
                     color: AppColor.primaryColor,
                   ),
-                  Text(widget.product.avgRating.toStringAsFixed(1)),
+                  Text(
+                    widget.product.avgRating.toStringAsFixed(1),
+                    style: const TextStyle(
+                      color: AppColor.secondaryColor,
+                    ),
+                  ),
                   const SizedBox(width: 5),
                   const Text(
                     '|',
