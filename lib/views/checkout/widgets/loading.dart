@@ -78,12 +78,8 @@ Future openDialog(
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => EInvoiceView(
-                      orderDetails: order.orderDetails,
-                      orderDateTime: formatDate,
-                      eCode: order.orderID.toString(),
                       ship: ship,
-                      totalPrice: order.totalPrice,
-                      totalBill: order.totalPrice + ship,
+                      order: order,
                     ),
                   ),
                 );

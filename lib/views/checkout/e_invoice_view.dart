@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/models/order.dart';
 import 'package:app_thuong_mai_dien_tu/models/order_detail.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
@@ -9,21 +10,12 @@ class EInvoiceView extends StatelessWidget {
   const EInvoiceView({
     super.key,
     //required this.cartProducts,
-    required this.orderDateTime,
-    required this.eCode,
-    required this.ship,
-    required this.totalPrice,
-    required this.totalBill,
-    required this.orderDetails,
+    required this.ship, required this.order,
   });
 
   //final List<Cart> cartProducts;
-  final String orderDateTime;
-  final String eCode;
   final int ship;
-  final int totalPrice;
-  final int totalBill;
-  final List<OrderDetail> orderDetails;
+  final Order order;
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +41,11 @@ class EInvoiceView extends StatelessWidget {
           child: Column(
             children: [
               ListView.builder(
-                itemCount: orderDetails.length,
+                itemCount: order.orderDetails.length,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  OrderDetail detail = orderDetails[index];
+                  OrderDetail detail = order.orderDetails[index];
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: ProductOfInvoiceWidget(
@@ -101,7 +93,7 @@ class EInvoiceView extends StatelessWidget {
                           ),
                           const Expanded(child: SizedBox()),
                           Text(
-                            Product.formatPrice(totalPrice.toString()),
+                            Product.formatPrice(order.totalPrice.toString()),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: AppColor.secondaryColor,
@@ -155,7 +147,7 @@ class EInvoiceView extends StatelessWidget {
                           ),
                           const Expanded(child: SizedBox()),
                           Text(
-                            Product.formatPrice(totalBill.toString()),
+                            Product.formatPrice((order.totalPrice + ship).toString()),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: Color(0xFF34C582),
@@ -230,7 +222,7 @@ class EInvoiceView extends StatelessWidget {
                           ),
                           const Expanded(child: SizedBox()),
                           Text(
-                            orderDateTime,
+                            order.orderDate,
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: AppColor.secondaryColor,
@@ -261,7 +253,7 @@ class EInvoiceView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                eCode,
+                                '#${order.orderID}',
                                 textAlign: TextAlign.right,
                                 style: const TextStyle(
                                   color: AppColor.secondaryColor,
@@ -273,7 +265,7 @@ class EInvoiceView extends StatelessWidget {
                               IconButton(
                                 icon: const Icon(Icons.file_copy_outlined),
                                 onPressed: () {
-                                  Clipboard.setData(ClipboardData(text: eCode))
+                                  Clipboard.setData(ClipboardData(text: '#${order.orderID}'))
                                       .then((_) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
