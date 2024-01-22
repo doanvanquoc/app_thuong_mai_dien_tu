@@ -6,6 +6,7 @@ import 'dart:developer';
 
 import 'package:app_thuong_mai_dien_tu/models/cart.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/cart_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/save_local.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
@@ -15,7 +16,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 class CartView extends StatefulWidget {
-  const CartView({super.key});
+  const CartView({super.key, required this.user});
+  final User user;
 
   @override
   State<CartView> createState() => _CartViewState();
@@ -276,68 +278,83 @@ class _CartViewState extends State<CartView> {
         ),
       ),
       body: cartProducts.isNotEmpty
-          ? RefreshIndicator(
-              onRefresh: () async {
-                await loadCartProducts(forceUpdate: true);
+          ? PopScope(
+              canPop: true,
+              onPopInvoked: (didPop) {
+                log('pop');
+                setState(() {});
               },
-              child: Stack(children: [
-                ListView.builder(
-                  itemCount: cartProducts.length,
-                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 85),
-                  itemBuilder: (BuildContext context, int index) {
-                    Cart cartProduct = cartProducts[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 24),
-                      child: CartWidget(
-                        image: cartProduct.product.images[0].imagePath,
-                        name: cartProduct.product.productName,
-                        price: Product.formatPrice(
-                            cartProduct.product.price.toString()),
-                        qty: cartProduct.quantity,
-                        onQuantityChanged: (newQuantity) {
-                          updateProductQuantity(index, newQuantity);
-                        },
-                        onDelete: () => removeProductFromCart(index),
-                      ),
-                    );
-                  },
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: TotalWidget(
-                    products: cartProducts,
-                    totalPrice: Product.formatPrice(
-                        Product.parsePrice(calculateTotalPrice()).toString()),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  await loadCartProducts(forceUpdate: true);
+                },
+                child: Stack(children: [
+                  ListView.builder(
+                    itemCount: cartProducts.length,
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 85),
+                    itemBuilder: (BuildContext context, int index) {
+                      Cart cartProduct = cartProducts[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 24),
+                        child: CartWidget(
+                          image: cartProduct.product.images[0].imagePath,
+                          name: cartProduct.product.productName,
+                          price: Product.formatPrice(
+                              cartProduct.product.price.toString()),
+                          qty: cartProduct.quantity,
+                          onQuantityChanged: (newQuantity) {
+                            updateProductQuantity(index, newQuantity);
+                          },
+                          onDelete: () => removeProductFromCart(index),
+                        ),
+                      );
+                    },
                   ),
-                )
-              ]),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: TotalWidget(
+                      user: widget.user,
+                      products: cartProducts,
+                      totalPrice: Product.formatPrice(
+                          Product.parsePrice(calculateTotalPrice()).toString()),
+                    ),
+                  )
+                ]),
+              ),
             )
-          : Center(
-              child: Column(
-                children: [
-                  const SizedBox(height: 110),
-                  Image.asset('assets/images/empty.png'),
-                  const SizedBox(height: 40),
-                  const Text(
-                    'Giỏ hàng của bạn đang trống',
-                    style: TextStyle(
-                      color: AppColor.secondaryColor,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      height: 2.2,
+          : PopScope(
+              canPop: true,
+              onPopInvoked: (didPop) {
+                log('on pop 2');
+                setState(() {});
+              },
+              child: Center(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 110),
+                    Image.asset('assets/images/empty.png'),
+                    const SizedBox(height: 40),
+                    const Text(
+                      'Giỏ hàng của bạn đang trống',
+                      style: TextStyle(
+                        color: AppColor.secondaryColor,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        height: 2.2,
+                      ),
                     ),
-                  ),
-                  const Text(
-                    'Bạn chưa thêm gì cả!',
-                    style: TextStyle(
-                      color: AppColor.secondaryColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
+                    const Text(
+                      'Bạn chưa thêm gì cả!',
+                      style: TextStyle(
+                        color: AppColor.secondaryColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
     );

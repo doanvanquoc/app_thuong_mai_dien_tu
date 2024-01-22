@@ -7,7 +7,7 @@ import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/cart_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
-import 'package:app_thuong_mai_dien_tu/views/product/product_special_view.dart';
+import 'package:app_thuong_mai_dien_tu/views/home/widget/home_all_new_product.dart';
 import 'package:flutter/material.dart';
 
 class HomeNewProduct extends StatelessWidget {
@@ -39,9 +39,7 @@ class HomeNewProduct extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => NewProduct(
-                      nameTab: 'Sản phẩm mới nhất', lstCategory: companies),
-                ),
+                    builder: (_) => HomeAllNewProduct(companies: companies, user: user,)),
               ),
               child: const Text(
                 'Tất cả',

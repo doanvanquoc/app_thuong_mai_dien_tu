@@ -2,9 +2,11 @@
 
 import 'dart:math';
 
+import 'package:app_thuong_mai_dien_tu/data_sources/socket.io.dart';
 import 'package:app_thuong_mai_dien_tu/models/address.dart';
 import 'package:app_thuong_mai_dien_tu/models/cart.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/address_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/order_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/address_view.dart';
@@ -14,16 +16,19 @@ import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/loading.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/product_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CheckoutView extends StatefulWidget {
   const CheckoutView({
     super.key,
     required this.products,
     required this.totalPrice,
+    required this.user,
   });
 
   final List<Cart> products;
   final int totalPrice;
+  final User user;
 
   @override
   State<CheckoutView> createState() => _CheckoutViewState();
@@ -267,9 +272,10 @@ class _CheckoutViewState extends State<CheckoutView> {
           // DateTime now = DateTime.now();
           // String formattedDate = formatDate(now);
           // String eCode = generateOrderCode();
-          int userID = 1;
+          final pref = await SharedPreferences.getInstance();
+          int userID = pref.getInt('curUser')!;
           final order = await OrderPresenter.instance.createOrder(userID);
-
+          print('Log ktra socket: $userID');
           if (order != null) {
             // openDialog(
             //   context,
@@ -283,6 +289,7 @@ class _CheckoutViewState extends State<CheckoutView> {
             //   widget.totalPrice,
             //   //totalBill,
             // );
+            SocketManager().emitEvent('add_order', userID);
             openDialog(
               context,
               'Đặt hàng thành công!',
@@ -290,10 +297,10 @@ class _CheckoutViewState extends State<CheckoutView> {
               order.orderDetails,
               formatDate(DateTime.now()),
               ship,
-              order.orderID
-                  .toString(),
+              order.orderID.toString(),
               order.totalPrice,
               order.totalPrice + ship,
+              widget.user,
             );
           } else {
             showDialog(

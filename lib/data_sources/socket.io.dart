@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:app_thuong_mai_dien_tu/data_sources/local/order_local.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/noti_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/order_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/socket_presenter.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,8 @@ class SocketManager {
       final token = pref.getString('fcmToken');
       log('Token cua phone: $token');
       _socket.emit('updated_order_ui', token);
+      await NotiPresenter.instance.addNoti(
+          'Thông báo', 'Đơn hàng của bạn đã được cập nhật', curUserID!);
       final orders = await OrderPresenter.instance.getUserOrders(curUserID);
       final orderStatus1 =
           orders.where((element) => element.status.statusID == 1).toList();
@@ -63,6 +66,7 @@ class SocketManager {
 
   // Hàm để gửi dữ liệu đến server (nếu cần)
   void emitEvent(String eventName, dynamic data) {
+    log('data emit: $data');
     _socket.emit(eventName, data);
   }
 

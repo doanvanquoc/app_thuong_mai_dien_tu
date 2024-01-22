@@ -2,6 +2,7 @@ import 'package:app_thuong_mai_dien_tu/models/order.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/order/widgets/order_detail_item.dart';
+import 'package:app_thuong_mai_dien_tu/views/product_detail/product_detail_view.dart';
 import 'package:flutter/material.dart';
 
 class OrderDetailPage extends StatelessWidget {
@@ -51,8 +52,16 @@ class OrderDetailPage extends StatelessWidget {
             Expanded(
               child: ListView.builder(
                 itemCount: order.orderDetails.length,
-                itemBuilder: (_, index) =>
-                    OrderDetailItem(orderDetail: order.orderDetails[index]),
+                itemBuilder: (_, index) => GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => ProductDetail(
+                                  product: order.orderDetails[index].product)));
+                    },
+                    child: OrderDetailItem(
+                        orderDetail: order.orderDetails[index])),
               ),
             ),
             const SizedBox(height: 10),

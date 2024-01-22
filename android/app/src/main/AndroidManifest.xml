@@ -2,7 +2,11 @@
 <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:enableOnBackInvokedCallback="true"
+<<<<<<< HEAD
         android:label="CKCPhoneStore"
+=======
+        android:label="CKC Phone Store"
+>>>>>>> quoc
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
