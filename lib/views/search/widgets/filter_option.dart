@@ -8,12 +8,12 @@ class FilterOption extends StatefulWidget {
     super.key,
     required this.lst,
     required this.nameOption,
-    required this.onTap,
+    required this.checkOptioin,
     required this.check,
   });
   final List<Company> lst;
   final String nameOption;
-  Function onTap;
+  Function checkOptioin;
   bool check;
 
   @override
@@ -47,14 +47,17 @@ class _FilterOptionState extends State<FilterOption> {
                 itemBuilder: (_, index) {
                   return GestureDetector(
                     onTap: () {
-                      widget.onTap(widget.lst[index].companyName);
-                      setState(() {
+                      if(mounted){
+                        setState(() {
                         if (selectedIndex == index) {
                           selectedIndex = -1;
+                          widget.checkOptioin('');
                         } else {
                           selectedIndex = index;
+                          widget.checkOptioin(widget.lst[index].companyName);
                         }
                       });
+                      }
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 12),

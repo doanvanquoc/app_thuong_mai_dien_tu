@@ -43,9 +43,11 @@ class _MyNavBarState extends State<MyNavBar> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (value) {
-          setState(() {
-            currentIndex = value;
-          });
+          if (mounted) {
+            setState(() {
+              currentIndex = value;
+            });
+          }
         },
         type: BottomNavigationBarType.shifting,
         fixedColor: AppColor.primaryColor,

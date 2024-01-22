@@ -31,7 +31,8 @@ class _AddressViewState extends State<AddressView> {
   void initState() {
     super.initState();
     loadAddresses().then((loadedAddresses) {
-      setState(() {
+      if(mounted){
+        setState(() {
         addresses = loadedAddresses;
         if (addresses.isNotEmpty) {
           addresses[0].isDefault = true;
@@ -41,6 +42,7 @@ class _AddressViewState extends State<AddressView> {
         }
         updateSelectedAddressIndex();
       });
+      }
     });
   }
 
@@ -59,15 +61,17 @@ class _AddressViewState extends State<AddressView> {
     }
   }
 
-    void addNewAddress(String street) async {
+  void addNewAddress(String street) async {
     bool isSuccess = await AddressPresenter.instance.addNewAddress(1, street);
 
     if (isSuccess) {
       loadAddresses().then((loadedAddresses) {
-        setState(() {
+        if(mounted){
+          setState(() {
           addresses = loadedAddresses;
           selectedAddressIndex = addresses.length - 1;
         });
+        }
       });
     } else {
       log('Thêm thất bại');
@@ -106,9 +110,11 @@ class _AddressViewState extends State<AddressView> {
                   isSelected: selectedAddressIndex != null &&
                       index == selectedAddressIndex,
                   onSelected: () {
-                    setState(() {
+                    if(mounted){
+                      setState(() {
                       selectedAddressIndex = index;
                     });
+                    }
                   },
                   isDefault: address.isDefault,
                 ),
@@ -130,7 +136,9 @@ class _AddressViewState extends State<AddressView> {
                     MaterialPageRoute(
                         builder: (context) =>
                             AddAddressView(onAddAddress: addNewAddress)))
-                .then((value) => {setState(() {})});
+                .then((value) => {
+                      if (mounted) {setState(() {})}
+                    });
           },
         ),
       ),

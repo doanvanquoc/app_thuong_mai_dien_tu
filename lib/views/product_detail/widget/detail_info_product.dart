@@ -26,7 +26,7 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
     return Positioned(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height / 2.4,
-      bottom: 70,
+      bottom: 80,
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
@@ -55,11 +55,11 @@ class _InfoProductDetailState extends State<InfoProductDetail> {
                       borderRadius: BorderRadius.circular(6),
                       color: const Color.fromARGB(255, 212, 249, 232),
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        '1 đã bán',
-                        style: TextStyle(
-                          fontSize: 10,
+                        '${widget.product.totalSell} đã bán ',
+                        style: const TextStyle(
+                          fontSize: 13,
                           color: AppColor.primaryColor,
                         ),
                       ),

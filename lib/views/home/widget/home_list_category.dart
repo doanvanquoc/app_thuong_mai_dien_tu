@@ -44,16 +44,21 @@ class _HomeListCategoryState extends State<HomeListCategory> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () async {
+                    log('gestur: $index');
                     List<Product> products = index != 0
                         ? await ProductPresenter.instance
                             .getBestSellingProductByCompanyID(
-                                10, widget.companies[index].companyID)
+                            widget.companies[index].companyID,
+                            10,
+                          )
                         : await ProductPresenter.instance
                             .getBestSellingProduct(10);
-                    setState(() {
-                      selectedIndex = index;
-                      widget.products = products;
-                    });
+                    if (mounted) {
+                      setState(() {
+                        selectedIndex = index;
+                        widget.products = products;
+                      });
+                    }
                   },
                   child: CategoryItem(
                       category: widget.companies[index].companyName,

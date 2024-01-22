@@ -32,9 +32,11 @@ class _CheckLoginState extends State<CheckLogin> {
           fillColor: MaterialStateProperty.resolveWith(getColor),
           value: isChecked,
           onChanged: (bool? value) {
-            setState(() {
+            if(mounted){
+              setState(() {
               isChecked = value!;
             });
+            }
           },
           shape: RoundedRectangleBorder(
             side: const BorderSide(

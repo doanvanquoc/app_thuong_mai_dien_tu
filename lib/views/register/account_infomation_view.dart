@@ -165,7 +165,9 @@ class _AccountInformationState extends State<AccountInformation> {
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
     }
-    setState(() {});
+    if(mounted){
+      setState(() {});
+    }
   }
 
   @override
@@ -195,9 +197,11 @@ class _AccountInformationState extends State<AccountInformation> {
                   src:
                       'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg',
                   onImageSelected: (File? image) {
-                    setState(() {
+                    if(mounted){
+                      setState(() {
                       selectedImage = image;
                     });
+                    }
                   }),
               const SizedBox(
                 height: 10,

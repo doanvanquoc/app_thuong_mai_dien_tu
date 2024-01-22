@@ -11,6 +11,7 @@ import 'package:app_thuong_mai_dien_tu/resources/widgets/product_item.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_filter.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_history.dart';
 import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_not_fond_view.dart';
+import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_suggest.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
@@ -39,15 +40,12 @@ class _SearchPageState extends State<SearchPage> {
   List historyLst = [];
   List historyLstReversed = [];
 
+  bool checkSuggest = false;
+
   @override
   void initState() {
-    productPresenter.getAllProduct().then((value) {
-      if (mounted) {
-        setState(() {
-          products = value;
-        });
-      }
-    });
+    getAllProduct();
+    print(products.length);
 
     companyPresenter.getAllCompany().then((value) {
       if (mounted) {
@@ -66,11 +64,25 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
   }
 
+  List<Product> productsLatest = [];
+
+  void getAllProduct() {
+    productPresenter.getAllProduct().then((value) {
+      if (mounted) {
+        setState(() {
+          products = value;
+        });
+      }
+    });
+  }
+
   void productLatest() {
     productPresenter.getLatestProduct().then((value) {
       if (mounted) {
         setState(() {
           productsSearch = value;
+          productsLatest = value;
+          productsSearch.addAll(productsLatest);
         });
       }
     });
@@ -117,16 +129,18 @@ class _SearchPageState extends State<SearchPage> {
 
   //Kiểm tra có trùng data ko
   bool checkSameData(value) {
+    productsSearch.clear();
+
     for (var item in products) {
       if (item.productName
           .toString()
           .toUpperCase()
           .contains(value.toString().toUpperCase())) {
-        ProductPresenter.productSearch(value, products, productsSearch);
-        return true;
+        productsSearch.add(item);
       }
     }
-    return false;
+    if (productsSearch.isEmpty) return false;
+    return true;
   }
 
   int priceFrom = 0;
@@ -144,21 +158,75 @@ class _SearchPageState extends State<SearchPage> {
 
   //lấy id option
   int id = -1;
-  Future<void> checkOption(value) async {
-    CompanyAPI.instance.getCompanyId(value).then((valueId) {
-      if (mounted) {
+  String nameSort = '';
+  Future<void> checkOption(String nameCompany) async {
+    CompanyAPI.instance.getCompanyId(nameCompany).then((valueId) {
+      if(mounted){
         setState(() {
-          id = valueId;
-        });
+        id = valueId;
+      });
       }
     });
+    print(nameCompany);
   }
 
+  void checkSort(String sort) {
+   if(mounted){
+     setState(() {
+      nameSort = sort;
+      print(nameSort);
+    });
+   }
+  }
+
+  //Tim theo bộ lọc
+  void searchsCompanies({
+    required int categoryID,
+    String rating = '',
+    required List<Product> lstSearch,
+  }) {
+    if(mounted){
+      setState(() {
+      if (nameSort == 'Mới nhất') {
+        productPresenter.getLatestProduct().then((value) {
+          if(mounted) {
+            setState(() {
+            productsLatest = value;
+          });
+          }
+        });
+        products.clear();
+        products.addAll(productsLatest);
+      } else if (nameSort == 'Phổ biến') {
+        productPresenter.getBestSellingProduct(10).then((value) {
+          if(mounted){
+            setState(() {
+            productsLatest = value;
+          });
+          }
+        });
+        products.clear();
+        products.addAll(productsLatest);
+      }
+
+      lstSearch.clear();
+
+      for (var element in products) {
+        if ((element.company.companyID == categoryID) &&
+            (element.price >= int.parse("${priceFrom}000000") &&
+                element.price <= int.parse("${priceTo}000000"))) {
+          lstSearch.add(element);
+        }
+      }
+    });
+    }
+  }
+
+  //dat hang
   void applyOption() {
     if (mounted) {
       setState(() {
-        searchsCompanies(
-            categoryID: id, lstData: products, lstSearch: productsSearch);
+        searchsCompanies(categoryID: id, lstSearch: productsSearch);
         searchTextController.text = '';
         reslutSearchTextController = '';
         if (productsSearch.isEmpty) {
@@ -176,25 +244,7 @@ class _SearchPageState extends State<SearchPage> {
               checkResultSearch: true);
         }
         id = -1; //reset giá trị option đang chọn
-        Navigator.pop(context);
       });
-    }
-  }
-
-//Tim theo bộ lọc
-  void searchsCompanies(
-      {required int categoryID,
-      String sortName = 'Phổ biến',
-      String rating = '',
-      required List<Product> lstData,
-      required List<Product> lstSearch}) {
-    lstSearch.clear();
-    for (var element in lstData) {
-      if ((element.company.companyID == categoryID) &&
-          (element.price >= int.parse("${priceFrom}000000") &&
-              element.price <= int.parse("${priceTo}000000"))) {
-        lstSearch.add(element);
-      }
     }
   }
 
@@ -213,17 +263,22 @@ class _SearchPageState extends State<SearchPage> {
               TextField(
                 focusNode: focusNode,
                 onTap: () {
-                  setState(() {
-                    productsSearch = [];
+                  //Khi nhấn vào textfile thì lich su hien ra
+                  getAllProduct();
+                 if(mounted){
+                   setState(() {
                     checkSearch(
                         checkNotDataPage: false,
                         checkHistory: true,
                         checkDataPage: false,
                         checkResultSearch: false);
                   });
+                 }
                 },
                 onSubmitted: (value) {
-                  setState(() {
+                  if(mounted){
+                    setState(() {
+                    //nhan enter nhan data
                     if (value.isEmpty) {
                       productLatest();
                       reslutSearchTextController = 'mới nhất';
@@ -234,7 +289,9 @@ class _SearchPageState extends State<SearchPage> {
                           checkResultSearch: true);
                       return;
                     }
+
                     reslutSearchTextController = value;
+
                     if (checkSameData(value)) {
                       checkSearch(
                           checkNotDataPage: false,
@@ -253,9 +310,24 @@ class _SearchPageState extends State<SearchPage> {
                         historyLst: historyLst,
                         historyLstReversed: historyLstReversed);
                   });
+                  }
                 },
                 onChanged: (value) {
-                  setState(() {});
+                  if(mounted){
+                    setState(() {
+                    if (value.isEmpty) {
+                      productsSearch.clear();
+                      checkSuggest = false;
+                      return;
+                    }
+                    if (checkSameData(value)) {
+                      checkSuggest = true;
+                    } else {
+                      productsSearch.clear();
+                      checkSuggest = false;
+                    }
+                  });
+                  }
                 },
                 controller: searchTextController,
                 decoration: InputDecoration(
@@ -269,7 +341,8 @@ class _SearchPageState extends State<SearchPage> {
                   filled: true,
                   prefixIcon: IconButton(
                     onPressed: () {
-                      setState(() {
+                      if(mounted){
+                        setState(() {
                         reslutSearchTextController = searchTextController.text;
                         if (reslutSearchTextController.isEmpty) {
                           reslutSearchTextController = "mới nhất";
@@ -301,6 +374,7 @@ class _SearchPageState extends State<SearchPage> {
                             historyLstReversed: historyLstReversed);
                         focusNode.unfocus();
                       });
+                      }
                     },
                     icon: const Icon(
                       Icons.search,
@@ -318,10 +392,12 @@ class _SearchPageState extends State<SearchPage> {
                           builder: (_) {
                             return SearchFilter(
                               checkOptioin: checkOption,
+                              checkSort: checkSort,
                               applyOption: applyOption,
                               priceFT: priceFromTo,
                             );
                           });
+                      focusNode.unfocus();
                     },
                     icon: const Icon(
                       Icons.filter_frames_rounded,
@@ -371,18 +447,25 @@ class _SearchPageState extends State<SearchPage> {
               Visibility(
                   visible: checkHistory,
                   child: Expanded(
-                    child: SearchHistory(
-                      historyLst: historyLstReversed,
-                      onTapHistory: onTapHistory,
-                      deletedAll: deletedAll,
-                      deletedItem: deletedItem,
-                    ),
+                    child: checkSuggest
+                        ? SearchSuggest(
+                            historySuggest: productsSearch,
+                            onTapHistory: onTapHistory)
+                        : SearchHistory(
+                            historyLst: historyLstReversed,
+                            onTapHistory: onTapHistory,
+                            deletedAll: deletedAll,
+                            deletedItem: deletedItem,
+                          ),
                   )),
               Visibility(
-                  visible: checkNotDataPage,
+                visible: checkNotDataPage,
+                child: const Expanded(
                   child: SearchNotFound(
-                    reslutSearchTextController: reslutSearchTextController,
-                  )),
+                      message:
+                          'Chúng tôi rất tiếc, từ khóa bạn tìm không thấy kết quả nào. Vui lòng kiểm tra lại hoặc tìm kiếm với từ khóa khác.'),
+                ),
+              ),
               Visibility(
                 visible: checkDataPage,
                 child: Expanded(
