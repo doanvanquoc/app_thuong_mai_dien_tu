@@ -25,8 +25,6 @@ class CheckoutView extends StatefulWidget {
     required this.products,
     required this.totalPrice,
     required this.user,
-    required this.totalPrice,
-    required this.user,
   });
 
   final List<Cart> products;
