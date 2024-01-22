@@ -17,6 +17,14 @@ class ReviewPresenter {
     }
   }
 
+  Future<void> updateReview(content, rating, userID, productID) async {
+    try {
+      await ReviewAPI.instance.updateReview(content, rating, userID, productID);
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
   Future<List<Review>> getReviewByIdProduct(int id) async {
     try {
       List<Review> reviews = await api.getReviewByIdProduct(id);
@@ -24,6 +32,16 @@ class ReviewPresenter {
     } catch (e) {
       log(e.toString());
       return [];
+    }
+  }
+
+  Future<Review> getReviewByIdProductAndUserID(int productID, int userID) async {
+    try {
+      Review review = await api.getReviewByIdProductAndUserID(productID, userID);
+      return review;
+    } catch (e) {
+      log(e.toString());
+      return Review(reviewID: 1, content: '1', reviewDate: '2003-06-27', rating: 5, userID: userID, productID: productID);
     }
   }
 
