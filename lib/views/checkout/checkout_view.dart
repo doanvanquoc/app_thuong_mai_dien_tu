@@ -9,6 +9,7 @@ import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/address_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/order_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/address_view.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/address_widget.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/comfirm_widget.dart';
@@ -127,7 +128,6 @@ class _CheckoutViewState extends State<CheckoutView> {
                 AddressItem(
                   addressID: selectedAddress!.addressID!,
                   isDefault: selectedAddress!.isDefault,
-                  name: selectedAddress!.name,
                   name: selectedAddress!.name,
                   address: selectedAddress!.address,
                   isIcon: true,

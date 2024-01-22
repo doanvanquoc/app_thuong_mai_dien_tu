@@ -2,7 +2,6 @@ import 'package:app_thuong_mai_dien_tu/models/order.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
-import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/e_invoice_view.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +41,6 @@ Future openDialog(
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: AppColor.secondaryColor,
-                color: AppColor.secondaryColor,
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
               ),
@@ -52,7 +50,6 @@ Future openDialog(
               detail,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: AppColor.secondaryColor,
                 color: AppColor.secondaryColor,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -91,7 +88,6 @@ Future openDialog(
                   ),
                 );
               },
-              content: 'Xem thông tin hóa đơn',
               content: 'Xem thông tin hóa đơn',
               backgroundColor: const Color(0xffE6F8EF),
               textColor: const Color(0xff01B763),
