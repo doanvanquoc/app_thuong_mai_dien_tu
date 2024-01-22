@@ -170,6 +170,7 @@ class _SearchPageState extends State<SearchPage> {
     required List<Product> lstSearch,
   }) {
     setState(() {
+      lstSearch.clear();
       if (nameSort == 'Mới nhất') {
         productPresenter.getLatestProduct().then((value) {
           setState(() {
@@ -188,8 +189,6 @@ class _SearchPageState extends State<SearchPage> {
         products.addAll(productsLatest);
       }
 
-      lstSearch.clear();
-
       for (var element in products) {
         if ((element.company.companyID == categoryID) &&
             (element.price >= int.parse("${priceFrom}000000") &&
@@ -200,12 +199,13 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  //dat hang
+  //ap dung
   void applyOption() {
     setState(() {
       searchsCompanies(categoryID: id, lstSearch: productsSearch);
       searchTextController.text = '';
       reslutSearchTextController = '';
+
       if (productsSearch.isEmpty) {
         checkSearch(
             checkNotDataPage: true,

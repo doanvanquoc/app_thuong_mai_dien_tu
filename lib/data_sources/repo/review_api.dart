@@ -23,6 +23,7 @@ class ReviewAPI {
       rethrow;
     }
   }
+  
   Future<List<Review>> getReviewByIdProduct(int id) async {
     List<Review> companies = [];
     try {

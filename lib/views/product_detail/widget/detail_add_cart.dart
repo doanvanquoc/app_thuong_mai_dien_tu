@@ -58,7 +58,9 @@ class _AddCartDetailState extends State<AddCartDetail> {
                                   top: Radius.circular(40))),
                           context: context,
                           builder: (_) {
-                            return DetailChange(product: widget.product);
+                            return DetailChange(
+                              product: widget.product,
+                            );
                           });
                     },
                     child: Container(

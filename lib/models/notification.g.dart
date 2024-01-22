@@ -17,10 +17,11 @@ class NotificationCKCAdapter extends TypeAdapter<NotificationCKC> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return NotificationCKC(
-      iconNumb: fields[0] as int,
-      notiDate: fields[1] as DateTime,
-      title: fields[2] as String,
-      content: fields[3] as String,
+      notificationID: fields[0] as int,
+      userID: fields[1] as int,
+      notiDate: fields[2] ?? '' as String,
+      title: fields[3] ?? '' as String,
+      content: fields[4] ?? '' as String,
     );
   }
 
@@ -29,12 +30,14 @@ class NotificationCKCAdapter extends TypeAdapter<NotificationCKC> {
     writer
       ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.iconNumb)
+      ..write(obj.notificationID)
       ..writeByte(1)
-      ..write(obj.notiDate)
+      ..write(obj.userID)
       ..writeByte(2)
-      ..write(obj.title)
+      ..write(obj.notiDate)
       ..writeByte(3)
+      ..write(obj.title)
+      ..writeByte(4)
       ..write(obj.content);
   }
 
