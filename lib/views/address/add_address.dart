@@ -15,6 +15,9 @@ class _AddAddressViewState extends State<AddAddressView> {
   final TextEditingController name = TextEditingController();
   final TextEditingController address = TextEditingController();
   final TextEditingController note = TextEditingController();
+  final FocusNode nameFocusNode = FocusNode();
+  final FocusNode addressFocusNode = FocusNode();
+  final FocusNode noteFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +39,26 @@ class _AddAddressViewState extends State<AddAddressView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            AddAddressWidget(title: 'Tên', content: 'Nhà', controller: name),
+            AddAddressWidget(
+              title: 'Tên',
+              content: 'Nhà',
+              controller: name,
+              focusNode: nameFocusNode,
+            ),
             const SizedBox(height: 24),
             AddAddressWidget(
-                title: 'Địa chỉ', content: 'Địa chỉ', controller: address),
+              title: 'Địa chỉ',
+              content: 'Địa chỉ',
+              controller: address,
+              focusNode: addressFocusNode,
+            ),
             const SizedBox(height: 24),
             AddAddressWidget(
-                title: 'Ghi chú cho tài xế',
-                content: 'Chỉ dẫn chi tiết địa điểm cho tài xế',
-                controller: note),
+              title: 'Ghi chú cho tài xế',
+              content: 'Chỉ dẫn chi tiết địa điểm cho tài xế',
+              controller: note,
+              focusNode: noteFocusNode,
+            ),
           ],
         ),
       ),
@@ -56,9 +70,37 @@ class _AddAddressViewState extends State<AddAddressView> {
   }
 
   void onConfirmPressed() {
-    String name_ = name.text;
-    String address_ = address.text;
-    widget.onAddAddress(name_, address_);
-    Navigator.of(context).pop();
+    String name_ = name.text.trim();
+    String address_ = address.text.trim();
+
+    if (name_.isEmpty || address_.isEmpty) {
+      String errorMessage = '';
+      FocusNode focusNode;
+
+      if (name_.isEmpty) {
+        errorMessage = 'Vui lòng nhập tên gợi nhớ';
+        focusNode = nameFocusNode;
+      } else {
+        errorMessage = 'Vui lòng nhập địa chỉ giao hàng';
+        focusNode = addressFocusNode;
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+          ),
+        ),
+      );
+
+      FocusScope.of(context).requestFocus(focusNode);
+    } else {
+      widget.onAddAddress(name_, address_);
+      Navigator.of(context).pop();
+    }
   }
 }

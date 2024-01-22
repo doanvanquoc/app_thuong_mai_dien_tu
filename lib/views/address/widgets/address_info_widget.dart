@@ -6,11 +6,13 @@ class AddAddressWidget extends StatelessWidget {
     required this.title,
     required this.content,
     required this.controller,
+    required this.focusNode,
   });
 
   final String title;
   final String content;
   final TextEditingController controller;
+  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class AddAddressWidget extends StatelessWidget {
             const SizedBox(height: 10),
             TextFormField(
               controller: controller,
+              focusNode: focusNode,
               clipBehavior: Clip.antiAlias,
               cursorColor: const Color(0xff01B763),
               decoration: InputDecoration(
