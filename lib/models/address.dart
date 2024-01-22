@@ -1,11 +1,13 @@
 class Address {
   int? addressID;
+  String name;
   String address;
   bool? isDefault;
   int? userID;
 
   Address({
     this.addressID,
+    required this.name,
     required this.address,
     this.isDefault,
     this.userID,
@@ -13,6 +15,7 @@ class Address {
 
   Address.fromJson(Map<String, dynamic> json)
       : addressID = json['addressID'],
+        name = json['name'],
         address = json['address'],
         userID = json['userID'] ?? 1;
 

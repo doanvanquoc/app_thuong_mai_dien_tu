@@ -31,6 +31,7 @@ class HomeNewProduct extends StatelessWidget {
             const Text(
               'Sản phẩm mới nhất',
               style: TextStyle(
+                color: AppColor.secondaryColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),

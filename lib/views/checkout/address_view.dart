@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:app_thuong_mai_dien_tu/models/address.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/address_presenter.dart';
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/address/add_address.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/widgets/address_widget.dart';
@@ -61,8 +62,8 @@ class _AddressViewState extends State<AddressView> {
     }
   }
 
-  void addNewAddress(String street) async {
-    bool isSuccess = await AddressPresenter.instance.addNewAddress(1, street);
+    void addNewAddress(String name, String address) async {
+    bool isSuccess = await AddressPresenter.instance.addNewAddress(1, name, address);
 
     if (isSuccess) {
       loadAddresses().then((loadedAddresses) {
@@ -87,7 +88,7 @@ class _AddressViewState extends State<AddressView> {
         title: const Text(
           'Địa chỉ giao hàng',
           style: TextStyle(
-            color: Color(0xFF212121),
+            color: AppColor.secondaryColor,
           ),
         ),
       ),
@@ -104,6 +105,7 @@ class _AddressViewState extends State<AddressView> {
                 padding: const EdgeInsets.only(bottom: 24),
                 child: AddressItem(
                   addressID: address.addressID,
+                  name: address.name,
                   address: address.address,
                   isIcon: false,
                   isRadioButton: true,

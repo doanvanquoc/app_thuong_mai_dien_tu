@@ -40,7 +40,12 @@ class _HomeAllPopularProductState extends State<HomeAllPopularProduct> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sản phẩm phổ biến nhất'),
+        title: const Text(
+          'Sản phẩm phổ biến nhất',
+          style: TextStyle(
+            color: AppColor.secondaryColor,
+          ),
+        ),
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
       ),

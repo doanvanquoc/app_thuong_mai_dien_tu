@@ -35,6 +35,7 @@ class _SearchHistoryState extends State<SearchHistory> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
+                color: AppColor.secondaryColor,
               ),
             ),
             GestureDetector(

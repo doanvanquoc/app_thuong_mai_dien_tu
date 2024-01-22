@@ -1,3 +1,4 @@
+import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class LoginLogo extends StatelessWidget {
@@ -5,25 +6,25 @@ class LoginLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          width: 70,
-          height: 120,
-          decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(1000),
-            ),
-          ),
-          child: const Image(image: AssetImage("assets/images/logo.png")),
+        SizedBox(
+          width: 90,
+          height: 90,
+          // decoration: ShapeDecoration(
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(1000),
+          //   ),
+          // ),
+          child: Image(image: AssetImage("assets/images/logo.png")),
         ),
-        const Align(
+        Align(
           alignment: Alignment.center,
           child: Text(
             'CKCPhoneStore',
             style: TextStyle(
-              color: Color(0xFF212121),
+              color: AppColor.secondaryColor,
               fontSize: 30,
               fontFamily: 'Sarabun',
               fontWeight: FontWeight.w700,

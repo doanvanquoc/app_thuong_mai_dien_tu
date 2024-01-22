@@ -1,9 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:app_thuong_mai_dien_tu/data_sources/api_url.dart';
 import 'package:app_thuong_mai_dien_tu/models/address.dart';
 import 'package:dio/dio.dart';
-import 'dart:developer';
 
 class AddressAPI {
   AddressAPI._internal();
@@ -25,11 +25,11 @@ class AddressAPI {
     }
   }
 
-  Future<Address?> addAddress(int userID, String address) async {
+  Future<Address?> addAddress(int userID, String name, String address) async {
     try {
       final response = await dio.post(
         '${APIConfig.API_URL}/address/add',
-        data: jsonEncode({'userID': userID, 'address': address}),
+        data: jsonEncode({'userID': userID, 'name': name, 'address': address}),
       );
 
       if (response.statusCode == 200 && response.data['code'] == 1) {

@@ -74,7 +74,11 @@ class _SearchFilterState extends State<SearchFilter> {
           const Center(
             child: Text(
               "Bộ lọc",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppColor.secondaryColor,
+              ),
             ),
           ),
           const SizedBox(height: 10),
@@ -101,7 +105,9 @@ class _SearchFilterState extends State<SearchFilter> {
                         const Text(
                           'Khoảng giá',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: AppColor.secondaryColor),
                         ),
                         const SizedBox(height: 16),
                         Expanded(
@@ -131,7 +137,10 @@ class _SearchFilterState extends State<SearchFilter> {
                               ),
                               Text(
                                 'khoảng giá ${rangeValues.start.toInt()} tr -- ${rangeValues.end.toInt()} tr',
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: AppColor.secondaryColor,
+                                ),
                               ),
                             ],
                           ),
@@ -149,7 +158,11 @@ class _SearchFilterState extends State<SearchFilter> {
                   const SizedBox(height: 16),
                   const Text(
                     'Đánh giá',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: AppColor.secondaryColor,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   ReviewOption(
