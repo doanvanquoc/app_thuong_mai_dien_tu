@@ -22,9 +22,11 @@ class _WelcomeState extends State<Welcome> {
         controller: _pageController,
         itemCount: contents.length,
         onPageChanged: (int index) {
-          setState(() {
-            currentIndex = index;
-          });
+          if (mounted) {
+            setState(() {
+              currentIndex = index;
+            });
+          }
         },
         itemBuilder: (_, i) {
           return Padding(

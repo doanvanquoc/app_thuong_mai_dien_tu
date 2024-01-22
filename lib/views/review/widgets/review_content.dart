@@ -20,19 +20,17 @@ class _ReviewContentState extends State<ReviewContent> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Row(
+            Row(
               children: [
                 SizedBox(
                   height: 48,
                   width: 48,
                   child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      'https://randomuser.me/api/portraits/men/15.jpg',
-                    ),
+                    backgroundImage: NetworkImage(widget.review.userID.avatar),
                   ),
                 ),
-                SizedBox(width: 12),
-                Text(
+                const SizedBox(width: 12),
+                const Text(
                   "Avatar",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,

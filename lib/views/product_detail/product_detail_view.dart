@@ -14,9 +14,6 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-  int count = 1;
-  int total = 0;
-
   final reviewPresenter = ReviewPresenter.instance;
   List<Review> reviews = [];
   @override
@@ -24,9 +21,11 @@ class _ProductDetailState extends State<ProductDetail> {
     reviewPresenter
         .getReviewByIdProduct(widget.product.productID)
         .then((value) {
-      setState(() {
+      if(mounted){
+        setState(() {
         reviews = value;
       });
+      }
     });
     super.initState();
   }

@@ -70,10 +70,12 @@ class _HomeAllPopularProductState extends State<HomeAllPopularProduct> {
                           : await ProductPresenter.instance
                               .getBestSellingProductByCompanyID(
                                   widget.companies[index].companyID);
-                      setState(() {
-                        selectedIndex = index;
-                        popularProducts = products;
-                      });
+                      if (mounted) {
+                        setState(() {
+                          selectedIndex = index;
+                          popularProducts = products;
+                        });
+                      }
                     },
                     child: CategoryItem(
                         category: widget.companies[index].companyName,

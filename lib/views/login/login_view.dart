@@ -50,20 +50,26 @@ class _LoginState extends State<Login> {
     );
     try {
       if (userName.text.isEmpty || password.text.isEmpty) {
-        setState(() {
+        if(mounted){
+          setState(() {
           notifications = 'Cần nhập đầy đủ thông tin!';
         });
+        }
       } else {
-        setState(() {
+        if(mounted){
+          setState(() {
           notifications = '';
         });
+        }
 
         final result = await widget.loginUser(userName.text, password.text);
 
         if (result.containsKey('error')) {
-          setState(() {
+          if(mounted){
+            setState(() {
             notifications = result['error'];
           });
+          }
         } else if (result.containsKey('message') && result['message'] == 'OK') {
           final token = result['token'];
 
@@ -100,9 +106,11 @@ class _LoginState extends State<Login> {
             },
           );
         } else {
-          setState(() {
+          if(mounted){
+            setState(() {
             notifications = 'Tài khoản hoặc mật khẩu không chính xác';
           });
+          }
         }
       }
     } finally {

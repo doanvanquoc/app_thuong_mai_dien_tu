@@ -2,6 +2,7 @@ import 'package:app_thuong_mai_dien_tu/models/review.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/views/review/widgets/review_content.dart';
 import 'package:app_thuong_mai_dien_tu/views/review/widgets/review_option.dart';
+import 'package:app_thuong_mai_dien_tu/views/search/widgets/search_not_fond_view.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -27,9 +28,11 @@ class _ReviewPageState extends State<ReviewPage> {
   ];
 
   List<Review> reviewByRating = [];
+
   //lọc theo sao
   void checkOption(value) {
-    setState(() {
+    if(mounted){
+      setState(() {
       reviewByRating.clear();
       checkRate = value;
       for (var element in widget.reviews) {
@@ -39,11 +42,12 @@ class _ReviewPageState extends State<ReviewPage> {
       }
       if (value == 'Tất cả') reviewByRating.addAll(widget.reviews);
     });
+    }
   }
 
   @override
   void initState() {
-    reviewByRating.addAll(widget.reviews);
+    reviewByRating.addAll(widget.reviews.reversed);
     super.initState();
   }
 
@@ -68,11 +72,16 @@ class _ReviewPageState extends State<ReviewPage> {
           children: [
             ReviewOption(lst: ratelst, onTap: checkOption),
             Expanded(
-                child: ListView.builder(
-                    itemCount: reviewByRating.length,
-                    itemBuilder: (_, index) {
-                      return ReviewContent(review: reviewByRating[index]);
-                    }))
+              child: reviewByRating.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: reviewByRating.length,
+                      itemBuilder: (_, index) {
+                        return ReviewContent(review: reviewByRating[index]);
+                      })
+                  : const SearchNotFound(
+                      message:
+                          'Chúng tôi rất tiếc, đánh giá bạn tìm không thấy kết quả nào hoặc chưa có đánh giá'),
+            )
           ],
         ),
       ),

@@ -62,7 +62,9 @@ class _EditAccountState extends State<EditAccount> {
     if (notiEmail.isNotEmpty ||
         notiPhoneNumber.isNotEmpty ||
         notiDateTime.isNotEmpty) {
-      setState(() {});
+     if(mounted){
+       setState(() {});
+     }
       return;
     }
     DateTime birthdayy = dateTime.text.isNotEmpty
@@ -137,7 +139,9 @@ class _EditAccountState extends State<EditAccount> {
       notiAcconut(context, 'Cập nhật thất bại!',
           'Vui lòng nhập thông tin muốn cập nhật');
     }
-    setState(() {});
+    if(mounted){
+      setState(() {});
+    }
   }
 
   @override

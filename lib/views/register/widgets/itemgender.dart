@@ -30,9 +30,11 @@ class _ItemGenderState extends State<ItemGender> {
                 child: GestureDetector(
                   onTap: () {
                     widget.onTap('Nam'); // Thêm callback ở đây
-                    setState(() {
+                    if(mounted){
+                      setState(() {
                       selectedIndex = 0;
                     });
+                    }
                   },
                   child: Container(
                     margin:
@@ -71,9 +73,11 @@ class _ItemGenderState extends State<ItemGender> {
                 child: GestureDetector(
                   onTap: () {
                     widget.onTap('Nữ'); // Thêm callback ở đây
-                    setState(() {
+                    if(mounted){
+                      setState(() {
                       selectedIndex = 1;
                     });
+                    }
                   },
                   child: Container(
                     margin:

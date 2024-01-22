@@ -25,6 +25,8 @@ class CheckoutView extends StatefulWidget {
     required this.products,
     required this.totalPrice,
     required this.user,
+    required this.totalPrice,
+    required this.user,
   });
 
   final List<Cart> products;
@@ -62,10 +64,12 @@ class _CheckoutViewState extends State<CheckoutView> {
   void initState() {
     super.initState();
     loadAddresses().then((loadedAddresses) {
-      setState(() {
-        addresses = loadedAddresses;
-        selectedAddress = Address.getDefaultAddress(addresses);
-      });
+      if (mounted) {
+        setState(() {
+          addresses = loadedAddresses;
+          selectedAddress = Address.getDefaultAddress(addresses);
+        });
+      }
     });
   }
 
@@ -81,9 +85,11 @@ class _CheckoutViewState extends State<CheckoutView> {
     );
 
     if (result != null) {
-      setState(() {
-        selectedAddress = result;
-      });
+      if (mounted) {
+        setState(() {
+          selectedAddress = result;
+        });
+      }
     }
   }
 

@@ -112,9 +112,11 @@ class _AccountState extends State<Account> {
                 ? 'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg'
                 : widget.user.avatar,
             onImageSelected: (File? image) {
-              setState(() async {
+              if(mounted){
+                setState(() async {
                 updateUserAvatar(image);
               });
+              }
             },
           ),
           const SizedBox(

@@ -27,9 +27,11 @@ class _AvatarState extends State<Avatar> {
       if (pickedImage == null) return;
 
       final imageTemporary = File(pickedImage.path);
-      setState(() {
+      if(mounted){
+        setState(() {
         image = imageTemporary;
       });
+      }
 
       // Invoke the callback to pass the selected image file to the parent widget
       widget.onImageSelected(imageTemporary);
