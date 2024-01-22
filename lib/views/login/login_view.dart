@@ -1,3 +1,6 @@
+import 'package:app_thuong_mai_dien_tu/data_sources/repo/notification_api.dart';
+import 'package:app_thuong_mai_dien_tu/models/notification.login.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/notification_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
@@ -27,6 +30,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController userName = TextEditingController();
   final TextEditingController password = TextEditingController();
+  NotificationLogin notificationLogin=NotificationLogin();
   String notifications = '';
 
   Future<void> loginUser() async {
@@ -79,6 +83,10 @@ class _LoginState extends State<Login> {
 
           // ignore: use_build_context_synchronously
           Navigator.maybePop(context);
+          NotificationPresenter.addNotification(1, DateTime.now(), 'Đăng nhâp', 'Tài khoản đã được đăng nhập thành công');
+          NotificationAPI.instance.addNoti('Thông báo', 'Tài khoản của bạn đã được đăng nhâp!', user.userID);
+          print('line 88: in thông báo');
+          notificationLogin.showNotification();
           Future.delayed(Duration.zero, () {
             // ignore: use_build_context_synchronously
             openDialog(
