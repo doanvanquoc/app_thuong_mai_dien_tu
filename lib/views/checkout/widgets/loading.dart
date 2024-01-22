@@ -1,21 +1,24 @@
 import 'package:app_thuong_mai_dien_tu/models/cart.dart';
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
+import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/e_invoice_view.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 Future openDialog(
-  BuildContext context,
-  String title,
-  String detail,
-  List<Cart> products,
-  String formatDate,
-  String eCode,
-  int ship,
-  int totalPrice,
-  int totalBill,
-) {
+    BuildContext context,
+    String title,
+    String detail,
+    List<Cart> products,
+    String formatDate,
+    String eCode,
+    int ship,
+    int totalPrice,
+    int totalBill,
+    User user) {
   return showDialog(
+    barrierDismissible: false,
     context: context,
     builder: (context) => AlertDialog(
       shape: RoundedRectangleBorder(
@@ -57,14 +60,16 @@ Future openDialog(
             MyButton(
                 onTap: () {
                   Navigator.pop(context);
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (_) {
-                       
-                  //     },
-                  //   ),
-                  // );
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => MyNavBar(
+                        user: user,
+                        index: 2,
+                      ),
+                    ),
+                    (router) => false,
+                  );
                 },
                 content: 'Theo dõi đơn hàng'),
             const SizedBox(height: 20),

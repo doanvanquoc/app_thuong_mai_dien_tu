@@ -59,6 +59,16 @@ class ProductPresenter {
     }
   }
 
+  Future<List<Product>> getLatestProductByCompanyID(int companyID) async {
+    try {
+      List<Product> products = await api.getLatestProductByCompanyID(companyID);
+      return products;
+    } catch (e) {
+      log('Lỗi prod: dòng 67 - $e');
+      return [];
+    }
+  }
+
   static void productSearch(
       String value, List<Product> lstData, List<Product> lstSearch) {
     lstSearch.clear();

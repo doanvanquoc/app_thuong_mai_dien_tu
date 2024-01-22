@@ -38,6 +38,7 @@ class _OrderPageState extends State<OrderPage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Text(
             'Đơn hàng',
           ),

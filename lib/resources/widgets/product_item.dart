@@ -43,7 +43,7 @@ class ProductItem extends StatelessWidget {
                     Icons.star_border,
                     color: AppColor.primaryColor,
                   ),
-                  const Text('4.5'),
+                  Text(product.avgRating.toStringAsFixed(1)),
                   const SizedBox(width: 5),
                   const Text('|'),
                   const SizedBox(width: 5),

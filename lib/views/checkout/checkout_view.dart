@@ -6,6 +6,7 @@ import 'package:app_thuong_mai_dien_tu/data_sources/socket.io.dart';
 import 'package:app_thuong_mai_dien_tu/models/address.dart';
 import 'package:app_thuong_mai_dien_tu/models/cart.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/address_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/order_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/address_view.dart';
@@ -21,11 +22,12 @@ class CheckoutView extends StatefulWidget {
   const CheckoutView({
     super.key,
     required this.products,
-    required this.totalPrice,
+    required this.totalPrice, required this.user,
   });
 
   final List<Cart> products;
   final int totalPrice;
+  final User user;
 
   @override
   State<CheckoutView> createState() => _CheckoutViewState();
@@ -272,8 +274,8 @@ class _CheckoutViewState extends State<CheckoutView> {
           int userID = pref.getInt('curUser')!;
           final order = await OrderPresenter.instance.createOrder(userID);
           print('Log ktra socket: $userID');
-          SocketManager().emitEvent('add_order', userID);
           if (order != null) {
+            SocketManager().emitEvent('add_order', userID);
             openDialog(
               context,
               'Đặt hàng thành công!',
@@ -284,6 +286,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               ship,
               widget.totalPrice,
               totalBill,
+              widget.user
             );
           } else {
             showDialog(
