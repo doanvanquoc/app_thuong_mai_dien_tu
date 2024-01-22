@@ -57,6 +57,18 @@ class _SearchPageState extends State<SearchPage> {
       });
     });
 
+    productPresenter.getLatestProduct().then((value) {
+      setState(() {
+        productsLatest = value;
+      });
+    });
+
+    productPresenter.getBestSellingProduct(10).then((value) {
+      setState(() {
+        productsSelling = value;
+      });
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(focusNode);
     });
@@ -67,6 +79,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   List<Product> productsLatest = [];
+  List<Product> productsSelling = [];
 
   void getAllProduct() {}
 
@@ -177,6 +190,19 @@ class _SearchPageState extends State<SearchPage> {
     required int categoryID,
     String rating = '',
   }) async {
+    productsSearch.clear();
+    print(nameSort);
+    if (categoryID == -1) {
+      if (nameSort == 'Mới nhất') {
+        productsSearch.addAll(productsLatest);
+        return;
+      }
+      if (nameSort == 'Phổ biến') {
+        productsSearch.addAll(productsSelling);
+        return;
+      }
+    }
+
     if (nameSort == 'Mới nhất') {
       await productPresenter.getLatestProduct().then((value) {
         setState(() {
@@ -188,22 +214,21 @@ class _SearchPageState extends State<SearchPage> {
     } else if (nameSort == 'Phổ biến') {
       await productPresenter.getBestSellingProduct(10).then((value) {
         setState(() {
-          productsLatest = value;
+          productsSelling = value;
           productsAll.clear();
-          productsAll.addAll(productsLatest);
+          productsAll.addAll(productsSelling);
         });
       });
     }
 
-    productsSearch.clear();
     for (var element in productsAll) {
-      await ReviewPresenter.instance
-          .getProductStar(element, rating)
-          .then((value) {
-        setState(() {
-          check = value;
-        });
-      });
+      // await ReviewPresenter.instance
+      //     .getProductStar(element, rating)
+      //     .then((value) {
+      //   setState(() {
+      //     check = value;
+      //   });
+      // });
       setState(() {
         print(check);
 
@@ -212,16 +237,19 @@ class _SearchPageState extends State<SearchPage> {
                 element.price <= int.parse("${priceTo}000000"))) {
           productsSearch.add(element);
         }
+        id = -1; //reset giá trị option đang chọn
+        nameSort = '';
       });
     }
   }
 
   //ap dung
   Future<void> applyOption() async {
-    setState(() async {
-      searchTextController.text = '';
-      reslutSearchTextController = '';
-      await searchsCompanies(categoryID: id, rating: star);
+    await searchsCompanies(categoryID: id, rating: star);
+    searchTextController.text = '';
+    reslutSearchTextController = '';
+
+    setState(() {
       if (productsSearch.isEmpty) {
         checkSearch(
             checkNotDataPage: true,
