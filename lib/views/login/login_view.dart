@@ -1,8 +1,10 @@
 
+import 'package:app_thuong_mai_dien_tu/data_sources/repo/notification_api.dart';
 import 'package:app_thuong_mai_dien_tu/data_sources/repo/user_api.dart';
 import 'package:app_thuong_mai_dien_tu/models/notifilogin.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/nav_bar.dart';
+import 'package:app_thuong_mai_dien_tu/presenters/notification_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfile.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_textfilepass.dart';
@@ -88,6 +90,8 @@ class _LoginState extends State<Login> {
 
           // ignore: use_build_context_synchronously
           Navigator.maybePop(context);
+          NotificationPresenter.addNotification(1, user.userID, DateTime.now().toString(), 'Đăng nhập', 'Tài khoản đăng nhập thành công');
+          NotificationAPI.instance.addNoti('Đăng nhập', 'Tài khoản đã được đăng nhập', user.userID);
           NotificationService().showNotification(title: 'Thông báo',body: 'Đăng nhập thành công');
           Future.delayed(Duration.zero, () {
             // ignore: use_build_context_synchronously
