@@ -21,10 +21,10 @@ class _ProductDetailState extends State<ProductDetail> {
     reviewPresenter
         .getReviewByIdProduct(widget.product.productID)
         .then((value) {
-      if(mounted){
+      if (mounted) {
         setState(() {
-        reviews = value;
-      });
+          reviews = value;
+        });
       }
     });
     super.initState();
@@ -43,16 +43,18 @@ class _ProductDetailState extends State<ProductDetail> {
           ),
           AddCartDetail(product: widget.product),
           Positioned(
-              top: 50,
-              left: 26,
-              child: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    size: 30,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  })),
+            top: 50,
+            left: 26,
+            child: IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+                size: 30,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
         ],
       ),
     );
