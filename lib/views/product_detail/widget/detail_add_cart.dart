@@ -39,11 +39,14 @@ class _AddCartDetailState extends State<AddCartDetail> {
                         'Giá bán',
                         style: TextStyle(fontSize: 14),
                       ),
-                      Text(
-                        NumberFormat.currency(locale: 'vi_VN', symbol: 'VNĐ')
-                            .format(widget.product.price),
-                        style: const TextStyle(
-                            fontSize: 21, fontWeight: FontWeight.bold),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: Text(
+                          NumberFormat.currency(locale: 'vi_VN', symbol: 'VNĐ')
+                              .format(widget.product.price),
+                          style: const TextStyle(
+                              fontSize: 21, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ],
                   ),

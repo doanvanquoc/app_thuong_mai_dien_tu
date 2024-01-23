@@ -31,14 +31,13 @@ class _SearchFilterState extends State<SearchFilter> {
   bool checkrReOrder = false;
   bool checkrRateOption = false;
 
-
   @override
   void initState() {
     companyPresenter.getAllCompany().then((value) {
-      if(mounted){
+      if (mounted) {
         setState(() {
-        companies = value;
-      });
+          companies = value;
+        });
       }
     });
     super.initState();
@@ -123,13 +122,13 @@ class _SearchFilterState extends State<SearchFilter> {
                                 max: 100,
                                 values: rangeValues,
                                 onChanged: (value) {
-                                  if(mounted){
+                                  if (mounted) {
                                     setState(() {
-                                    checkrReOrder = false;
-                                    rangeValues = value;
-                                    widget.priceFT(rangeValues.start.toInt(),
-                                        rangeValues.end.toInt());
-                                  });
+                                      checkrReOrder = false;
+                                      rangeValues = value;
+                                      widget.priceFT(rangeValues.start.toInt(),
+                                          rangeValues.end.toInt());
+                                    });
                                   }
                                 },
                                 divisions: 100,
@@ -184,11 +183,11 @@ class _SearchFilterState extends State<SearchFilter> {
               Expanded(
                 child: MyButton(
                   onTap: () {
-                    if(mounted){
+                    if (mounted) {
                       setState(() {
-                      rangeValues = const RangeValues(10, 20);
-                      checkrReOrder = true;
-                    });
+                        rangeValues = const RangeValues(10, 20);
+                        checkrReOrder = true;
+                      });
                     }
                   },
                   content: 'Đặt lại',
