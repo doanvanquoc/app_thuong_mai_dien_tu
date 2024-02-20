@@ -24,6 +24,8 @@ class _AddAddressViewState extends State<AddAddressView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         title: const Text(
           'Thêm địa chỉ mới',
           style: TextStyle(
@@ -33,34 +35,36 @@ class _AddAddressViewState extends State<AddAddressView> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 10, 24, 15),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            AddAddressWidget(
-              title: 'Tên',
-              content: 'Nhà',
-              controller: name,
-              focusNode: nameFocusNode,
-            ),
-            const SizedBox(height: 24),
-            AddAddressWidget(
-              title: 'Địa chỉ',
-              content: 'Địa chỉ',
-              controller: address,
-              focusNode: addressFocusNode,
-            ),
-            const SizedBox(height: 24),
-            AddAddressWidget(
-              title: 'Ghi chú cho tài xế',
-              content: 'Chỉ dẫn chi tiết địa điểm cho tài xế',
-              controller: note,
-              focusNode: noteFocusNode,
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 10, 24, 15),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              AddAddressWidget(
+                title: 'Tên',
+                content: 'Nhà',
+                controller: name,
+                focusNode: nameFocusNode,
+              ),
+              const SizedBox(height: 24),
+              AddAddressWidget(
+                title: 'Địa chỉ',
+                content: 'Địa chỉ',
+                controller: address,
+                focusNode: addressFocusNode,
+              ),
+              const SizedBox(height: 24),
+              AddAddressWidget(
+                title: 'Ghi chú cho tài xế',
+                content: 'Chỉ dẫn chi tiết địa điểm cho tài xế',
+                controller: note,
+                focusNode: noteFocusNode,
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: ComfirmWidget(

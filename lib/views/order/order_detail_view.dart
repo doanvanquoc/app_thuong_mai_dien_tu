@@ -1,4 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/models/order.dart';
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/my_button.dart';
 import 'package:app_thuong_mai_dien_tu/views/checkout/e_invoice_view.dart';
@@ -10,8 +11,10 @@ class OrderDetailPage extends StatelessWidget {
   const OrderDetailPage({
     super.key,
     required this.order,
+    required this.user,
   });
   final Order order;
+  final User user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,15 +70,21 @@ class OrderDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             MyButton(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => EInvoiceView(ship: 50000, order: order),
-                    ),
-                  );
-                },
-                content: 'Xem hóa đơn')
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => EInvoiceView(
+                        ship: 50000,
+                        order: order,
+                        address: user.address != null
+                            ? user.address!.first.address
+                            : 'No address'),
+                  ),
+                );
+              },
+              content: 'Xem hóa đơn',
+            )
           ],
         ),
       ),

@@ -81,11 +81,12 @@ class TotalWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CheckoutView(
-                                user: user,
-                                products: products!,
-                                totalPrice: Product.parsePrice(totalPrice),
-                              )),
+                        builder: (context) => CheckoutView(
+                          user: user,
+                          products: products!,
+                          totalPrice: Product.parsePrice(totalPrice),
+                        ),
+                      ),
                     );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

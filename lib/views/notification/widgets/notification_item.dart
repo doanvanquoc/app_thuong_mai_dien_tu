@@ -34,22 +34,20 @@ class _NotificationItemState extends State<NotificationItem> {
         children: [
           Expanded(
             flex: 1,
-            child: ClipOval(
-              child: Container(
-                height: 60,
-                width: 50,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color.fromARGB(255, 61, 225, 154),
-                      AppColor.primaryColor,
-                    ],
-                  ),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color.fromARGB(255, 61, 225, 154),
+                    AppColor.primaryColor,
+                  ],
                 ),
-                child: lstIcon[widget.notification.title],
+                shape: BoxShape.circle,
               ),
+              child: lstIcon[widget.notification.title],
             ),
           ),
           const SizedBox(width: 10),

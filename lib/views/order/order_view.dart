@@ -1,4 +1,5 @@
 import 'package:app_thuong_mai_dien_tu/models/order.dart';
+import 'package:app_thuong_mai_dien_tu/models/user.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/socket_presenter.dart';
 import 'package:app_thuong_mai_dien_tu/resources/app_colors.dart';
 import 'package:app_thuong_mai_dien_tu/resources/widgets/empty_view.dart';
@@ -9,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class OrderPage extends StatefulWidget {
-  const OrderPage({super.key});
-
+  const OrderPage({super.key, required this.user});
+  final User user;
   @override
   State<OrderPage> createState() => _OrderPageState();
 }
@@ -75,6 +76,7 @@ class _OrderPageState extends State<OrderPage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => OrderDetailPage(
+                                          user: widget.user,
                                           order: socketPresenter
                                               .orderStatus1[index],
                                         ),
@@ -97,6 +99,7 @@ class _OrderPageState extends State<OrderPage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => OrderDetailPage(
+                                            user: widget.user,
                                             order: socketPresenter
                                                 .orderStatus2[index]),
                                       ),
@@ -117,6 +120,7 @@ class _OrderPageState extends State<OrderPage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (_) => OrderDetailPage(
+                                          user: widget.user,
                                           order: socketPresenter
                                               .orderStatus3[index],
                                         ),

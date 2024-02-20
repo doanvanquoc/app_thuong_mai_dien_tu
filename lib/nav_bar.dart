@@ -29,7 +29,9 @@ class _MyNavBarState extends State<MyNavBar> {
       CartView(
         user: widget.user,
       ),
-      const OrderPage(),
+      OrderPage(
+        user: widget.user,
+      ),
       Account(
         user: widget.user,
       ),

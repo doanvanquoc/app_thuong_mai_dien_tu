@@ -15,6 +15,7 @@ Future openDialog(
   int ship,
   Order order,
   User user,
+  String address
 ) {
   return showDialog(
     barrierDismissible: false,
@@ -78,6 +79,7 @@ Future openDialog(
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => EInvoiceView(
+                      address: address,
                       ship: ship,
                       order: order,
                     ),

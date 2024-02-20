@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/models/user.dart';
@@ -40,7 +38,10 @@ class HomeNewProduct extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => HomeAllNewProduct(companies: companies, user: user,)),
+                    builder: (_) => HomeAllNewProduct(
+                          companies: companies,
+                          user: user,
+                        )),
               ),
               child: const Text(
                 'Tất cả',
@@ -55,7 +56,7 @@ class HomeNewProduct extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: 320,
+          height: 330,
           child: ListView.separated(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
@@ -64,7 +65,6 @@ class HomeNewProduct extends StatelessWidget {
               return ProductItem(
                 product: products[index],
                 onTap: () async {
-                  log('on tap add to cart');
                   showDialog(
                       context: context,
                       builder: (context) => const AlertDialog(
@@ -72,7 +72,9 @@ class HomeNewProduct extends StatelessWidget {
                             shadowColor: Colors.transparent,
                             surfaceTintColor: Colors.transparent,
                             contentPadding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 30),
+                              horizontal: 20,
+                              vertical: 30,
+                            ),
                             content: SizedBox(
                               width: 50, // Đặt chiều rộng mong muốn
                               height: 50, // Đặt chiều cao mong muốn
@@ -89,16 +91,19 @@ class HomeNewProduct extends StatelessWidget {
                             ),
                           ));
                   await CartPresenter.instance.addToCart(
-                      userID: user.userID,
-                      productID: products[index].productID,
-                      quantity: 1);
+                    userID: user.userID,
+                    productID: products[index].productID,
+                    quantity: 1,
+                  );
                   // ignore: use_build_context_synchronously
                   Navigator.pop(context);
                   // ignore: use_build_context_synchronously
                   Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => MyNavBar(user: user, index: 1)));
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => MyNavBar(user: user, index: 1),
+                    ),
+                  );
                 },
               );
             },

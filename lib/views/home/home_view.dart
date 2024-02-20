@@ -1,4 +1,6 @@
 // ignore: library_prefixes
+import 'dart:developer';
+
 import 'package:app_thuong_mai_dien_tu/models/banner.dart' as MyBanner;
 import 'package:app_thuong_mai_dien_tu/models/company.dart';
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
@@ -23,6 +25,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final controller = ScrollController();
   final allCompany = Company(companyID: 0, companyName: 'Tất cả');
   List<Product> latestProduct = [];
   List<Product> popularProduct = [];
@@ -81,6 +84,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
+          controller: controller,
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -102,6 +106,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 19),
                 HomePopularProduct(
+                  controller: controller,
                   user: widget.user,
                   products: popularProduct,
                   companies: companies,

@@ -114,8 +114,8 @@ class _AccountState extends State<Account> {
                 : widget.user.avatar,
             onImageSelected: (File? image) {
               if (mounted) {
-                setState(() async {
-                  updateUserAvatar(image);
+                updateUserAvatar(image).then((value) {
+                  setState(() {});
                 });
               }
             },

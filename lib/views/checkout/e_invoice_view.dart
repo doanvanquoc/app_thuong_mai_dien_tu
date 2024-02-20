@@ -10,11 +10,14 @@ class EInvoiceView extends StatelessWidget {
   const EInvoiceView({
     super.key,
     //required this.cartProducts,
-    required this.ship, required this.order,
+    required this.ship,
+    required this.order,
+    required this.address,
   });
 
   //final List<Cart> cartProducts;
   final int ship;
+  final String address;
   final Order order;
 
   @override
@@ -147,7 +150,8 @@ class EInvoiceView extends StatelessWidget {
                           ),
                           const Expanded(child: SizedBox()),
                           Text(
-                            Product.formatPrice((order.totalPrice + ship).toString()),
+                            Product.formatPrice(
+                                (order.totalPrice + ship).toString()),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: Color(0xFF34C582),
@@ -232,6 +236,32 @@ class EInvoiceView extends StatelessWidget {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Địa chỉ',
+                            style: TextStyle(
+                              color: Color(0xFF616161),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const Expanded(child: SizedBox()),
+                          Text(
+                            address,
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(
+                              color: AppColor.secondaryColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
                       const SizedBox(height: 8),
                       Row(
                         mainAxisSize: MainAxisSize.min,
@@ -265,7 +295,8 @@ class EInvoiceView extends StatelessWidget {
                               IconButton(
                                 icon: const Icon(Icons.file_copy_outlined),
                                 onPressed: () {
-                                  Clipboard.setData(ClipboardData(text: '#${order.orderID}'))
+                                  Clipboard.setData(ClipboardData(
+                                          text: '#${order.orderID}'))
                                       .then((_) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(

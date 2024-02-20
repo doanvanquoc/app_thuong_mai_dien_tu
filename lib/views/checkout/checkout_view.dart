@@ -281,7 +281,6 @@ class _CheckoutViewState extends State<CheckoutView> {
           final pref = await SharedPreferences.getInstance();
           int userID = pref.getInt('curUser')!;
           final order = await OrderPresenter.instance.createOrder(userID);
-          print('Log ktra socket: $userID');
           if (order != null) {
             // openDialog(
             //   context,
@@ -295,16 +294,19 @@ class _CheckoutViewState extends State<CheckoutView> {
             //   widget.totalPrice,
             //   //totalBill,
             // );
+
             SocketManager().emitEvent('add_order', userID);
             openDialog(
-              context,
-              'Đặt hàng thành công!',
-              'Đơn hàng của bạn sẽ sớm được vận chuyển',
-              formatDate(DateTime.now()),
-              ship,
-              order,
-              widget.user,
-            );
+                context,
+                'Đặt hàng thành công!',
+                'Đơn hàng của bạn sẽ sớm được vận chuyển',
+                formatDate(DateTime.now()),
+                ship,
+                order,
+                widget.user,
+                selectedAddress != null
+                    ? selectedAddress!.address
+                    : 'Default Address');
           } else {
             showDialog(
               context: context,

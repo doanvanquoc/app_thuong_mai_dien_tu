@@ -43,6 +43,7 @@ class SocketPresenter extends ChangeNotifier {
     if (preUserID != null && preUserID == curUserID) {
       final value = await OrderLocal.instance.loadListOrderFromLocal();
       if (value == null || value.isEmpty) {
+        log('load list form server');
         final orders = await OrderPresenter.instance.getUserOrders(curUserID);
         orderStatus1 = orders
             .where((element) => element.status.statusID == 1)

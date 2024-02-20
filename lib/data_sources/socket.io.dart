@@ -25,7 +25,7 @@ class SocketManager {
     _context = context;
 
     // Khởi tạo kết nối Socket.IO
-    _socket = IO.io('https://api.vanquoc.id.vn', <String, dynamic>{
+    _socket = IO.io('https://api.vanquoc.me', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });

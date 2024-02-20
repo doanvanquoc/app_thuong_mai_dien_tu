@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app_thuong_mai_dien_tu/models/product.dart';
 import 'package:app_thuong_mai_dien_tu/models/review.dart';
 import 'package:app_thuong_mai_dien_tu/presenters/review_presenter.dart';
@@ -18,6 +20,8 @@ class _ProductDetailState extends State<ProductDetail> {
   List<Review> reviews = [];
   @override
   void initState() {
+    log('init state');
+    log('prod id: ${widget.product.productID}');
     reviewPresenter
         .getReviewByIdProduct(widget.product.productID)
         .then((value) {

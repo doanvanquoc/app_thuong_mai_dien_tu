@@ -172,7 +172,7 @@ class _CartViewState extends State<CartView> {
             --newQuantity;
           });
         }
-
+        ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(

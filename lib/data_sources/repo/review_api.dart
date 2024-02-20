@@ -1,6 +1,5 @@
-import 'package:app_thuong_mai_dien_tu/data_sources/api_url.dart';
 import 'dart:developer';
-
+import 'package:app_thuong_mai_dien_tu/data_sources/api_url.dart';
 import 'package:app_thuong_mai_dien_tu/models/review.dart';
 import 'package:dio/dio.dart';
 
@@ -42,19 +41,23 @@ class ReviewAPI {
     List<Review> reviews = [];
     try {
       final res = await dio.get('${APIConfig.API_URL}/review/$id');
+      log('Dòng 45: ${res.data['data'].runtimeType.toString()}');
+      log('Dòng 46: ${res.data['data'][0].toString()}');
       reviews =
           (res.data['data'] as List).map((e) => Review.fromJson(e)).toList();
       return reviews;
     } catch (e) {
-      log(e.toString());
+      log('Dòng 50: ${e.toString()}');
       return [];
     }
   }
 
-  Future<Review> getReviewByIdProductAndUserID(int productID, int userID) async {
+  Future<Review> getReviewByIdProductAndUserID(
+      int productID, int userID) async {
     Review review;
     try {
-      final res = await dio.get('${APIConfig.API_URL}/review/product/$productID/user/$userID');
+      final res = await dio
+          .get('${APIConfig.API_URL}/review/product/$productID/user/$userID');
       review = Review.fromJson(res.data['data']);
       return review;
     } catch (e) {

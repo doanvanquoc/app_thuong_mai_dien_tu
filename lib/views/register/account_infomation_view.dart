@@ -131,6 +131,7 @@ class _AccountInformationState extends State<AccountInformation> {
                 phoneNumber: decodedToken['user']['phone_number'],
                 avatar: decodedToken['user']['avatar'],
                 sex: decodedToken['user']['sex']);
+            prefs.setInt('curUser', user.userID);
             // ignore: use_build_context_synchronously
             Navigator.maybePop(context);
             Future.delayed(Duration.zero, () {
@@ -166,7 +167,7 @@ class _AccountInformationState extends State<AccountInformation> {
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
     }
-    if(mounted){
+    if (mounted) {
       setState(() {});
     }
   }
@@ -198,10 +199,10 @@ class _AccountInformationState extends State<AccountInformation> {
                   src:
                       'https://res.cloudinary.com/dxe8ykmrn/image/upload/v1705375410/user-avatar/tgaudfhwukm4c6gm0zzy.jpg',
                   onImageSelected: (File? image) {
-                    if(mounted){
+                    if (mounted) {
                       setState(() {
-                      selectedImage = image;
-                    });
+                        selectedImage = image;
+                      });
                     }
                   }),
               const SizedBox(

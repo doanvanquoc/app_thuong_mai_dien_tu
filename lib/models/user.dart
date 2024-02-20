@@ -1,3 +1,5 @@
+import 'package:app_thuong_mai_dien_tu/models/address.dart';
+
 class User {
   int userID;
   final String email;
@@ -6,6 +8,7 @@ class User {
   final String phoneNumber;
   final String avatar;
   final String sex;
+  final List<Address>? address;
 
   User(
       {required this.userID,
@@ -14,7 +17,8 @@ class User {
       required this.birthday,
       required this.phoneNumber,
       required this.avatar,
-      required this.sex});
+      required this.sex,
+      this.address});
 
   User.fromJson(Map<String, dynamic> json)
       : userID = json['userID'],
@@ -23,5 +27,7 @@ class User {
         birthday = json['birthday'].toString(),
         phoneNumber = json['phone_number'].toString(),
         avatar = json['avatar'] ?? '',
-        sex = json['sex'] ?? '';
+        sex = json['sex'] ?? '',
+        address = List.from(
+            (json['addresses'] as List).map((e) => Address.fromJson(e)));
 }

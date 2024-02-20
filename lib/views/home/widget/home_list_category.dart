@@ -21,7 +21,7 @@ class HomeListCategory extends StatefulWidget {
       required this.user});
   final List<Company> companies;
   List<Product> products;
-
+  // final ScrollController controller;
   final User user;
 
   @override
@@ -67,56 +67,56 @@ class _HomeListCategoryState extends State<HomeListCategory> {
               }),
         ),
         const SizedBox(height: 10),
-        SizedBox(
-          height: MediaQuery.of(context).size.height / 1.4,
-          child: GridView.builder(
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 1 / 2,
-              mainAxisSpacing: 5,
-            ),
-            itemCount: widget.products.length,
-            itemBuilder: (context, index) => ProductItem(
-              product: widget.products[index],
-              onTap: () async {
-                log('on tap add to cart');
-                showDialog(
-                    context: context,
-                    builder: (context) => const AlertDialog(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          surfaceTintColor: Colors.transparent,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 30),
-                          content: SizedBox(
-                            width: 50, // Đặt chiều rộng mong muốn
-                            height: 50, // Đặt chiều cao mong muốn
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                CircularProgressIndicator(
-                                  color: AppColor.primaryColor,
-                                ),
-                                // Các phần tử khác nếu cần
-                              ],
-                            ),
+        GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 1 / 2,
+            mainAxisSpacing: 5,
+          ),
+          itemCount: widget.products.length,
+          itemBuilder: (context, index) => ProductItem(
+            isGridView: true,
+            product: widget.products[index],
+            onTap: () async {
+              log('on tap add to cart');
+              showDialog(
+                  context: context,
+                  builder: (context) => const AlertDialog(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        surfaceTintColor: Colors.transparent,
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                        content: SizedBox(
+                          width: 50, // Đặt chiều rộng mong muốn
+                          height: 50, // Đặt chiều cao mong muốn
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircularProgressIndicator(
+                                color: AppColor.primaryColor,
+                              ),
+                              // Các phần tử khác nếu cần
+                            ],
                           ),
-                        ));
-                await CartPresenter.instance.addToCart(
-                    userID: widget.user.userID,
-                    productID: widget.products[index].productID,
-                    quantity: 1);
-                // ignore: use_build_context_synchronously
-                Navigator.pop(context);
-                // ignore: use_build_context_synchronously
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => MyNavBar(user: widget.user, index: 1)));
-              },
-            ),
+                        ),
+                      ));
+              await CartPresenter.instance.addToCart(
+                userID: widget.user.userID,
+                productID: widget.products[index].productID,
+                quantity: 1,
+              );
+              // ignore: use_build_context_synchronously
+              Navigator.pop(context);
+              // ignore: use_build_context_synchronously
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => MyNavBar(user: widget.user, index: 1)));
+            },
           ),
         ),
       ],

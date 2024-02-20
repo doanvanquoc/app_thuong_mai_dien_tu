@@ -11,10 +11,11 @@ class HomePopularProduct extends StatelessWidget {
       {super.key,
       required this.products,
       required this.companies,
-      required this.user});
+      required this.user, required this.controller});
   final List<Product> products;
   final List<Company> companies;
   final User user;
+  final ScrollController controller;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,6 +54,7 @@ class HomePopularProduct extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         HomeListCategory(
+          // controller: controller,
           companies: companies,
           products: products,
           user: user,

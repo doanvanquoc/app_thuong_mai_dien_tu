@@ -9,9 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ProductItem extends StatefulWidget {
-  const ProductItem({super.key, required this.product, this.onTap});
+  const ProductItem(
+      {super.key, required this.product, this.onTap, this.isGridView = false});
   final Product product;
   final Function()? onTap;
+  final bool isGridView;
   @override
   State<ProductItem> createState() => _ProductItemState();
 }
@@ -41,6 +43,7 @@ class _ProductItemState extends State<ProductItem> {
           MaterialPageRoute(
               builder: (_) => ProductDetail(product: widget.product))),
       child: Container(
+        constraints: const BoxConstraints(maxWidth: 150),
         alignment: Alignment.center,
         margin: const EdgeInsets.only(right: 15),
         child: Column(
@@ -57,6 +60,8 @@ class _ProductItemState extends State<ProductItem> {
             const SizedBox(height: 10),
             Text(
               widget.product.productName,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: AppColor.secondaryColor,
@@ -108,7 +113,10 @@ class _ProductItemState extends State<ProductItem> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 10),
+          const SizedBox(height: 10),
+            !widget.isGridView
+                ? const Expanded(child: SizedBox())
+                : const SizedBox.shrink(),
             HomeAddToCart(onTap: widget.onTap),
           ],
         ),
